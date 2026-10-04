@@ -3,423 +3,513 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Treasure Hunter</title>
 
 <style>
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   margin: 0;
-  min-height: 100vh;
-  background: linear-gradient(160deg, #081a2e, #06101d);
-  color: white;
   font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #07152e, #0d2345);
+  color: white;
+  min-height: 100vh;
+  text-align: center;
 }
 
-.app {
-  max-width: 500px;
+.container {
+  max-width: 430px;
   margin: auto;
-  padding: 18px;
+  padding: 20px 15px;
 }
 
-.top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+h1 {
+  margin: 10px 0 5px;
+  font-size: 30px;
 }
 
-.title {
-  font-size: 22px;
-  font-weight: 900;
+.subtitle {
+  color: #9eb6d8;
+  margin-bottom: 20px;
 }
 
 .balance {
-  background: #142a41;
-  padding: 10px 13px;
-  border-radius: 14px;
+  background: #102b50;
+  border: 1px solid #244a78;
+  border-radius: 16px;
+  padding: 15px;
+  font-size: 23px;
   font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .location {
-  text-align: center;
-  margin-top: 30px;
-  color: #91a6ba;
-  font-size: 12px;
-}
-
-.place {
-  text-align: center;
-  font-size: 26px;
-  font-weight: 900;
-  margin-top: 6px;
+  color: #82b7ff;
+  margin-bottom: 25px;
 }
 
 /* СУНДУК */
 
 .chest-area {
-  height: 320px;
+  height: 240px;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .chest {
   width: 190px;
   height: 145px;
   position: relative;
-  filter: drop-shadow(0 15px 15px rgba(0,0,0,.5));
+  filter: drop-shadow(0 15px 15px rgba(0,0,0,.4));
 }
 
 .chest-body {
   position: absolute;
-  bottom: 0;
   width: 190px;
   height: 95px;
-  background: linear-gradient(#a85c25, #683512);
-  border: 6px solid #32180a;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(#a85d27, #713716);
+  border: 5px solid #49230f;
   border-radius: 8px 8px 15px 15px;
 }
 
 .chest-lid {
   position: absolute;
-  top: 2px;
-  left: 0;
   width: 190px;
-  height: 75px;
-  background: linear-gradient(#c8792d, #814218);
-  border: 6px solid #32180a;
-  border-radius: 100px 100px 10px 10px;
-  transform-origin: bottom center;
-  transition: transform .7s;
+  height: 72px;
+  top: 0;
+  left: 0;
+  background: linear-gradient(#c87532, #8b451c);
+  border: 5px solid #49230f;
+  border-radius: 18px 18px 6px 6px;
+
+  /* 2D-анимация */
+  transform-origin: left bottom;
+  transition: transform .55s cubic-bezier(.2,.8,.2,1);
   z-index: 3;
 }
 
-.chest-lid:after {
-  content: "";
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  top: 18px;
-  height: 8px;
-  background: #e1a23d;
-  border-radius: 5px;
+/* ОТКРЫТИЕ ТОЛЬКО В 2D */
+.opened .chest-lid {
+  transform: translateY(-55px) rotate(-12deg);
 }
 
 .lock {
   position: absolute;
-  z-index: 5;
-  left: 50%;
-  top: 58px;
-  transform: translateX(-50%);
-  width: 34px;
+  width: 32px;
   height: 42px;
-  background: #f1bd43;
-  border: 4px solid #65400e;
+  background: #e5b82e;
+  border: 4px solid #8a6410;
   border-radius: 6px;
+  left: 79px;
+  top: 55px;
+  z-index: 5;
+  transition: opacity .2s, transform .2s;
 }
 
-.opened .chest-lid {
-  transform: rotateX(-120deg);
+.opened .lock {
+  opacity: 0;
+  transform: scale(.7);
 }
+
+/* АНИМАЦИЯ ТРЯСКИ */
 
 .shake {
-  animation: shake .12s infinite;
+  animation: shake .45s;
 }
 
 @keyframes shake {
-  0% { transform: rotate(0); }
-  25% { transform: rotate(-4deg); }
-  50% { transform: rotate(4deg); }
-  75% { transform: rotate(-3deg); }
-  100% { transform: rotate(0); }
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-8px) rotate(-2deg); }
+  40% { transform: translateX(8px) rotate(2deg); }
+  60% { transform: translateX(-6px) rotate(-1deg); }
+  80% { transform: translateX(6px) rotate(1deg); }
+  100% { transform: translateX(0); }
 }
 
 /* КНОПКА */
 
-.open {
+.open-button {
   width: 100%;
-  padding: 18px;
-  border: 0;
-  border-radius: 18px;
-  background: linear-gradient(135deg, #ffc94f, #e99a20);
-  color: #241600;
-  font-size: 19px;
-  font-weight: 900;
+  border: none;
+  border-radius: 15px;
+  padding: 17px;
+  background: linear-gradient(135deg, #ffb52e, #ff7b18);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255,130,20,.25);
 }
 
-.open:active {
+.open-button:active {
   transform: scale(.97);
+}
+
+.open-button:disabled {
+  opacity: .5;
 }
 
 /* СТАТИСТИКА */
 
 .stats {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 20px;
 }
 
 .stat {
-  flex: 1;
-  background: #102238;
-  padding: 14px 5px;
-  border-radius: 14px;
-  text-align: center;
-  font-size: 13px;
+  background: #102b50;
+  border: 1px solid #244a78;
+  border-radius: 12px;
+  padding: 12px 5px;
 }
 
-/* ОКНО НАГРАД */
+.stat-number {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.stat-name {
+  color: #8fa9ca;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* МОДАЛЬНОЕ ОКНО */
 
 .modal {
-  display: none;
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.75);
-  align-items: center;
+  display: flex;
   justify-content: center;
+  align-items: center;
   padding: 20px;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s;
 }
 
 .modal.show {
-  display: flex;
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.box {
+.modal-box {
   width: 100%;
   max-width: 390px;
-  background: #10243a;
-  border-radius: 22px;
-  padding: 22px;
-  text-align: center;
+  background: #102b50;
+  border: 1px solid #315b8c;
+  border-radius: 20px;
+  padding: 25px 18px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
 }
 
-.box h2 {
-  margin-top: 0;
-}
-
-.rewards {
-  margin-top: 15px;
-}
-
-.reward {
-  display: flex;
-  justify-content: space-between;
-  background: #0b1929;
-  padding: 12px;
-  margin-top: 8px;
-  border-radius: 12px;
-}
-
-.close {
-  width: 100%;
-  margin-top: 18px;
-  padding: 14px;
-  border: 0;
-  border-radius: 14px;
-  background: #29435d;
-  color: white;
-  font-size: 17px
-}
-
-/* Закрытие окна */
-.close {
-  width: 100%;
-  margin-top: 18px;
-  padding: 14px;
-  border: 0;
-  border-radius: 14px;
-  background: #29435d;
-  color: white;
-  font-size: 17px;
+.modal-title {
+  font-size: 25px;
   font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.money-reward {
+  font-size: 27px;
+  color: #ffd34d;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item {
+  background: #173963;
+  border-radius: 10px;
+  padding: 11px;
+  text-align: left;
+}
+
+.close-button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: #315b8c;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* ТЕКСТ */
+
+.small {
+  color: #8fa9ca;
+  font-size: 13px;
+  margin-top: 15px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="container">
 
-  <div class="top">
-    <div class="title">💎 Treasure Hunter</div>
-    <div class="balance" id="balance">💰 10 000</div>
+  <h1>💎 Treasure Hunter</h1>
+
+  <div class="subtitle">
+    Охота за сокровищами
   </div>
 
-  <div class="location">ТЕКУЩАЯ ЛОКАЦИЯ</div>
-  <div class="place">🏝️ Старый пляж</div>
+  <div class="balance">
+    💰 <span id="balance">10 000</span>
+  </div>
+
+  <div class="location">
+    📍 Старая бухта
+  </div>
 
   <div class="chest-area">
 
     <div class="chest" id="chest">
+
       <div class="chest-lid"></div>
+
       <div class="chest-body"></div>
+
       <div class="lock"></div>
+
     </div>
 
   </div>
 
-  <button class="open" onclick="openChest()">
+  <button class="open-button" id="openButton" onclick="openChest()">
     🎁 ОТКРЫТЬ ЯЩИК — 2 500 💰
   </button>
 
   <div class="stats">
-    <div class="stat">⚡ 10/10</div>
-    <div class="stat">📈 Ур. 1</div>
-    <div class="stat" id="opened">🎁 0</div>
+
+    <div class="stat">
+      <div class="stat-number">⚡ <span id="energy">10</span>/10</div>
+      <div class="stat-name">Энергия</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-number">⭐ 1</div>
+      <div class="stat-name">Уровень</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-number" id="opened">0</div>
+      <div class="stat-name">Открыто</div>
+    </div>
+
+  </div>
+
+  <div class="small">
+    Каждый ящик может принести как прибыль, так и убыток.
   </div>
 
 </div>
 
+
+<!-- ОКНО НАГРАД -->
+
 <div class="modal" id="modal">
 
-  <div class="box">
+  <div class="modal-box">
 
-    <h2>🎉 Ящик открыт!</h2>
+    <div class="modal-title">
+      🎉 Ящик открыт!
+    </div>
 
-    <div id="moneyResult"></div>
+    <div class="money-reward" id="moneyReward">
+      +0 💰
+    </div>
 
-    <div class="rewards" id="rewards"></div>
+    <div class="items" id="items"></div>
 
-    <button class="close" onclick="closeModal()">
-      Продолжить
+    <button class="close-button" onclick="closeModal()">
+      Забрать награды
     </button>
 
   </div>
 
 </div>
 
+
 <script>
 
 let balance = 10000;
 let opened = 0;
+
 const price = 2500;
 
-const items = [
-  ["🪙", "Старинная монета"],
-  ["🗝️", "Старый ключ"],
-  ["💎", "Кристалл"],
-  ["🏺", "Старая реликвия"],
-  ["🧭", "Компас"],
-  ["👑", "Золотая реликвия"]
+const itemsList = [
+  "🪙 Старинная монета",
+  "🗝️ Старый ключ",
+  "💎 Кристалл",
+  "🏺 Старая реликвия",
+  "🧭 Компас",
+  "👑 Золотая реликвия"
 ];
 
-function random(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+function formatNumber(number) {
+  return number.toLocaleString("ru-RU");
+}
+
+function updateBalance() {
+  document.getElementById("balance").textContent =
+    formatNumber(balance);
 }
 
 function openChest() {
 
   if (balance < price) {
-    alert("❌ Недостаточно денег!\n\nНужно 2 500 💰");
+    alert("Недостаточно денег!");
     return;
   }
 
+  const chest = document.getElementById("chest");
+  const button = document.getElementById("openButton");
+
+  button.disabled = true;
+
+  // Списываем стоимость
   balance -= price;
   updateBalance();
 
-  const chest = document.getElementById("chest");
-
+  // Сбрасываем старую анимацию
   chest.classList.remove("opened");
+  chest.classList.remove("shake");
+
+  // Перезапуск анимации
+  void chest.offsetWidth;
+
   chest.classList.add("shake");
 
   setTimeout(function() {
 
-    chest.classList.remove("shake");
     chest.classList.add("opened");
 
-    setTimeout(function() {
-      createRewards();
-    }, 700);
+    createRewards();
 
-  }, 900);
+  }, 500);
 }
+
 
 function createRewards() {
 
-  const roll = Math.random() * 100;
-  let money;
+  let reward;
 
-  if (roll < 25) {
-    money = random(300, 800);
-  } else if (roll < 50) {
-    money = random(800, 1500);
-  } else if (roll < 70) {
-    money = random(1500, 2400);
-  } else if (roll < 85) {
-    money = random(2500, 5000);
-  } else if (roll < 97) {
-    money = random(5000, 15000);
+  const random = Math.random();
+
+  if (random < 0.25) {
+
+    reward = randomNumber(300, 800);
+
+  } else if (random < 0.50) {
+
+    reward = randomNumber(800, 1500);
+
+  } else if (random < 0.70) {
+
+    reward = randomNumber(1500, 2400);
+
+  } else if (random < 0.85) {
+
+    reward = randomNumber(2500, 5000);
+
+  } else if (random < 0.97) {
+
+    reward = randomNumber(5000, 15000);
+
   } else {
-    money = random(15000, 50000);
+
+    reward = randomNumber(15000, 50000);
+
   }
 
-  balance += money;
+
+  // Деньги добавляются только после открытия
+  balance += reward;
+
   opened++;
 
   updateBalance();
 
-  const result = document.getElementById("moneyResult");
-  const difference = money - price;
+  document.getElementById("opened").textContent = opened;
 
-  if (difference < 0) {
-    result.innerHTML =
-      "💰 Получено: <b>" +
-      money.toLocaleString("ru-RU") +
-      "</b><br>📉 Убыток: <b>" +
-      difference.toLocaleString("ru-RU") +
-      " 💰</b>";
-  } else if (difference === 0) {
-    result.innerHTML = "💰 Ящик окупился!";
-  } else {
-    result.innerHTML =
-      "💰 Получено: <b>+" +
-      money.toLocaleString("ru-RU") +
-      "</b><br>📈 Прибыль: <b>+" +
-      difference.toLocaleString("ru-RU") +
-      " 💰</b>";
-  }
+  document.getElementById("moneyReward").textContent =
+    "+" + formatNumber(reward) + " 💰";
 
-  const rewards = document.getElementById("rewards");
-  rewards.innerHTML = "";
 
-  const count = random(2, 5);
+  // От 2 до 5 предметов
+  const amount = randomNumber(2, 5);
 
-  for (let i = 0; i < count; i++) {
+  const shuffled = [...itemsList].sort(() => Math.random() - 0.5);
 
-    const item = items[random(0, items.length - 1)];
-    const quantity = random(1, 4);
+  const selectedItems = shuffled.slice(0, amount);
+
+  const itemsContainer = document.getElementById("items");
+
+  itemsContainer.innerHTML = "";
+
+  selectedItems.forEach(function(item) {
 
     const div = document.createElement("div");
 
-    div.className = "reward";
+    div.className = "item";
 
-    div.innerHTML =
-      "<span>" + item[0] + " " + item[1] +
-      "</span><b>×" + quantity + "</b>";
+    div.textContent = "✨ " + item;
 
-    rewards.appendChild(div);
-  }
+    itemsContainer.appendChild(div);
 
-  document.getElementById("modal").classList.add("show");
+  });
+
+
+  setTimeout(function() {
+
+    document.getElementById("modal").classList.add("show");
+
+  }, 500);
+
 }
+
+
+function randomNumber(min, max) {
+
+  return Math.floor(
+    Math.random() * (max - min + 1)
+  ) + min;
+
+}
+
 
 function closeModal() {
 
   document.getElementById("modal").classList.remove("show");
-  document.getElementById("chest").classList.remove("opened");
 
-}
+  const chest = document.getElementById("chest");
 
-function updateBalance() {
+  setTimeout(function() {
 
-  document.getElementById("balance").innerHTML =
-    "💰 " + balance.toLocaleString("ru-RU");
+    chest.classList.remove("opened");
+    chest.classList.remove("shake");
 
-  document.getElementById("opened").innerHTML =
-    "🎁 " + opened;
+    document.getElementById("openButton").disabled = false;
+
+  }, 250);
 
 }
 
