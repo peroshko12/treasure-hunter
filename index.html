@@ -1,14 +1,974 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>Treasure Hunter</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:linear-gradient(180deg,#07111f,#101b2d);
+color:white;
+min-height:100vh;
+}
+
+button{
+font-family:inherit;
+cursor:pointer;
+}
+
+.hidden{
+display:none!important;
+}
+
+.menu-button{
+position:fixed;
+top:14px;
+left:14px;
+width:46px;
+height:46px;
+border-radius:14px;
+border:1px solid #294568;
+background:#14253a;
+color:white;
+font-size:23px;
+z-index:50;
+}
+
+.menu{
+position:fixed;
+top:0;
+left:0;
+width:285px;
+max-width:85vw;
+height:100vh;
+background:#0e1c2e;
+border-right:1px solid #294568;
+z-index:100;
+padding:75px 15px 20px;
+transform:translateX(-100%);
+transition:transform .25s ease;
+box-shadow:15px 0 40px rgba(0,0,0,.3);
+}
+
+.menu.open{
+transform:translateX(0);
+}
+
+.menu-title{
+font-size:24px;
+font-weight:bold;
+margin-bottom:20px;
+}
+
+.menu-item{
+width:100%;
+padding:15px;
+margin-bottom:10px;
+border:1px solid #29415e;
+border-radius:15px;
+background:#14253a;
+color:white;
+text-align:left;
+font-size:16px;
+font-weight:bold;
+}
+
+.menu-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.55);
+z-index:90;
+}
+
+.screen{
+min-height:100vh;
+padding:16px;
+text-align:center;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding-left:55px;
+}
+
+.balance,
+.level-box{
+background:#182840;
+border:1px solid #294568;
+border-radius:14px;
+padding:10px 13px;
+font-weight:bold;
+}
+
+h1{
+margin:17px 0 3px;
+font-size:31px;
+}
+
+.subtitle{
+color:#8fa8c4;
+margin-bottom:12px;
+}
+
+.xp-box,
+.luck-box{
+max-width:430px;
+margin:auto;
+}
+
+.xp-text,
+.luck-top{
+display:flex;
+justify-content:space-between;
+font-size:12px;
+color:#9bb1c9;
+margin-bottom:6px;
+}
+
+.xp-bar,
+.luck-bar{
+height:9px;
+background:#0b1726;
+border:1px solid #29415e;
+border-radius:10px;
+overflow:hidden;
+}
+
+.xp-fill{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#3c8cff,#71d9ff);
+border-radius:10px;
+transition:width .4s ease;
+}
+
+.luck-box{
+margin-top:10px;
+}
+
+.luck-fill{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#ff9f1c,#ffe66d);
+border-radius:10px;
+transition:width .35s ease;
+}
+
+.luck-active{
+color:#ffd84d!important;
+font-weight:bold;
+}
+
+.chest-area{
+height:280px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.chest{
+position:relative;
+width:200px;
+height:165px;
+transition:transform .2s,filter .25s;
+}
+
+.chest-body{
+position:absolute;
+left:0;
+bottom:0;
+width:200px;
+height:115px;
+background:linear-gradient(180deg,#a85d25,#6e3516);
+border:5px solid #3b1d0b;
+border-radius:12px;
+}
+
+.chest-lid{
+position:absolute;
+left:0;
+top:0;
+width:200px;
+height:62px;
+background:linear-gradient(180deg,#c97932,#874315);
+border:5px solid #3b1d0b;
+border-radius:15px 15px 5px 5px;
+transform-origin:left bottom;
+transition:transform .55s cubic-bezier(.2,.8,.2,1);
+z-index:2;
+}
+
+.lock{
+position:absolute;
+z-index:5;
+left:50%;
+top:55%;
+width:35px;
+height:41px;
+transform:translate(-50%,-50%);
+background:#f1bd35;
+border:4px solid #704707;
+border-radius:7px;
+}
+
+.opened .chest-lid{
+transform:translateY(-53px) rotate(-12deg);
+}
+
+.shake{
+animation:shake .35s;
+}
+
+@keyframes shake{
+0%,100%{transform:translateX(0)}
+25%{transform:translateX(-8px) rotate(-2deg)}
+75%{transform:translateX(8px) rotate(2deg)}
+}
+
+.chest.normal .chest-body{
+background:linear-gradient(180deg,#a85d25,#6e3516);
+border-color:#3b1d0b;
+}
+
+.chest.normal .chest-lid{
+background:linear-gradient(180deg,#c97932,#874315);
+border-color:#3b1d0b;
+}
+
+.chest.normal .lock{
+background:#f1bd35;
+border-color:#704707;
+}
+
+.chest.military .chest-body{
+background:linear-gradient(180deg,#53685c,#26372e);
+border-color:#151d19;
+}
+
+.chest.military .chest-lid{
+background:linear-gradient(180deg,#718776,#394b40);
+border-color:#151d19;
+}
+
+.chest.military .lock{
+background:#4e5d53;
+border-color:#151d19;
+}
+
+.chest.diamond .chest-body{
+background:linear-gradient(180deg,#39bfe8,#17659a);
+border-color:#073e68;
+}
+
+.chest.diamond .chest-lid{
+background:linear-gradient(180deg,#66e4ff,#197eaf);
+border-color:#073e68;
+}
+
+.chest.diamond .lock{
+background:#c8f7ff;
+border-color:#167a9e;
+}
+
+.chest.legendary .chest-body{
+background:linear-gradient(180deg,#dcae32,#8c5810);
+border-color:#5b3505;
+}
+
+.chest.legendary .chest-lid{
+background:linear-gradient(180deg,#ffe36a,#b87815);
+border-color:#5b3505;
+}
+
+.chest.legendary .lock{
+background:#fff0a1;
+border-color:#8b5a08;
+}
+
+.chest.glow-common{
+filter:drop-shadow(0 0 12px rgba(190,190,190,.65));
+}
+
+.chest.glow-uncommon{
+filter:drop-shadow(0 0 18px rgba(75,220,120,.75));
+}
+
+.chest.glow-rare{
+filter:drop-shadow(0 0 20px rgba(70,145,255,.85));
+}
+
+.chest.glow-epic{
+filter:drop-shadow(0 0 24px rgba(170,80,255,.9));
+}
+
+.chest.glow-legendary{
+filter:drop-shadow(0 0 28px rgba(255,190,35,1));
+}
+
+.chest.glow-mythic{
+filter:drop-shadow(0 0 32px rgba(255,50,80,1));
+}
+
+.case-name{
+font-size:24px;
+font-weight:bold;
+}
+
+.case-price{
+color:#ffd84d;
+font-size:18px;
+font-weight:bold;
+margin-top:7px;
+}
+
+.open-button{
+width:100%;
+max-width:290px;
+padding:16px;
+margin-top:13px;
+border:0;
+border-radius:16px;
+background:linear-gradient(135deg,#ffbd2e,#ff8c00);
+color:#1b1200;
+font-size:18px;
+font-weight:bold;
+}
+
+.open-button:active{
+transform:scale(.97);
+}
+
+.open-button:disabled{
+opacity:.45;
+}
+
+.stats{
+margin:21px auto 0;
+max-width:430px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:9px;
+}
+
+.stat{
+background:#111f33;
+border:1px solid #253d59;
+border-radius:14px;
+padding:12px;
+}
+
+.stat-title{
+color:#8199b5;
+font-size:12px;
+}
+
+.stat-value{
+font-size:16px;
+font-weight:bold;
+margin-top:4px;
+}
+
+.inner-screen{
+position:relative;
+min-height:100vh;
+padding:16px;
+}
+
+.inner-header{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:20px;
+padding-right:55px;
+}
+
+.inner-title{
+font-size:22px;
+font-weight:bold;
+}
+
+.back-button{
+position:absolute;
+top:16px;
+right:16px;
+width:44px;
+height:44px;
+border:1px solid #294568;
+border-radius:13px;
+background:#14253a;
+color:white;
+font-size:21px;
+z-index:10;
+}
+
+.back-button:active{
+transform:scale(.95);
+}
+
+.pass-progress{
+max-width:500px;
+margin:auto;
+}
+
+.pass-card{
+display:flex;
+align-items:center;
+gap:13px;
+background:#14253a;
+border:1px solid #294568;
+border-radius:17px;
+padding:13px;
+margin-bottom:10px;
+text-align:left;
+}
+
+.pass-card.done{
+border-color:#4fd47b;
+}
+
+.pass-card.current{
+border-color:#4b9cff;
+box-shadow:0 0 14px rgba(75,156,255,.2);
+}
+
+.pass-level{
+width:45px;
+height:45px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#0d1b2d;
+border-radius:12px;
+font-weight:bold;
+}
+
+.pass-reward{
+flex:1;
+}
+
+.pass-reward-title{
+font-size:14px;
+color:#9bb1c9;
+}
+
+.pass-reward-value{
+font-size:17px;
+font-weight:bold;
+margin-top:3px;
+}
+
+.pass-status{
+font-size:13px;
+}
+
+.upgrader-box{
+max-width:500px;
+margin:auto;
+background:#14253a;
+border:1px solid #294568;
+border-radius:20px;
+padding:22px;
+}
+
+.upgrader-placeholder{
+color:#9bb1c9;
+line-height:1.5;
+}
+
+.upgrade-button{
+width:100%;
+padding:14px;
+margin-top:18px;
+border:0;
+border-radius:14px;
+background:#2768a8;
+color:white;
+font-weight:bold;
+}
+
+.settings-box{
+max-width:500px;
+margin:auto;
+}
+
+.setting{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:16px;
+margin-bottom:10px;
+background:#14253a;
+border:1px solid #294568;
+border-radius:16px;
+text-align:left;
+}
+
+.setting-info{
+font-weight:bold;
+}
+
+.setting-description{
+color:#8199b5;
+font-size:12px;
+margin-top:4px;
+}
+
+.modal{
+position:fixed;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+background:rgba(0,0,0,.72);
+z-index:200;
+padding:20px;
+}
+
+.modal-box{
+width:100%;
+max-width:390px;
+background:#14253a;
+border:1px solid #355574;
+border-radius:24px;
+padding:22px;
+}
+
+.modal-title{
+font-size:25px;
+font-weight:bold;
+}
+
+.reward-money{
+color:#ffd84d;
+font-size:27px;
+font-weight:bold;
+margin-top:9px;
+}
+
+.reward-xp{
+color:#72c8ff;
+font-size:18px;
+font-weight:bold;
+margin-top:7px;
+}
+
+.new-level{
+color:#70ff9a;
+font-size:18px;
+font-weight:bold;
+margin-top:8px;
+}
+
+.rarity-result{
+font-size:17px;
+font-weight:bold;
+margin-top:9px;
+}
+
+.items{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:9px;
+margin-top:15px;
+}
+
+.item{
+background:#0d1b2d;
+border-radius:14px;
+padding:12px;
+}
+
+.item-image{
+font-size:36px;
+}
+
+.item-name{
+font-size:13px;
+margin-top:5px;
+}
+
+.item-rarity{
+font-size:11px;
+margin-top:3px;
+}
+
+.close-button{
+width:100%;
+padding:14px;
+margin-top:16px;
+border:0;
+border-radius:14px;
+background:#2768a8;
+color:white;
+font-size:16px;
+font-weight:bold;
+}
+
+.rarity-common{color:#bfc6cf}
+.rarity-uncommon{color:#55df82}
+.rarity-rare{color:#55a5ff}
+.rarity-epic{color:#b36cff}
+.rarity-legendary{color:#ffd33d}
+.rarity-mythic{color:#ff4f68}
+</style>
+</head>
+
+<body>
+
+<button class="menu-button" onclick="toggleMenu()">☰</button>
+
+<div class="menu-overlay hidden" id="menuOverlay" onclick="closeMenu()"></div>
+
+<div class="menu" id="menu">
+
+<div class="menu-title">☰ Меню</div>
+
+<button class="menu-item" onclick="openSettings()">
+⚙️ Настройки
+</button>
+
+<button class="menu-item" onclick="openBattlePass()">
+🎫 Battle Pass
+</button>
+
+<button class="menu-item" onclick="openUpgrader()">
+⬆️ Upgrader
+</button>
+
+<button class="menu-item" onclick="closeMenu()">
+🧩 Скоро...
+</button>
+
+</div>
+
+
+<div class="screen" id="homeScreen">
+
+<div class="top">
+
+<div class="balance">
+💰 <span id="balance">10000</span>
+</div>
+
+<div class="level-box">
+⭐ Ур. <span id="level">1</span>
+</div>
+
+</div>
+
+<h1>Treasure Hunter</h1>
+
+<div class="subtitle">
+Открывай кейсы и собирай сокровища!
+</div>
+
+<div class="xp-box">
+
+<div class="xp-text">
+
+<span>⭐ XP</span>
+
+<span>
+<span id="xp">0</span> /
+<span id="xpNeed">1000</span>
+</span>
+
+</div>
+
+<div class="xp-bar">
+<div class="xp-fill" id="xpFill"></div>
+</div>
+
+</div>
+
+<div class="luck-box">
+
+<div class="luck-top">
+
+<span id="luckText">
+🍀 2× удача
+</span>
+
+<span>
+<span id="luckProgress">0</span>/10
+</span>
+
+</div>
+
+<div class="luck-bar">
+<div class="luck-fill" id="luckFill"></div>
+</div>
+
+</div>
+
+<div class="chest-area">
+
+<div class="chest normal" id="chest">
+
+<div class="chest-lid"></div>
+
+<div class="chest-body"></div>
+
+<div class="lock"></div>
+
+</div>
+
+</div>
+
+<div class="case-name" id="caseName">
+Обычный кейс
+</div>
+
+<div class="case-price">
+💰 <span id="casePrice">2 500</span>
+</div>
+
+<button
+class="open-button"
+id="openButton"
+onclick="openCase()">
+
+ОТКРЫТЬ КЕЙС
+
+</button>
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-title">
+Открыто кейсов
+</div>
+
+<div class="stat-value" id="opened">
+0
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-title">
+Всего заработано
+</div>
+
+<div class="stat-value">
+💰 <span id="totalEarned">0</span>
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-title">
+Уровень
+</div>
+
+<div class="stat-value">
+⭐ <span id="levelStat">1</span>
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-title">
+Текущий кейс
+</div>
+
+<div class="stat-value" id="caseStat">
+Обычный
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="inner-screen hidden" id="battlePassScreen">
+
+<div class="inner-header">
+
+<div class="inner-title">
+🎫 Battle Pass
+</div>
+
+</div>
+
+<button class="back-button" onclick="showHome()">
+✕
+</button>
+
+<div class="pass-progress" id="passProgress"></div>
+
+</div>
+
+
+<div class="inner-screen hidden" id="settingsScreen">
+
+<div class="inner-header">
+
+<div class="inner-title">
+⚙️ Настройки
+</div>
+
+</div>
+
+<button class="back-button" onclick="showHome()">
+✕
+</button>
+
+<div class="settings-box">
+
+<div class="setting">
+
+<div>
+
+<div class="setting-info">
+🔊 Звуки
+</div>
+
+<div class="setting-description">
+Настройки звуков игры
+</div>
+
+</div>
+
+<div>
+В разработке
+</div>
+
+</div>
+
+<div class="setting">
+
+<div>
+
+<div class="setting-info">
+📳 Вибрация
+</div>
+
+<div class="setting-description">
+Вибрация при открытии кейса
+</div>
+
+</div>
+
+<div>
+В разработке
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="inner-screen hidden" id="upgraderScreen">
+
+<div class="inner-header">
+
+<button class="back-button" onclick="showHome()">
+←
+</button>
+
+<div class="inner-title">
+⬆️ Upgrader
+</div>
+
+</div>
+
+<div class="upgrader-box">
+
+<div style="font-size:55px;">
+📈
+</div>
+
+<h2>
+Upgrader
+</h2>
+
+<div class="upgrader-placeholder">
+
+Улучшай свои предметы и пытайся
+получить более редкий предмет.
+
+<br><br>
+
+Здесь позже сделаем систему
+в стиле апгрейдера: выбор предмета,
+шанс успеха, множитель и результат.
+
+</div>
+
+<button
+class="upgrade-button"
+onclick="alert('Система Upgrader будет добавлена позже!')">
+
+⬆️ УЛУЧШИТЬ
+
+</button>
+
+</div>
+
+</div>
+
+
+<div class="modal hidden" id="rewardModal">
+
+<div class="modal-box">
+
+<div class="modal-title">
+🎉 Кейс открыт!
+</div>
+
+<div class="reward-money">
++💰 <span id="rewardMoney">0</span>
+</div>
+
+<div class="reward-xp">
+⭐ +15 XP
+</div>
+
+<div class="new-level hidden" id="newLevel">
+🎊 Новый уровень!
+</div>
+
+<div class="rarity-result" id="rarityResult"></div>
+
+<div class="items" id="items"></div>
+
+<button class="close-button" onclick="closeReward()">
+ЗАБРАТЬ
+</button>
+
+</div>
+
+</div>
+
+
 <script>
 
 const API_URL =
 "https://lpddqgqgucrlzwriadfh.supabase.co/functions/v1/smart-responder";
 
-const tg =
-window.Telegram?.WebApp;
+const tg = window.Telegram?.WebApp;
 
 if(tg){
-    tg.ready();
-    tg.expand();
+tg.ready();
+tg.expand();
 }
 
 const telegramUser =
@@ -140,10 +1100,6 @@ let luckyProgress=
 Number(localStorage.getItem("luckyProgress"))||0;
 
 
-/* =========================
-   SUPABASE
-========================= */
-
 async function serverRequest(action,amount=0){
 
 if(!userId){
@@ -223,10 +1179,6 @@ updateUI();
 }
 
 
-/* =========================
-   LEVEL
-========================= */
-
 function getLevel(){
 
 return Math.floor(
@@ -250,10 +1202,6 @@ return 1;
 
 }
 
-
-/* =========================
-   MENU
-========================= */
 
 function toggleMenu(){
 
@@ -358,48 +1306,17 @@ closeMenu();
 }
 
 
-/* =========================
-   SAVE LOCAL STATS
-========================= */
-
 function save(){
 
-localStorage.setItem(
-"balance",
-balance
-);
-
-localStorage.setItem(
-"opened",
-opened
-);
-
-localStorage.setItem(
-"totalEarned",
-totalEarned
-);
-
-localStorage.setItem(
-"xp",
-xp
-);
-
-localStorage.setItem(
-"luckyActive",
-luckyActive
-);
-
-localStorage.setItem(
-"luckyProgress",
-luckyProgress
-);
+localStorage.setItem("balance",balance);
+localStorage.setItem("opened",opened);
+localStorage.setItem("totalEarned",totalEarned);
+localStorage.setItem("xp",xp);
+localStorage.setItem("luckyActive",luckyActive);
+localStorage.setItem("luckyProgress",luckyProgress);
 
 }
 
-
-/* =========================
-   BATTLE PASS
-========================= */
 
 function getReward(level){
 
@@ -486,10 +1403,6 @@ container.appendChild(card);
 }
 
 
-/* =========================
-   LEVEL REWARD
-========================= */
-
 async function giveLevelReward(level){
 
 if(
@@ -498,7 +1411,7 @@ level===10||
 level===20
 ){
 
-return 0;
+return;
 
 }
 
@@ -513,25 +1426,16 @@ reward
 );
 
 balance+=reward;
-
 totalEarned+=reward;
-
-return reward;
 
 }catch(error){
 
 console.error(error);
 
-return 0;
-
 }
 
 }
 
-
-/* =========================
-   UI
-========================= */
 
 function updateUI(){
 
@@ -597,8 +1501,7 @@ currentCase.name;
 
 document.getElementById("casePrice")
 .textContent=
-currentCase.price
-.toLocaleString("ru-RU");
+currentCase.price.toLocaleString("ru-RU");
 
 document.getElementById("caseStat")
 .textContent=
@@ -610,8 +1513,7 @@ opened;
 
 document.getElementById("totalEarned")
 .textContent=
-totalEarned
-.toLocaleString("ru-RU");
+totalEarned.toLocaleString("ru-RU");
 
 const chest=
 document.getElementById("chest");
@@ -626,10 +1528,6 @@ balance<currentCase.price;
 
 }
 
-
-/* =========================
-   REWARD
-========================= */
 
 function randomInt(min,max){
 
@@ -706,9 +1604,7 @@ reward
 if(luckyActive){
 
 reward=randomInt(
-Math.ceil(
-currentCase.price*0.9
-),
+Math.ceil(currentCase.price*0.9),
 currentCase.max
 );
 
@@ -731,13 +1627,9 @@ const r=
 Math.random()*100;
 
 if(r<50)return 1;
-
 if(r<75)return 2;
-
 if(r<89)return 3;
-
 if(r<96)return 4;
-
 if(r<99)return 5;
 
 return 6;
@@ -760,10 +1652,7 @@ item.rarityLevel===rarity
 
 const item=
 possible[
-randomInt(
-0,
-possible.length-1
-)
+randomInt(0,possible.length-1)
 ];
 
 result.push(item);
@@ -774,10 +1663,6 @@ return result;
 
 }
 
-
-/* =========================
-   OPEN CASE
-========================= */
 
 async function openCase(){
 
@@ -815,14 +1700,12 @@ if(sound){
 
 sound.currentTime=0;
 
-sound.play().catch(
-()=>{}
-);
+sound.play().catch(()=>{});
 
 }
 
 
-/* СНАЧАЛА СПИСЫВАЕМ СЕРЕБРО */
+/* СПИСЫВАЕМ СЕРЕБРО */
 
 try{
 
@@ -867,8 +1750,6 @@ reward
 balance+=reward;
 
 }catch(error){
-
-/* Возвращаем списанное */
 
 try{
 
@@ -919,7 +1800,6 @@ luckyProgress++;
 if(luckyProgress>=10){
 
 luckyActive=true;
-
 luckyProgress=0;
 
 }
@@ -928,8 +1808,6 @@ luckyProgress=0;
 const newLevel=
 getLevel();
 
-
-/* НАГРАДЫ ЗА УРОВНИ */
 
 if(newLevel>oldLevel){
 
@@ -1004,10 +1882,6 @@ button.disabled=false;
 }
 
 
-/* =========================
-   RARITY
-========================= */
-
 function getRarityClassName(level){
 
 if(level===1)
@@ -1029,10 +1903,6 @@ return"mythic";
 
 }
 
-
-/* =========================
-   REWARD WINDOW
-========================= */
 
 function showReward(
 reward,
@@ -1067,9 +1937,7 @@ levelMessage.classList.add(
 }
 
 const rarityResult=
-document.getElementById(
-"rarityResult"
-);
+document.getElementById("rarityResult");
 
 rarityResult.textContent=
 "✨ Лучшая редкость: "+
@@ -1131,12 +1999,18 @@ chest.classList.remove("shake");
 }
 
 
-/* =========================
-   START
-========================= */
-
 updateUI();
 
 loadBalance();
 
 </script>
+
+
+<audio
+id="sound-open"
+src="sounds/open.mp3"
+preload="auto">
+</audio>
+
+</body>
+</html>
