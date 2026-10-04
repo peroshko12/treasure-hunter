@@ -14,543 +14,583 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: linear-gradient(180deg, #07152e, #0d2345);
+  background: linear-gradient(180deg, #07111f, #101b2d);
   color: white;
   min-height: 100vh;
 }
 
-.container {
-  max-width: 430px;
-  margin: auto;
-  padding: 18px 15px 40px;
+button {
+  font-family: inherit;
 }
 
-h1 {
+.screen {
+  min-height: 100vh;
+  padding: 20px 16px;
   text-align: center;
-  margin: 5px 0;
-  font-size: 30px;
 }
 
-.subtitle {
-  text-align: center;
-  color: #9eb6d8;
-  margin-bottom: 18px;
+.hidden {
+  display: none !important;
+}
+
+/* ===== ГЛАВНЫЙ ЭКРАН ===== */
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
 .balance {
-  background: #102b50;
-  border: 1px solid #244a78;
-  border-radius: 16px;
-  padding: 14px;
-  text-align: center;
-  font-size: 23px;
-  font-weight: bold;
-}
-
-.luck {
-  text-align: center;
-  background: #173963;
-  border-radius: 12px;
-  padding: 10px;
-  margin-top: 10px;
-  color: #ffd34d;
-  font-weight: bold;
-}
-
-.level-box {
-  text-align: center;
-  margin-top: 10px;
-  color: #9eb6d8;
-}
-
-.main-button {
-  width: 100%;
-  margin-top: 25px;
-  padding: 17px;
-  border: none;
-  border-radius: 15px;
-  background: linear-gradient(135deg, #ffb52e, #ff7b18);
-  color: white;
-  font-size: 19px;
-  font-weight: bold;
-  box-shadow: 0 8px 20px rgba(255,130,20,.25);
-}
-
-.main-button:active {
-  transform: scale(.97);
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 15px;
-}
-
-.stat {
-  background: #102b50;
-  border: 1px solid #244a78;
-  border-radius: 12px;
-  padding: 11px 4px;
-  text-align: center;
-}
-
-.stat-number {
+  background: #182840;
+  border: 1px solid #294568;
+  border-radius: 14px;
+  padding: 10px 14px;
   font-size: 17px;
   font-weight: bold;
 }
 
-.stat-name {
-  color: #8fa9ca;
-  font-size: 11px;
-  margin-top: 4px;
-}
-
-/* ЭКРАН КЕЙСОВ */
-
-.screen {
-  display: none;
-}
-
-.screen.active {
-  display: block;
-}
-
-.back-button {
-  background: #173963;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 11px 16px;
-  margin-bottom: 15px;
+.level {
+  background: #182840;
+  border: 1px solid #294568;
+  border-radius: 14px;
+  padding: 10px 14px;
   font-size: 15px;
 }
 
-.screen-title {
-  font-size: 25px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 18px;
+h1 {
+  margin: 15px 0 4px;
+  font-size: 32px;
 }
 
-.cases {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+.subtitle {
+  color: #8fa8c4;
+  margin-bottom: 20px;
 }
 
-.case {
-  background: #102b50;
-  border: 1px solid #244a78;
-  border-radius: 15px;
-  padding: 15px 8px;
-  text-align: center;
+/* ===== СЛОТ КЕЙСА ===== */
+
+.case-area {
   position: relative;
-}
-
-.case.locked {
-  opacity: .5;
-}
-
-.case-icon {
-  font-size: 48px;
-}
-
-.case-name {
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 5px;
-}
-
-.case-price {
-  color: #ffd34d;
-  font-size: 14px;
-  margin-top: 7px;
-}
-
-.case-lock {
-  color: #ff9f43;
-  font-size: 12px;
-  margin-top: 8px;
-}
-
-.case-button {
   width: 100%;
-  border: none;
-  border-radius: 10px;
-  padding: 10px;
-  margin-top: 10px;
-  background: #315b8c;
-  color: white;
-  font-weight: bold;
-}
+  max-width: 420px;
+  margin: 10px auto 0;
+  min-height: 430px;
 
-.case-button:disabled {
-  opacity: .5;
-}
-
-/* СУНДУК */
-
-.chest-area {
-  height: 180px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.chest {
-  width: 170px;
-  height: 130px;
+/* ===== КНОПКА КЕЙСОВ ===== */
+
+.cases-button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 58px;
+  height: 58px;
+
+  border: 1px solid #365578;
+  border-radius: 18px;
+
+  background: #14253a;
+  color: white;
+
+  font-size: 24px;
+  cursor: pointer;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,.25);
+}
+
+.cases-button span {
+  display: block;
+  font-size: 10px;
+  margin-top: 2px;
+  color: #9db4cc;
+}
+
+.cases-button:active {
+  transform: translateY(-50%) scale(.94);
+}
+
+/* ===== ВЫБРАННЫЙ КЕЙС ===== */
+
+.selected-case {
+  width: 250px;
+  padding: 22px 16px;
+
+  background: linear-gradient(180deg, #162b45, #0e1d31);
+  border: 1px solid #345677;
+  border-radius: 24px;
+
+  box-shadow: 0 15px 40px rgba(0,0,0,.35);
+}
+
+.case-icon {
+  font-size: 80px;
+  margin-bottom: 10px;
+}
+
+.case-name {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.case-price {
+  color: #ffd84d;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* ===== КНОПКА ОТКРЫТИЯ ===== */
+
+.open-button {
+  width: 100%;
+  max-width: 280px;
+  padding: 16px;
+  margin-top: -25px;
+
+  border: 0;
+  border-radius: 16px;
+
+  background: linear-gradient(135deg, #ffbd2e, #ff8c00);
+  color: #1b1200;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(255,157,0,.25);
+}
+
+.open-button:active {
+  transform: scale(.97);
+}
+
+.open-button:disabled {
+  opacity: .45;
+}
+
+/* ===== СТАТИСТИКА ===== */
+
+.stats {
+  margin: 24px auto 0;
+  max-width: 420px;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.stat {
+  background: #111f33;
+  border: 1px solid #253d59;
+  border-radius: 14px;
+  padding: 13px;
+}
+
+.stat-title {
+  color: #8199b5;
+  font-size: 12px;
+}
+
+.stat-value {
+  font-size: 17px;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+/* ===== ЭКРАН КЕЙСОВ ===== */
+
+.cases-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.back-button {
+  width: 44px;
+  height: 44px;
+
+  border: 1px solid #294568;
+  border-radius: 13px;
+
+  background: #162840;
+  color: white;
+  font-size: 20px;
+}
+
+.cases-title {
+  flex: 1;
+  text-align: left;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.case-list {
+  max-width: 500px;
+  margin: auto;
+
+  display: grid;
+  gap: 12px;
+}
+
+.case-card {
   position: relative;
-  filter: drop-shadow(0 15px 15px rgba(0,0,0,.4));
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 16px;
+
+  background: #14253a;
+  border: 1px solid #2d4865;
+  border-radius: 18px;
+
+  text-align: left;
+}
+
+.case-card.locked {
+  opacity: .48;
+}
+
+.case-card-icon {
+  font-size: 42px;
+  width: 55px;
+  text-align: center;
+}
+
+.case-card-info {
+  flex: 1;
+}
+
+.case-card-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.case-card-price {
+  color: #ffd84d;
+  margin-top: 5px;
+}
+
+.lock-text {
+  font-size: 13px;
+  color: #a6b8ca;
+  margin-top: 5px;
+}
+
+.select-case {
+  border: 0;
+  border-radius: 11px;
+  padding: 10px 12px;
+
+  background: #2768a8;
+  color: white;
+
+  font-weight: bold;
+}
+
+.select-case:active {
+  transform: scale(.95);
+}
+
+/* ===== СУНДУК ===== */
+
+.chest-area {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.chest {
+  position: relative;
+  width: 180px;
+  height: 145px;
 }
 
 .chest-body {
   position: absolute;
-  width: 170px;
-  height: 85px;
+  left: 0;
   bottom: 0;
-  background: linear-gradient(#a85d27, #713716);
-  border: 5px solid #49230f;
-  border-radius: 8px 8px 14px 14px;
+
+  width: 180px;
+  height: 105px;
+
+  background: linear-gradient(180deg, #a85d25, #6e3516);
+  border: 5px solid #3b1d0b;
+  border-radius: 12px;
 }
 
 .chest-lid {
   position: absolute;
-  width: 170px;
-  height: 65px;
+  left: 0;
   top: 0;
-  background: linear-gradient(#c87532, #8b451c);
-  border: 5px solid #49230f;
-  border-radius: 17px 17px 6px 6px;
+
+  width: 180px;
+  height: 55px;
+
+  background: linear-gradient(180deg, #c97932, #874315);
+  border: 5px solid #3b1d0b;
+  border-radius: 14px 14px 5px 5px;
+
   transform-origin: left bottom;
   transition: transform .55s cubic-bezier(.2,.8,.2,1);
-  z-index: 3;
+  z-index: 2;
+}
+
+.lock {
+  position: absolute;
+  z-index: 5;
+
+  left: 50%;
+  top: 50%;
+
+  width: 32px;
+  height: 38px;
+
+  transform: translate(-50%, -50%);
+
+  background: #f1bd35;
+  border: 4px solid #704707;
+  border-radius: 7px;
 }
 
 .opened .chest-lid {
   transform: translateY(-48px) rotate(-12deg);
 }
 
-.lock {
-  position: absolute;
-  width: 29px;
-  height: 39px;
-  background: #e5b82e;
-  border: 4px solid #8a6410;
-  border-radius: 6px;
-  left: 70px;
-  top: 49px;
-  z-index: 5;
-  transition: .2s;
-}
-
-.opened .lock {
-  opacity: 0;
-  transform: scale(.7);
-}
-
 .shake {
-  animation: shake .45s;
+  animation: shake .35s;
 }
 
 @keyframes shake {
-  0% { transform: translateX(0); }
-  20% { transform: translateX(-7px) rotate(-2deg); }
-  40% { transform: translateX(7px) rotate(2deg); }
-  60% { transform: translateX(-5px) rotate(-1deg); }
-  80% { transform: translateX(5px) rotate(1deg); }
-  100% { transform: translateX(0); }
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-8px) rotate(-2deg); }
+  75% { transform: translateX(8px) rotate(2deg); }
 }
 
-/* МОДАЛКА */
+/* ===== МОДАЛКА ===== */
 
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.78);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .2s;
-  z-index: 20;
-}
 
-.modal.show {
-  opacity: 1;
-  pointer-events: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0,0,0,.7);
+  z-index: 100;
+  padding: 20px;
 }
 
 .modal-box {
   width: 100%;
   max-width: 390px;
-  max-height: 90vh;
-  overflow-y: auto;
-  background: #102b50;
-  border: 1px solid #315b8c;
-  border-radius: 20px;
-  padding: 22px 17px;
-  text-align: center;
+
+  background: #14253a;
+  border: 1px solid #355574;
+  border-radius: 24px;
+
+  padding: 22px;
+
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
 }
 
 .modal-title {
-  font-size: 24px;
+  font-size: 25px;
   font-weight: bold;
+  margin-bottom: 15px;
 }
 
-.money-reward {
-  color: #ffd34d;
-  font-size: 28px;
+.reward-money {
+  color: #ffd84d;
+  font-size: 27px;
   font-weight: bold;
-  margin: 15px 0;
+  margin-bottom: 15px;
 }
 
 .items {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 9px;
 }
 
 .item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #173963;
-  border-radius: 11px;
-  padding: 10px;
-  text-align: left;
+  background: #0d1b2d;
+  border-radius: 14px;
+  padding: 12px;
 }
 
 .item-image {
-  width: 42px;
-  height: 42px;
-  border-radius: 9px;
-  background: #0b213d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 25px;
+  font-size: 36px;
 }
 
 .item-name {
-  font-weight: bold;
+  font-size: 13px;
+  margin-top: 5px;
 }
 
 .item-rarity {
-  color: #91acd0;
+  color: #819bb6;
   font-size: 11px;
   margin-top: 3px;
 }
 
 .close-button {
   width: 100%;
-  margin-top: 18px;
   padding: 14px;
-  border: none;
-  border-radius: 12px;
-  background: #315b8c;
+  margin-top: 16px;
+
+  border: 0;
+  border-radius: 14px;
+
+  background: #2768a8;
   color: white;
+
   font-size: 16px;
   font-weight: bold;
+}
+
+/* ===== МОБИЛКА ===== */
+
+@media (max-width: 380px) {
+  .case-area {
+    min-height: 390px;
+  }
+
+  .selected-case {
+    width: 220px;
+  }
+
+  .cases-button {
+    width: 52px;
+    height: 52px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- ===== ГЛАВНЫЙ ЭКРАН ===== -->
 
-<!-- ГЛАВНЫЙ ЭКРАН -->
+<div class="screen" id="homeScreen">
 
-<div id="homeScreen" class="screen active">
+  <div class="top">
+    <div class="balance">💰 <span id="balance">10000</span></div>
+    <div class="level">⭐ Ур. <span id="level">1</span></div>
+  </div>
 
-<h1>💎 Treasure Hunter</h1>
+  <h1>Treasure Hunter</h1>
+  <div class="subtitle">Открывай кейсы и собирай сокровища!</div>
 
-<div class="subtitle">
-Охота за сокровищами
-</div>
+  <div class="case-area">
 
-<div class="balance">
-💰 <span id="balance">10 000</span>
-</div>
+    <!-- КЕЙС ПО ЦЕНТРУ -->
+    <div class="selected-case">
+      <div class="case-icon" id="selectedCaseIcon">📦</div>
 
-<div class="luck" id="luckText">
-🍀 До 2× удачи: 10 сундуков
-</div>
+      <div class="case-name" id="selectedCaseName">
+        Обычный кейс
+      </div>
 
-<div class="level-box">
-⭐ Уровень <span id="level">1</span>
-</div>
+      <div class="case-price">
+        💰 <span id="selectedCasePrice">2500</span>
+      </div>
+    </div>
 
-<button class="main-button" onclick="openCasesScreen()">
-📦 КЕЙСЫ
-</button>
+    <!-- КНОПКА КЕЙСОВ СПРАВА -->
+    <button class="cases-button" onclick="showCases()">
+      📦
+      <span>Кейсы</span>
+    </button>
 
-<div class="stats">
+  </div>
 
-<div class="stat">
-<div class="stat-number">📦 <span id="opened">0</span></div>
-<div class="stat-name">Открыто</div>
-</div>
+  <button class="open-button" id="openButton" onclick="openCase()">
+    ОТКРЫТЬ КЕЙС
+  </button>
 
-<div class="stat">
-<div class="stat-number">⭐ <span id="level2">1</span></div>
-<div class="stat-name">Уровень</div>
-</div>
+  <div class="stats">
 
-<div class="stat">
-<div class="stat-number">⚡ <span id="energy">10</span></div>
-<div class="stat-name">Энергия</div>
-</div>
+    <div class="stat">
+      <div class="stat-title">Открыто кейсов</div>
+      <div class="stat-value" id="opened">0</div>
+    </div>
 
-</div>
+    <div class="stat">
+      <div class="stat-title">Энергия</div>
+      <div class="stat-value">⚡ <span id="energy">10</span>/10</div>
+    </div>
 
-</div>
+    <div class="stat">
+      <div class="stat-title">Всего заработано</div>
+      <div class="stat-value">💰 <span id="totalEarned">0</span></div>
+    </div>
 
+    <div class="stat">
+      <div class="stat-title">Удача</div>
+      <div class="stat-value" id="luck">Обычная</div>
+    </div>
 
-<!-- ЭКРАН КЕЙСОВ -->
-
-<div id="casesScreen" class="screen">
-
-<button class="back-button" onclick="goHome()">
-← Назад
-</button>
-
-<div class="screen-title">
-📦 Кейсы
-</div>
-
-<div class="cases">
-
-<div class="case">
-
-<div class="case-icon">📦</div>
-
-<div class="case-name">
-Обычный кейс
-</div>
-
-<div class="case-price">
-2 500 💰
-</div>
-
-<button class="case-button"
-onclick="openCase(1)">
-Открыть
-</button>
+  </div>
 
 </div>
 
 
-<div class="case" id="case2">
+<!-- ===== ЭКРАН КЕЙСОВ ===== -->
 
-<div class="case-icon">💼</div>
+<div class="screen hidden" id="casesScreen">
 
-<div class="case-name">
-Военный кейс
-</div>
+  <div class="cases-header">
 
-<div class="case-price">
-10 000 💰
-</div>
+    <button class="back-button" onclick="showHome()">
+      ←
+    </button>
 
-<div class="case-lock" id="lock2">
-🔒 5 уровень
-</div>
+    <div class="cases-title">
+      📦 Кейсы
+    </div>
 
-<button class="case-button"
-id="button2"
-onclick="openCase(2)"
-disabled>
-Открыть
-</button>
+  </div>
+
+  <div class="case-list" id="caseList"></div>
 
 </div>
 
 
-<div class="case" id="case3">
+<!-- ===== МОДАЛКА ===== -->
 
-<div class="case-icon">💎</div>
+<div class="modal hidden" id="rewardModal">
 
-<div class="case-name">
-Алмазный кейс
-</div>
+  <div class="modal-box">
 
-<div class="case-price">
-50 000 💰
-</div>
+    <div class="modal-title">
+      🎉 Кейс открыт!
+    </div>
 
-<div class="case-lock" id="lock3">
-🔒 10 уровень
-</div>
+    <div class="reward-money">
+      +💰 <span id="rewardMoney">0</span>
+    </div>
 
-<button class="case-button"
-id="button3"
-onclick="openCase(3)"
-disabled>
-Открыть
-</button>
+    <div class="items" id="items"></div>
 
-</div>
+    <button class="close-button" onclick="closeReward()">
+      ЗАБРАТЬ
+    </button>
 
-
-<div class="case" id="case4">
-
-<div class="case-icon">👑</div>
-
-<div class="case-name">
-Легендарный кейс
-</div>
-
-<div class="case-price">
-250 000 💰
-</div>
-
-<div class="case-lock" id="lock4">
-🔒 20 уровень
-</div>
-
-<button class="case-button"
-id="button4"
-onclick="openCase(4)"
-disabled>
-Открыть
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- МОДАЛЬНОЕ ОКНО -->
-
-<div class="modal" id="modal">
-
-<div class="modal-box">
-
-<div class="modal-title" id="modalTitle">
-🎉 Кейс открыт!
-</div>
-
-<div class="money-reward" id="moneyReward">
-+0 💰
-</div>
-
-<div class="items" id="items"></div>
-
-<button class="close-button"
-onclick="closeModal()">
-Забрать награды
-</button>
-
-</div>
+  </div>
 
 </div>
 
@@ -558,83 +598,46 @@ onclick="closeModal()">
 <script>
 
 /* =========================
-   СОХРАНЕНИЕ
-========================= */
-
-let saved =
-JSON.parse(localStorage.getItem("treasureHunter"));
-
-let balance = saved ? saved.balance : 10000;
-let opened = saved ? saved.opened : 0;
-let energy = saved ? saved.energy : 10;
-let level = saved ? saved.level : 1;
-let totalEarned = saved ? saved.totalEarned : 0;
-
-let luckyActive =
-saved ? saved.luckyActive : false;
-
-let luckyProgress =
-saved ? saved.luckyProgress : 0;
-
-
-function saveGame() {
-
-localStorage.setItem(
-"treasureHunter",
-
-JSON.stringify({
-
-balance,
-opened,
-energy,
-level,
-totalEarned,
-luckyActive,
-luckyProgress
-
-})
-
-);
-
-}
-
-
-/* =========================
-   КЕЙСЫ
+   ДАННЫЕ КЕЙСОВ
 ========================= */
 
 const cases = {
 
-1: {
-name: "Обычный кейс",
-price: 2500,
-min: 500,
-max: 10000
-},
+  1: {
+    name: "Обычный кейс",
+    icon: "📦",
+    price: 2500,
+    min: 500,
+    max: 10000,
+    level: 1
+  },
 
-2: {
-name: "Военный кейс",
-price: 10000,
-min: 2000,
-max: 50000,
-level: 5
-},
+  2: {
+    name: "Военный кейс",
+    icon: "🪖",
+    price: 10000,
+    min: 2000,
+    max: 50000,
+    level: 5
+  },
 
-3: {
-name: "Алмазный кейс",
-price: 50000,
-min: 15000,
-max: 200000,
-level: 10
-},
+  3: {
+    name: "Алмазный кейс",
+    icon: "💎",
+    price: 50000,
+    min: 15000,
+    max: 200000,
+    level: 10
+  },
 
-4: {
-name: "Легендарный кейс",
-price: 250000,
-min: 40000,
-max: 1000000,
-level: 20
-}
+  4: {
+    name: "Легендарный кейс",
+    icon: "👑",
+    price: 250000,
+    min: 40000,
+    max: 1000000,
+    level: 20
+  }
 
 };
 
@@ -643,320 +646,303 @@ level: 20
    ПРЕДМЕТЫ
 ========================= */
 
-const items = [
+const itemPool = [
 
-{
-name: "Старинная монета",
-icon: "🪙",
-rarity: "Обычный"
-},
+  {
+    name: "Монета",
+    icon: "🪙",
+    rarity: "Обычный"
+  },
 
-{
-name: "Старый ключ",
-icon: "🗝️",
-rarity: "Обычный"
-},
+  {
+    name: "Кристалл",
+    icon: "💠",
+    rarity: "Необычный"
+  },
 
-{
-name: "Кристалл",
-icon: "💎",
-rarity: "Редкий"
-},
+  {
+    name: "Золотой слиток",
+    icon: "🥇",
+    rarity: "Редкий"
+  },
 
-{
-name: "Старая реликвия",
-icon: "🏺",
-rarity: "Редкий"
-},
+  {
+    name: "Алмаз",
+    icon: "💎",
+    rarity: "Эпический"
+  },
 
-{
-name: "Компас",
-icon: "🧭",
-rarity: "Эпический"
-},
+  {
+    name: "Корона",
+    icon: "👑",
+    rarity: "Легендарный"
+  },
 
-{
-name: "Золотая реликвия",
-icon: "👑",
-rarity: "Легендарный"
-}
+  {
+    name: "Артефакт",
+    icon: "🔮",
+    rarity: "Мифический"
+  }
 
 ];
 
 
 /* =========================
-   ЭКРАНЫ
+   СОХРАНЕНИЕ
 ========================= */
 
-function openCasesScreen() {
+let balance =
+  Number(localStorage.getItem("balance")) || 10000;
 
-document.getElementById("homeScreen")
-.classList.remove("active");
+let opened =
+  Number(localStorage.getItem("opened")) || 0;
 
-document.getElementById("casesScreen")
-.classList.add("active");
+let energy =
+  Number(localStorage.getItem("energy"));
 
-updateCases();
-
+if (isNaN(energy)) {
+  energy = 10;
 }
 
+let totalEarned =
+  Number(localStorage.getItem("totalEarned")) || 0;
 
-function goHome() {
+let luckyActive =
+  localStorage.getItem("luckyActive") === "true";
 
-document.getElementById("casesScreen")
-.classList.remove("active");
+let luckyProgress =
+  Number(localStorage.getItem("luckyProgress")) || 0;
 
-document.getElementById("homeScreen")
-.classList.add("active");
+
+/* =========================
+   ВЫБРАННЫЙ КЕЙС
+========================= */
+
+let selectedCase =
+  Number(localStorage.getItem("selectedCase")) || 1;
+
+
+/* =========================
+   УРОВЕНЬ
+========================= */
+
+function getLevel() {
+
+  return Math.floor(opened / 10) + 1;
 
 }
 
 
 /* =========================
-   ДОСТУП К КЕЙСАМ
+   СОХРАНИТЬ
 ========================= */
 
-function updateCases() {
+function save() {
 
-for (let i = 2; i <= 4; i++) {
-
-const data = cases[i];
-
-const button =
-document.getElementById("button" + i);
-
-const lock =
-document.getElementById("lock" + i);
-
-const box =
-document.getElementById("case" + i);
-
-
-if (level >= data.level) {
-
-button.disabled = false;
-
-lock.style.display = "none";
-
-box.classList.remove("locked");
-
-} else {
-
-button.disabled = true;
-
-lock.style.display = "block";
-
-box.classList.add("locked");
-
-}
-
-}
+  localStorage.setItem("balance", balance);
+  localStorage.setItem("opened", opened);
+  localStorage.setItem("energy", energy);
+  localStorage.setItem("totalEarned", totalEarned);
+  localStorage.setItem("luckyActive", luckyActive);
+  localStorage.setItem("luckyProgress", luckyProgress);
+  localStorage.setItem("selectedCase", selectedCase);
 
 }
 
 
 /* =========================
-   UI
+   ОБНОВИТЬ ЭКРАН
 ========================= */
 
 function updateUI() {
 
-document.getElementById("balance")
-.textContent = format(balance);
+  const level = getLevel();
 
-document.getElementById("opened")
-.textContent = opened;
+  document.getElementById("balance").textContent =
+    balance.toLocaleString("ru-RU");
 
-document.getElementById("energy")
-.textContent = energy;
+  document.getElementById("opened").textContent =
+    opened;
 
-document.getElementById("level")
-.textContent = level;
+  document.getElementById("energy").textContent =
+    energy;
 
-document.getElementById("level2")
-.textContent = level;
+  document.getElementById("level").textContent =
+    level;
 
-updateLuck();
+  document.getElementById("totalEarned").textContent =
+    totalEarned.toLocaleString("ru-RU");
 
-updateCases();
-
-}
-
-
-function format(number) {
-
-return Math.floor(number)
-.toLocaleString("ru-RU");
-
-}
+  document.getElementById("luck").textContent =
+    luckyActive ? "🔥 2× удача" : "Обычная";
 
 
-/* =========================
-   2X УДАЧА
-========================= */
+  const current = cases[selectedCase];
 
-function updateLuck() {
+  document.getElementById("selectedCaseIcon").textContent =
+    current.icon;
 
-if (luckyActive) {
+  document.getElementById("selectedCaseName").textContent =
+    current.name;
 
-document.getElementById("luckText")
-.textContent = "🍀 2× УДАЧА АКТИВНА!";
-
-return;
-
-}
-
-const left = 10 - luckyProgress;
-
-document.getElementById("luckText")
-.textContent =
-"🍀 До 2× удачи: " + left + " сундуков";
-
-}
+  document.getElementById("selectedCasePrice").textContent =
+    current.price.toLocaleString("ru-RU");
 
 
-function checkLuck() {
+  const button = document.getElementById("openButton");
 
-luckyProgress++;
+  if (balance < current.price || energy <= 0) {
 
-if (luckyProgress >= 10) {
+    button.disabled = true;
 
-luckyProgress = 0;
-luckyActive = true;
+  } else {
 
-}
+    button.disabled = false;
+
+  }
 
 }
 
 
 /* =========================
-   ОТКРЫТИЕ КЕЙСА
+   ГЛАВНЫЙ ЭКРАН
 ========================= */
 
-function openCase(id) {
+function showHome() {
 
-const data = cases[id];
+  document.getElementById("homeScreen")
+    .classList.remove("hidden");
 
-if (level < (data.level || 1)) {
+  document.getElementById("casesScreen")
+    .classList.add("hidden");
 
-alert(
-"🔒 Этот кейс открывается на " +
-data.level + " уровне!"
-);
-
-return;
-
-}
-
-if (balance < data.price) {
-
-alert("Недостаточно денег!");
-
-return;
-
-}
-
-if (energy <= 0) {
-
-alert("Закончилась энергия!");
-
-return;
-
-}
-
-
-balance -= data.price;
-
-energy--;
-
-
-const chest =
-document.getElementById("chest");
-
-chest.classList.remove("opened");
-chest.classList.remove("shake");
-
-void chest.offsetWidth;
-
-chest.classList.add("shake");
-
-
-setTimeout(function() {
-
-chest.classList.add("opened");
-
-setTimeout(function() {
-
-giveReward(id);
-
-}, 500);
-
-}, 450);
+  updateUI();
 
 }
 
 
 /* =========================
-   НАГРАДА
+   ЭКРАН КЕЙСОВ
 ========================= */
 
-function giveReward(id) {
+function showCases() {
 
-const data = cases[id];
+  document.getElementById("homeScreen")
+    .classList.add("hidden");
 
-let reward =
-random(data.min, data.max);
+  document.getElementById("casesScreen")
+    .classList.remove("hidden");
 
-
-/*
-2X удача:
-повышаем шанс крупной награды
-*/
-
-if (luckyActive) {
-
-if (Math.random() < 0.5) {
-
-reward =
-random(
-Math.floor(data.max * 0.5),
-data.max
-);
-
-}
-
-luckyActive = false;
+  renderCases();
 
 }
 
 
-/*
-Очень редкий максимальный дроп
-*/
+/* =========================
+   СПИСОК КЕЙСОВ
+========================= */
 
-if (Math.random() < 0.01) {
+function renderCases() {
 
-reward = data.max;
+  const list =
+    document.getElementById("caseList");
+
+  const level = getLevel();
+
+  list.innerHTML = "";
+
+  for (const id in cases) {
+
+    const c = cases[id];
+
+    const unlocked =
+      level >= c.level;
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "case-card" +
+      (unlocked ? "" : " locked");
+
+
+    let buttonHTML = "";
+
+    if (unlocked) {
+
+      buttonHTML = `
+        <button
+          class="select-case"
+          onclick="selectCase(${id})">
+          ВЫБРАТЬ
+        </button>
+      `;
+
+    } else {
+
+      buttonHTML = `
+        <div class="lock-text">
+          🔒 ${c.level} уровень
+        </div>
+      `;
+
+    }
+
+
+    card.innerHTML = `
+
+      <div class="case-card-icon">
+        ${c.icon}
+      </div>
+
+      <div class="case-card-info">
+
+        <div class="case-card-name">
+          ${c.name}
+        </div>
+
+        <div class="case-card-price">
+          💰 ${c.price.toLocaleString("ru-RU")}
+        </div>
+
+        ${
+          !unlocked
+          ? `<div class="lock-text">
+               🔒 Откроется с ${c.level} уровня
+             </div>`
+          : ""
+        }
+
+      </div>
+
+      ${buttonHTML}
+
+    `;
+
+    list.appendChild(card);
+
+  }
 
 }
 
 
-balance += reward;
+/* =========================
+   ВЫБРАТЬ КЕЙС
+========================= */
 
-totalEarned += reward;
+function selectCase(id) {
 
-opened++;
+  const c = cases[id];
 
+  if (getLevel() < c.level) {
+    return;
+  }
 
-checkLuck();
+  selectedCase = id;
 
-updateLevel();
+  save();
 
-showReward(id, reward);
-
-updateUI();
-
-saveGame();
+  showHome();
 
 }
 
@@ -965,23 +951,114 @@ saveGame();
    СЛУЧАЙНОЕ ЧИСЛО
 ========================= */
 
-function random(min, max) {
+function randomInt(min, max) {
 
-return Math.floor(
-Math.random() * (max - min + 1)
-) + min;
+  return Math.floor(
+    Math.random() * (max - min + 1)
+  ) + min;
 
 }
 
 
 /* =========================
-   УРОВЕНЬ
+   ОТКРЫТИЕ КЕЙСА
 ========================= */
 
-function updateLevel() {
+function openCase() {
 
-level =
-Math.floor(opened / 10) + 1;
+  const c = cases[selectedCase];
+
+  if (balance < c.price) {
+
+    alert("Недостаточно денег!");
+
+    return;
+
+  }
+
+  if (energy <= 0) {
+
+    alert("Закончилась энергия!");
+
+    return;
+
+  }
+
+
+  /* Снимаем цену */
+
+  balance -= c.price;
+
+  energy--;
+
+
+  /* Шанс удачи */
+
+  let reward;
+
+
+  if (luckyActive) {
+
+    reward =
+      randomInt(
+        Math.ceil((c.min + c.max) / 2),
+        c.max
+      );
+
+    luckyActive = false;
+
+  } else {
+
+    reward =
+      randomInt(c.min, c.max);
+
+  }
+
+
+  /* Маленький шанс выбить максимум */
+
+  if (Math.random() < 0.01) {
+
+    reward = c.max;
+
+  }
+
+
+  balance += reward;
+
+  totalEarned += reward;
+
+  opened++;
+
+  luckyProgress++;
+
+
+  /* Каждые 10 кейсов — удача */
+
+  if (luckyProgress >= 10) {
+
+    luckyActive = true;
+
+    luckyProgress = 0;
+
+  }
+
+
+  /* Не даём балансу уйти ниже нуля */
+
+  if (balance < 0) {
+    balance = 0;
+  }
+
+
+  save();
+
+  updateUI();
+
+
+  /* Показываем награду */
+
+  showReward(reward);
 
 }
 
@@ -990,107 +1067,89 @@ Math.floor(opened / 10) + 1;
    НАГРАДА
 ========================= */
 
-function showReward(id, reward) {
+function showReward(reward) {
 
-const data = cases[id];
-
-document.getElementById("modalTitle")
-.textContent =
-"🎉 " + data.name + " открыт!";
-
-document.getElementById("moneyReward")
-.textContent =
-"+" + format(reward) + " 💰";
+  document.getElementById("rewardMoney")
+    .textContent =
+    reward.toLocaleString("ru-RU");
 
 
-const container =
-document.getElementById("items");
+  const items =
+    document.getElementById("items");
 
-container.innerHTML = "";
-
-
-const count = random(2, 5);
-
-const shuffled =
-[...items].sort(
-() => Math.random() - 0.5
-);
+  items.innerHTML = "";
 
 
-for (let i = 0; i < count; i++) {
-
-const item = shuffled[i];
-
-const div =
-document.createElement("div");
-
-div.className = "item";
-
-div.innerHTML = `
-
-<div class="item-image">
-${item.icon}
-</div>
-
-<div>
-
-<div class="item-name">
-${item.name}
-</div>
-
-<div class="item-rarity">
-${item.rarity}
-</div>
-
-</div>
-
-`;
-
-container.appendChild(div);
-
-}
+  const count =
+    randomInt(2, 5);
 
 
-setTimeout(function() {
+  const used = [];
 
-document.getElementById("modal")
-.classList.add("show");
 
-}, 100);
+  while (used.length < count) {
+
+    const item =
+      itemPool[
+        randomInt(0, itemPool.length - 1)
+      ];
+
+    if (!used.includes(item)) {
+      used.push(item);
+    }
+
+  }
+
+
+  used.forEach(item => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "item";
+
+    div.innerHTML = `
+
+      <div class="item-image">
+        ${item.icon}
+      </div>
+
+      <div class="item-name">
+        ${item.name}
+      </div>
+
+      <div class="item-rarity">
+        ${item.rarity}
+      </div>
+
+    `;
+
+    items.appendChild(div);
+
+  });
+
+
+  document.getElementById("rewardModal")
+    .classList.remove("hidden");
 
 }
 
 
 /* =========================
-   ЗАКРЫТИЕ
+   ЗАКРЫТЬ НАГРАДУ
 ========================= */
 
-function closeModal() {
+function closeReward() {
 
-document.getElementById("modal")
-.classList.remove("show");
-
-const chest =
-document.getElementById("chest");
-
-setTimeout(function() {
-
-chest.classList.remove("opened");
-chest.classList.remove("shake");
-
-}, 250);
+  document.getElementById("rewardModal")
+    .classList.add("hidden");
 
 }
 
 
 /* =========================
-   АВТОСОХРАНЕНИЕ
+   СТАРТ
 ========================= */
-
-window.addEventListener(
-"beforeunload",
-saveGame
-);
 
 updateUI();
 
