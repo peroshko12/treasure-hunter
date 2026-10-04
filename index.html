@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
 <title>Treasure Hunter</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -49,8 +49,6 @@ button{
   position:absolute;
   inset:0;
   padding:18px;
-  padding-top:calc(18px + env(safe-area-inset-top));
-  padding-bottom:calc(18px + env(safe-area-inset-bottom));
   overflow:hidden;
 }
 
@@ -246,7 +244,7 @@ button{
 .menu-btn{
   position:absolute;
   left:18px;
-  top:calc(18px + env(safe-area-inset-top));
+  top:18px;
   width:45px;
   height:42px;
   border-radius:12px;
@@ -261,7 +259,6 @@ button{
   z-index:20;
   background:#0b0e14f5;
   padding:70px 20px 20px;
-  padding-top:calc(70px + env(safe-area-inset-top));
   overflow:auto;
 }
 
@@ -618,24 +615,11 @@ button{
 </div>
 
 <script>
-/* Telegram Mini App */
-const tg=window.Telegram?.WebApp;
 
-if(tg){
-  tg.ready();
-  tg.expand();
-
-  try{
-    tg.disableVerticalSwipes();
-  }catch(e){}
-
-  document.documentElement.style.setProperty(
-    "--tg-viewport-height",
-    (tg.viewportHeight||window.innerHeight)+"px"
-  );
+if(window.Telegram && Telegram.WebApp){
+  Telegram.WebApp.ready();
+  Telegram.WebApp.expand();
 }
-
-/* Игра */
 
 const cases=[
   {name:"Обычный",price:2500,max:5000,maxItems:2,cls:"case1"},
@@ -1079,6 +1063,7 @@ function updateBP(){
 
 load();
 updateUI();
+
 </script>
 
 </body>
