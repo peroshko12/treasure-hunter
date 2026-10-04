@@ -42,16 +42,12 @@ button {
   position: fixed;
   top: 14px;
   left: 14px;
-
   width: 46px;
   height: 46px;
-
   border-radius: 14px;
   border: 1px solid #294568;
-
   background: #14253a;
   color: white;
-
   font-size: 23px;
   z-index: 50;
 }
@@ -60,21 +56,15 @@ button {
   position: fixed;
   top: 0;
   left: 0;
-
   width: 285px;
   max-width: 85vw;
   height: 100vh;
-
   background: #0e1c2e;
   border-right: 1px solid #294568;
-
   z-index: 100;
-
   padding: 75px 15px 20px;
-
   transform: translateX(-100%);
   transition: transform .25s ease;
-
   box-shadow: 15px 0 40px rgba(0,0,0,.3);
 }
 
@@ -91,15 +81,11 @@ button {
 .menu-item {
   width: 100%;
   padding: 15px;
-
   margin-bottom: 10px;
-
   border: 1px solid #29415e;
   border-radius: 15px;
-
   background: #14253a;
   color: white;
-
   text-align: left;
   font-size: 16px;
   font-weight: bold;
@@ -112,9 +98,7 @@ button {
 .menu-overlay {
   position: fixed;
   inset: 0;
-
   background: rgba(0,0,0,.55);
-
   z-index: 90;
 }
 
@@ -126,7 +110,6 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   padding-left: 55px;
 }
 
@@ -135,9 +118,7 @@ button {
   background: #182840;
   border: 1px solid #294568;
   border-radius: 14px;
-
   padding: 10px 13px;
-
   font-weight: bold;
 }
 
@@ -177,20 +158,16 @@ h1 {
 .luck-top {
   display: flex;
   justify-content: space-between;
-
   font-size: 12px;
   color: #9bb1c9;
-
   margin-bottom: 6px;
 }
 
 .xp-bar,
 .luck-bar {
   height: 9px;
-
   background: #0b1726;
   border: 1px solid #29415e;
-
   border-radius: 10px;
   overflow: hidden;
 }
@@ -198,10 +175,8 @@ h1 {
 .xp-fill {
   height: 100%;
   width: 0%;
-
   background: linear-gradient(90deg,#3c8cff,#71d9ff);
   border-radius: 10px;
-
   transition: width .4s ease;
 }
 
@@ -212,11 +187,8 @@ h1 {
 .luck-fill {
   height: 100%;
   width: 0%;
-
   background: linear-gradient(90deg,#ff9f1c,#ffe66d);
-
   border-radius: 10px;
-
   transition: width .35s ease;
 }
 
@@ -231,7 +203,6 @@ h1 {
 
 .chest-area {
   height: 280px;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -239,66 +210,45 @@ h1 {
 
 .chest {
   position: relative;
-
   width: 200px;
   height: 165px;
-
-  transition:
-    transform .2s,
-    filter .25s;
+  transition: transform .2s, filter .25s;
 }
 
 .chest-body {
   position: absolute;
-
   left: 0;
   bottom: 0;
-
   width: 200px;
   height: 115px;
-
   background: linear-gradient(180deg,#a85d25,#6e3516);
-
   border: 5px solid #3b1d0b;
   border-radius: 12px;
 }
 
 .chest-lid {
   position: absolute;
-
   left: 0;
   top: 0;
-
   width: 200px;
   height: 62px;
-
   background: linear-gradient(180deg,#c97932,#874315);
-
   border: 5px solid #3b1d0b;
   border-radius: 15px 15px 5px 5px;
-
   transform-origin: left bottom;
-
   transition: transform .55s cubic-bezier(.2,.8,.2,1);
-
   z-index: 2;
 }
 
 .lock {
   position: absolute;
-
   z-index: 5;
-
   left: 50%;
   top: 55%;
-
   width: 35px;
   height: 41px;
-
   transform: translate(-50%,-50%);
-
   background: #f1bd35;
-
   border: 4px solid #704707;
   border-radius: 7px;
 }
@@ -390,37 +340,31 @@ h1 {
 }
 
 /* =========================
-   СВЕЧЕНИЕ РЕДКОСТИ
+   СВЕЧЕНИЕ
 ========================= */
 
 .chest.glow-common {
-  filter:
-    drop-shadow(0 0 12px rgba(190,190,190,.65));
+  filter: drop-shadow(0 0 12px rgba(190,190,190,.65));
 }
 
 .chest.glow-uncommon {
-  filter:
-    drop-shadow(0 0 18px rgba(75,220,120,.75));
+  filter: drop-shadow(0 0 18px rgba(75,220,120,.75));
 }
 
 .chest.glow-rare {
-  filter:
-    drop-shadow(0 0 20px rgba(70,145,255,.85));
+  filter: drop-shadow(0 0 20px rgba(70,145,255,.85));
 }
 
 .chest.glow-epic {
-  filter:
-    drop-shadow(0 0 24px rgba(170,80,255,.9));
+  filter: drop-shadow(0 0 24px rgba(170,80,255,.9));
 }
 
 .chest.glow-legendary {
-  filter:
-    drop-shadow(0 0 28px rgba(255,190,35,1));
+  filter: drop-shadow(0 0 28px rgba(255,190,35,1));
 }
 
 .chest.glow-mythic {
-  filter:
-    drop-shadow(0 0 32px rgba(255,50,80,1));
+  filter: drop-shadow(0 0 32px rgba(255,50,80,1));
 }
 
 /* =========================
@@ -446,17 +390,12 @@ h1 {
 .open-button {
   width: 100%;
   max-width: 290px;
-
   padding: 16px;
   margin-top: 13px;
-
   border: 0;
   border-radius: 16px;
-
   background: linear-gradient(135deg,#ffbd2e,#ff8c00);
-
   color: #1b1200;
-
   font-size: 18px;
   font-weight: bold;
 }
@@ -475,21 +414,16 @@ h1 {
 
 .stats {
   margin: 21px auto 0;
-
   max-width: 430px;
-
   display: grid;
   grid-template-columns: repeat(2,1fr);
-
   gap: 9px;
 }
 
 .stat {
   background: #111f33;
-
   border: 1px solid #253d59;
   border-radius: 14px;
-
   padding: 12px;
 }
 
@@ -517,26 +451,21 @@ h1 {
   display: flex;
   align-items: center;
   gap: 10px;
-
   margin-bottom: 20px;
 }
 
 .back-button {
   width: 44px;
   height: 44px;
-
   border: 1px solid #294568;
   border-radius: 13px;
-
   background: #14253a;
   color: white;
-
   font-size: 21px;
 }
 
-.inner-title {
-  font-size: 25px;
-  font-weight: bold;
+.back-button:active {
+  transform: scale(.95);
 }
 
 /* =========================
@@ -552,16 +481,11 @@ h1 {
   display: flex;
   align-items: center;
   gap: 13px;
-
   background: #14253a;
-
   border: 1px solid #294568;
   border-radius: 17px;
-
   padding: 13px;
-
   margin-bottom: 10px;
-
   text-align: left;
 }
 
@@ -571,23 +495,17 @@ h1 {
 
 .pass-card.current {
   border-color: #4b9cff;
-
-  box-shadow:
-    0 0 14px rgba(75,156,255,.2);
+  box-shadow: 0 0 14px rgba(75,156,255,.2);
 }
 
 .pass-level {
   width: 45px;
   height: 45px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   background: #0d1b2d;
-
   border-radius: 12px;
-
   font-weight: bold;
 }
 
@@ -617,12 +535,9 @@ h1 {
 .upgrader-box {
   max-width: 500px;
   margin: auto;
-
   background: #14253a;
-
   border: 1px solid #294568;
   border-radius: 20px;
-
   padding: 22px;
 }
 
@@ -633,17 +548,12 @@ h1 {
 
 .upgrade-button {
   width: 100%;
-
   padding: 14px;
-
   margin-top: 18px;
-
   border: 0;
   border-radius: 14px;
-
   background: #2768a8;
   color: white;
-
   font-weight: bold;
 }
 
@@ -660,16 +570,11 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   padding: 16px;
-
   margin-bottom: 10px;
-
   background: #14253a;
-
   border: 1px solid #294568;
   border-radius: 16px;
-
   text-align: left;
 }
 
@@ -690,27 +595,20 @@ h1 {
 .modal {
   position: fixed;
   inset: 0;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   background: rgba(0,0,0,.72);
-
   z-index: 200;
-
   padding: 20px;
 }
 
 .modal-box {
   width: 100%;
   max-width: 390px;
-
   background: #14253a;
-
   border: 1px solid #355574;
   border-radius: 24px;
-
   padding: 22px;
 }
 
@@ -721,52 +619,41 @@ h1 {
 
 .reward-money {
   color: #ffd84d;
-
   font-size: 27px;
   font-weight: bold;
-
   margin-top: 9px;
 }
 
 .reward-xp {
   color: #72c8ff;
-
   font-size: 18px;
   font-weight: bold;
-
   margin-top: 7px;
 }
 
 .new-level {
   color: #70ff9a;
-
   font-size: 18px;
   font-weight: bold;
-
   margin-top: 8px;
 }
 
 .rarity-result {
   font-size: 17px;
   font-weight: bold;
-
   margin-top: 9px;
 }
 
 .items {
   display: grid;
   grid-template-columns: repeat(2,1fr);
-
   gap: 9px;
-
   margin-top: 15px;
 }
 
 .item {
   background: #0d1b2d;
-
   border-radius: 14px;
-
   padding: 12px;
 }
 
@@ -786,17 +673,12 @@ h1 {
 
 .close-button {
   width: 100%;
-
   padding: 14px;
   margin-top: 16px;
-
   border: 0;
   border-radius: 14px;
-
   background: #2768a8;
-
   color: white;
-
   font-size: 16px;
   font-weight: bold;
 }
@@ -833,15 +715,9 @@ h1 {
 
 <body>
 
-<!-- =========================
-     МЕНЮ
-========================= -->
+<!-- МЕНЮ -->
 
-<button
-  class="menu-button"
-  onclick="toggleMenu()">
-  ☰
-</button>
+<button class="menu-button" onclick="toggleMenu()">☰</button>
 
 <div
   class="menu-overlay hidden"
@@ -855,40 +731,28 @@ h1 {
     ☰ Меню
   </div>
 
-  <button
-    class="menu-item"
-    onclick="openSettings()">
+  <button class="menu-item" onclick="openSettings()">
     ⚙️ Настройки
   </button>
 
-  <button
-    class="menu-item"
-    onclick="openBattlePass()">
+  <button class="menu-item" onclick="openBattlePass()">
     🎫 Battle Pass
   </button>
 
-  <button
-    class="menu-item"
-    onclick="openUpgrader()">
+  <button class="menu-item" onclick="openUpgrader()">
     ⬆️ Upgrader
   </button>
 
-  <button
-    class="menu-item"
-    onclick="closeMenu()">
+  <button class="menu-item" onclick="closeMenu()">
     🧩 Скоро...
   </button>
 
 </div>
 
 
-<!-- =========================
-     ГЛАВНЫЙ ЭКРАН
-========================= -->
+<!-- ГЛАВНЫЙ ЭКРАН -->
 
-<div
-  class="screen"
-  id="homeScreen">
+<div class="screen" id="homeScreen">
 
   <div class="top">
 
@@ -902,13 +766,11 @@ h1 {
 
   </div>
 
-
   <h1>Treasure Hunter</h1>
 
   <div class="subtitle">
     Открывай кейсы и собирай сокровища!
   </div>
-
 
   <!-- XP -->
 
@@ -927,15 +789,11 @@ h1 {
 
     <div class="xp-bar">
 
-      <div
-        class="xp-fill"
-        id="xpFill">
-      </div>
+      <div class="xp-fill" id="xpFill"></div>
 
     </div>
 
   </div>
-
 
   <!-- УДАЧА -->
 
@@ -955,23 +813,17 @@ h1 {
 
     <div class="luck-bar">
 
-      <div
-        class="luck-fill"
-        id="luckFill">
-      </div>
+      <div class="luck-fill" id="luckFill"></div>
 
     </div>
 
   </div>
 
-
   <!-- СУНДУК -->
 
   <div class="chest-area">
 
-    <div
-      class="chest normal"
-      id="chest">
+    <div class="chest normal" id="chest">
 
       <div class="chest-lid"></div>
 
@@ -983,22 +835,15 @@ h1 {
 
   </div>
 
-
-  <div
-    class="case-name"
-    id="caseName">
+  <div class="case-name" id="caseName">
     Обычный кейс
   </div>
 
-
   <div class="case-price">
 
-    💰 <span id="casePrice">
-      2 500
-    </span>
+    💰 <span id="casePrice">2 500</span>
 
   </div>
-
 
   <button
     class="open-button"
@@ -1009,7 +854,6 @@ h1 {
 
   </button>
 
-
   <div class="stats">
 
     <div class="stat">
@@ -1018,14 +862,11 @@ h1 {
         Открыто кейсов
       </div>
 
-      <div
-        class="stat-value"
-        id="opened">
+      <div class="stat-value" id="opened">
         0
       </div>
 
     </div>
-
 
     <div class="stat">
 
@@ -1033,17 +874,13 @@ h1 {
         Всего заработано
       </div>
 
-      <div
-        class="stat-value">
+      <div class="stat-value">
 
-        💰 <span id="totalEarned">
-          0
-        </span>
+        💰 <span id="totalEarned">0</span>
 
       </div>
 
     </div>
-
 
     <div class="stat">
 
@@ -1051,17 +888,13 @@ h1 {
         Уровень
       </div>
 
-      <div
-        class="stat-value">
+      <div class="stat-value">
 
-        ⭐ <span id="levelStat">
-          1
-        </span>
+        ⭐ <span id="levelStat">1</span>
 
       </div>
 
     </div>
-
 
     <div class="stat">
 
@@ -1069,9 +902,7 @@ h1 {
         Текущий кейс
       </div>
 
-      <div
-        class="stat-value"
-        id="caseStat">
+      <div class="stat-value" id="caseStat">
         Обычный
       </div>
 
@@ -1082,9 +913,7 @@ h1 {
 </div>
 
 
-<!-- =========================
-     BATTLE PASS
-========================= -->
+<!-- BATTLE PASS -->
 
 <div
   class="inner-screen hidden"
@@ -1095,7 +924,7 @@ h1 {
     <button
       class="back-button"
       onclick="showHome()">
-      ←
+      ✕
     </button>
 
     <div class="inner-title">
@@ -1103,7 +932,6 @@ h1 {
     </div>
 
   </div>
-
 
   <div
     class="pass-progress"
@@ -1113,9 +941,7 @@ h1 {
 </div>
 
 
-<!-- =========================
-     НАСТРОЙКИ
-========================= -->
+<!-- НАСТРОЙКИ -->
 
 <div
   class="inner-screen hidden"
@@ -1126,7 +952,7 @@ h1 {
     <button
       class="back-button"
       onclick="showHome()">
-      ←
+      ✕
     </button>
 
     <div class="inner-title">
@@ -1134,7 +960,6 @@ h1 {
     </div>
 
   </div>
-
 
   <div class="settings-box">
 
@@ -1157,7 +982,6 @@ h1 {
       </div>
 
     </div>
-
 
     <div class="setting">
 
@@ -1184,9 +1008,7 @@ h1 {
 </div>
 
 
-<!-- =========================
-     UPGRADER
-========================= -->
+<!-- UPGRADER -->
 
 <div
   class="inner-screen hidden"
@@ -1205,7 +1027,6 @@ h1 {
     </div>
 
   </div>
-
 
   <div class="upgrader-box">
 
@@ -1243,9 +1064,7 @@ h1 {
 </div>
 
 
-<!-- =========================
-     НАГРАДА
-========================= -->
+<!-- НАГРАДА -->
 
 <div
   class="modal hidden"
@@ -1259,9 +1078,7 @@ h1 {
 
     <div class="reward-money">
 
-      +💰 <span id="rewardMoney">
-        0
-      </span>
+      +💰 <span id="rewardMoney">0</span>
 
     </div>
 
@@ -1650,10 +1467,8 @@ function renderBattlePass() {
 
   container.innerHTML = "";
 
-
   const maxLevel =
     Math.max(20, level + 5);
-
 
   for (
     let i = 1;
@@ -1667,7 +1482,6 @@ function renderBattlePass() {
     card.className =
       "pass-card";
 
-
     if (i < level) {
       card.classList.add("done");
     }
@@ -1675,7 +1489,6 @@ function renderBattlePass() {
     if (i === level) {
       card.classList.add("current");
     }
-
 
     let status = "🔒";
 
@@ -1686,7 +1499,6 @@ function renderBattlePass() {
     if (i === level) {
       status = "⭐ Сейчас";
     }
-
 
     card.innerHTML = `
 
@@ -1712,7 +1524,6 @@ function renderBattlePass() {
 
     `;
 
-
     container.appendChild(card);
 
   }
@@ -1726,14 +1537,6 @@ function renderBattlePass() {
 
 function giveLevelReward(level) {
 
-  /*
-    В этом варианте обычные уровни
-    дают деньги.
-
-    На 5/10/20 уровни открывается
-    новый тип кейса автоматически.
-  */
-
   if (
     level === 5 ||
     level === 10 ||
@@ -1743,7 +1546,6 @@ function giveLevelReward(level) {
     return;
 
   }
-
 
   const reward =
     level * 1000;
@@ -1770,43 +1572,36 @@ function updateUI() {
   const currentCase =
     cases[caseId];
 
-
   document.getElementById(
     "balance"
   ).textContent =
     balance.toLocaleString("ru-RU");
-
 
   document.getElementById(
     "level"
   ).textContent =
     level;
 
-
   document.getElementById(
     "levelStat"
   ).textContent =
     level;
-
 
   document.getElementById(
     "xp"
   ).textContent =
     xp % XP_PER_LEVEL;
 
-
   document.getElementById(
     "xpNeed"
   ).textContent =
     XP_PER_LEVEL;
-
 
   document.getElementById(
     "xpFill"
   ).style.width =
     ((xp % XP_PER_LEVEL) /
     XP_PER_LEVEL * 100) + "%";
-
 
   /* УДАЧА */
 
@@ -1815,18 +1610,15 @@ function updateUI() {
   ).textContent =
     luckyProgress;
 
-
   document.getElementById(
     "luckFill"
   ).style.width =
     (luckyProgress * 10) + "%";
 
-
   const luckText =
     document.getElementById(
       "luckText"
     );
-
 
   if (luckyActive) {
 
@@ -1848,7 +1640,6 @@ function updateUI() {
 
   }
 
-
   /* КЕЙС */
 
   document.getElementById(
@@ -1856,32 +1647,27 @@ function updateUI() {
   ).textContent =
     currentCase.name;
 
-
   document.getElementById(
     "casePrice"
   ).textContent =
     currentCase.price
       .toLocaleString("ru-RU");
 
-
   document.getElementById(
     "caseStat"
   ).textContent =
     currentCase.shortName;
-
 
   document.getElementById(
     "opened"
   ).textContent =
     opened;
 
-
   document.getElementById(
     "totalEarned"
   ).textContent =
     totalEarned
       .toLocaleString("ru-RU");
-
 
   /* СУНДУК */
 
@@ -1890,11 +1676,9 @@ function updateUI() {
       "chest"
     );
 
-
   chest.className =
     "chest " +
     currentCase.className;
-
 
   /* КНОПКА */
 
@@ -1924,44 +1708,40 @@ function randomInt(min,max) {
    НАГРАДА КЕЙСА
 ========================= */
 
-/*
-  Главное изменение экономики:
-
-  60% — 0.20-0.55 от цены
-  25% — 0.55-0.90 от цены
-  10% — 0.90-1.40 от цены
-  4%  — 1.40-3.00 от цены
-  1%  — очень большая награда
-
-  Но итог всегда ограничен min/max кейса.
-*/
-
 function calculateReward(currentCase) {
 
   const roll =
     Math.random();
 
-
   let multiplier;
 
+  /*
+    Новый баланс:
 
-  if (roll < 0.60) {
+    45% — 0.35-0.60
+    30% — 0.60-0.90
+    17% — 0.90-1.40
+     7% — 1.40-3.00
+     1% — 3.00-10.00
+  */
+
+  if (roll < 0.45) {
 
     multiplier =
-      0.20 +
-      Math.random() * 0.35;
+      0.35 +
+      Math.random() * 0.25;
 
   }
 
-  else if (roll < 0.85) {
+  else if (roll < 0.75) {
 
     multiplier =
-      0.55 +
-      Math.random() * 0.35;
+      0.60 +
+      Math.random() * 0.30;
 
   }
 
-  else if (roll < 0.95) {
+  else if (roll < 0.92) {
 
     multiplier =
       0.90 +
@@ -1985,13 +1765,11 @@ function calculateReward(currentCase) {
 
   }
 
-
   let reward =
     Math.floor(
       currentCase.price *
       multiplier
     );
-
 
   reward =
     Math.max(
@@ -1999,17 +1777,14 @@ function calculateReward(currentCase) {
       reward
     );
 
-
   reward =
     Math.min(
       currentCase.max,
       reward
     );
 
-
   /*
-    2× удача повышает шанс
-    на верхнюю часть диапазона.
+    2× удача
   */
 
   if (luckyActive) {
@@ -2017,8 +1792,7 @@ function calculateReward(currentCase) {
     reward =
       randomInt(
         Math.ceil(
-          (currentCase.min +
-          currentCase.max) / 2
+          currentCase.price * 0.9
         ),
         currentCase.max
       );
@@ -2026,7 +1800,6 @@ function calculateReward(currentCase) {
     luckyActive = false;
 
   }
-
 
   return reward;
 
@@ -2041,50 +1814,38 @@ function getItems() {
 
   const result = [];
 
-
-  /*
-    Шансы предметов:
-
-    Обычный      50%
-    Необычный    25%
-    Редкий       14%
-    Эпический     7%
-    Легендарный   3%
-    Мифический    1%
-  */
-
   const rarityRoll = () => {
 
     const r =
       Math.random() * 100;
 
     if (r < 50) return 1;
+
     if (r < 75) return 2;
+
     if (r < 89) return 3;
+
     if (r < 96) return 4;
+
     if (r < 99) return 5;
 
     return 6;
 
   };
 
-
   const count =
     randomInt(2,5);
-
 
   while (result.length < count) {
 
     const rarity =
       rarityRoll();
 
-
     const possible =
       itemPool.filter(
         item =>
           item.rarityLevel === rarity
       );
-
 
     const item =
       possible[
@@ -2094,11 +1855,9 @@ function getItems() {
         )
       ];
 
-
     result.push(item);
 
   }
-
 
   return result;
 
@@ -2117,7 +1876,6 @@ function openCase() {
   const currentCase =
     cases[caseId];
 
-
   if (
     balance <
     currentCase.price
@@ -2131,16 +1889,13 @@ function openCase() {
 
   }
 
-
   const oldLevel =
     getLevel();
-
 
   /* ПЛАТИМ */
 
   balance -=
     currentCase.price;
-
 
   /* НАГРАДА */
 
@@ -2149,22 +1904,14 @@ function openCase() {
       currentCase
     );
 
-
   balance += reward;
 
   totalEarned += reward;
-
 
   /* ПРЕДМЕТЫ */
 
   const items =
     getItems();
-
-
-  /*
-    Определяем самый высокий
-    уровень редкости.
-  */
 
   const highestItem =
     items.reduce(
@@ -2175,13 +1922,11 @@ function openCase() {
           : best
     );
 
-
   /* СТАТИСТИКА */
 
   opened++;
 
   xp += XP_PER_CASE;
-
 
   /* УДАЧА */
 
@@ -2190,7 +1935,6 @@ function openCase() {
     luckyProgress++;
 
   }
-
 
   if (
     luckyProgress >= 10
@@ -2202,10 +1946,8 @@ function openCase() {
 
   }
 
-
   const newLevel =
     getLevel();
-
 
   /* НАГРАДЫ ЗА НОВЫЕ УРОВНИ */
 
@@ -2229,11 +1971,9 @@ function openCase() {
 
   }
 
-
   save();
 
   updateUI();
-
 
   /* СУНДУК */
 
@@ -2242,7 +1982,6 @@ function openCase() {
       "chest"
     );
 
-
   chest.classList.remove(
     "shake"
   );
@@ -2250,7 +1989,6 @@ function openCase() {
   chest.classList.remove(
     "opened"
   );
-
 
   chest.classList.remove(
     "glow-common"
@@ -2276,19 +2014,11 @@ function openCase() {
     "glow-mythic"
   );
 
-
   void chest.offsetWidth;
-
 
   chest.classList.add(
     "shake"
   );
-
-
-  /*
-    Свет появляется перед
-    открытием сундука.
-  */
 
   setTimeout(() => {
 
@@ -2301,7 +2031,6 @@ function openCase() {
 
   }, 220);
 
-
   setTimeout(() => {
 
     chest.classList.add(
@@ -2309,7 +2038,6 @@ function openCase() {
     );
 
   }, 450);
-
 
   setTimeout(() => {
 
@@ -2369,12 +2097,10 @@ function showReward(
       "ru-RU"
     );
 
-
   const levelMessage =
     document.getElementById(
       "newLevel"
     );
-
 
   if (leveledUp) {
 
@@ -2394,31 +2120,25 @@ function showReward(
 
   }
 
-
   const rarityResult =
     document.getElementById(
       "rarityResult"
     );
 
-
   rarityResult.textContent =
     "✨ Лучшая редкость: " +
     highestItem.rarity;
 
-
   rarityResult.className =
     "rarity-result " +
     highestItem.rarityClass;
-
 
   const container =
     document.getElementById(
       "items"
     );
 
-
   container.innerHTML = "";
-
 
   items.forEach(item => {
 
@@ -2427,10 +2147,8 @@ function showReward(
         "div"
       );
 
-
     div.className =
       "item";
-
 
     div.innerHTML = `
 
@@ -2448,11 +2166,9 @@ function showReward(
 
     `;
 
-
     container.appendChild(div);
 
   });
-
 
   document.getElementById(
     "rewardModal"
@@ -2475,12 +2191,10 @@ function closeReward() {
     "hidden"
   );
 
-
   const chest =
     document.getElementById(
       "chest"
     );
-
 
   chest.classList.remove(
     "opened"
@@ -2501,6 +2215,11 @@ updateUI();
 
 </script>
 
+<audio
+  id="sound-open"
+  src="sounds/open.mp3"
+  preload="auto">
+</audio>
+
 </body>
-<audio id="sound-open" src="sounds/open.mp3" preload="auto"></audio>
 </html>
