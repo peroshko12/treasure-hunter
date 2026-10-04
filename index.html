@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treasure Hunter</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #07111f;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  max-width: 500px;
+  margin: auto;
+  padding: 18px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.balance {
+  background: #12243a;
+  padding: 10px 14px;
+  border-radius: 14px;
+}
+
+.location {
+  text-align: center;
+  margin-top: 30px;
+  color: #8fa7c2;
+}
+
+.place {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 800;
+  margin-top: 6px;
+}
+
+.chest {
+  height: 330px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 120px;
+}
+
+.open {
+  width: 100%;
+  padding: 18px;
+  border: 0;
+  border-radius: 18px;
+  background: #f4b942;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.stats {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.stat {
+  flex: 1;
+  background: #101f32;
+  padding: 14px;
+  border-radius: 15px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="top">
+    <div class="title">💎 Treasure Hunter</div>
+    <div class="balance">💰 10 000</div>
+  </div>
+
+  <div class="location">
+    ТЕКУЩАЯ ЛОКАЦИЯ
+  </div>
+
+  <div class="place">
+    🏝️ Старый пляж
+  </div>
+
+  <div class="chest">
+    🎁
+  </div>
+
+  <button class="open" onclick="openChest()">
+    🎁 ОТКРЫТЬ СУНДУК
+  </button>
+
+  <div class="stats">
+    <div class="stat">⚡ 10/10</div>
+    <div class="stat">📈 Ур. 1</div>
+    <div class="stat">🔎 0</div>
+  </div>
+
+</div>
+
+<script>
+function openChest() {
+  alert("🎉 Сундук открыт!\n\n🪙 Ты нашёл Старые монеты!");
+}
+</script>
+
+</body>
+</html>
