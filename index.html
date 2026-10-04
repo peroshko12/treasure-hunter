@@ -222,3 +222,208 @@ body {
   background: #29435d;
   color: white;
   font-size: 17px
+}
+
+/* Закрытие окна */
+.close {
+  width: 100%;
+  margin-top: 18px;
+  padding: 14px;
+  border: 0;
+  border-radius: 14px;
+  background: #29435d;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="top">
+    <div class="title">💎 Treasure Hunter</div>
+    <div class="balance" id="balance">💰 10 000</div>
+  </div>
+
+  <div class="location">ТЕКУЩАЯ ЛОКАЦИЯ</div>
+  <div class="place">🏝️ Старый пляж</div>
+
+  <div class="chest-area">
+
+    <div class="chest" id="chest">
+      <div class="chest-lid"></div>
+      <div class="chest-body"></div>
+      <div class="lock"></div>
+    </div>
+
+  </div>
+
+  <button class="open" onclick="openChest()">
+    🎁 ОТКРЫТЬ ЯЩИК — 2 500 💰
+  </button>
+
+  <div class="stats">
+    <div class="stat">⚡ 10/10</div>
+    <div class="stat">📈 Ур. 1</div>
+    <div class="stat" id="opened">🎁 0</div>
+  </div>
+
+</div>
+
+<div class="modal" id="modal">
+
+  <div class="box">
+
+    <h2>🎉 Ящик открыт!</h2>
+
+    <div id="moneyResult"></div>
+
+    <div class="rewards" id="rewards"></div>
+
+    <button class="close" onclick="closeModal()">
+      Продолжить
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+let balance = 10000;
+let opened = 0;
+const price = 2500;
+
+const items = [
+  ["🪙", "Старинная монета"],
+  ["🗝️", "Старый ключ"],
+  ["💎", "Кристалл"],
+  ["🏺", "Старая реликвия"],
+  ["🧭", "Компас"],
+  ["👑", "Золотая реликвия"]
+];
+
+function random(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function openChest() {
+
+  if (balance < price) {
+    alert("❌ Недостаточно денег!\n\nНужно 2 500 💰");
+    return;
+  }
+
+  balance -= price;
+  updateBalance();
+
+  const chest = document.getElementById("chest");
+
+  chest.classList.remove("opened");
+  chest.classList.add("shake");
+
+  setTimeout(function() {
+
+    chest.classList.remove("shake");
+    chest.classList.add("opened");
+
+    setTimeout(function() {
+      createRewards();
+    }, 700);
+
+  }, 900);
+}
+
+function createRewards() {
+
+  const roll = Math.random() * 100;
+  let money;
+
+  if (roll < 25) {
+    money = random(300, 800);
+  } else if (roll < 50) {
+    money = random(800, 1500);
+  } else if (roll < 70) {
+    money = random(1500, 2400);
+  } else if (roll < 85) {
+    money = random(2500, 5000);
+  } else if (roll < 97) {
+    money = random(5000, 15000);
+  } else {
+    money = random(15000, 50000);
+  }
+
+  balance += money;
+  opened++;
+
+  updateBalance();
+
+  const result = document.getElementById("moneyResult");
+  const difference = money - price;
+
+  if (difference < 0) {
+    result.innerHTML =
+      "💰 Получено: <b>" +
+      money.toLocaleString("ru-RU") +
+      "</b><br>📉 Убыток: <b>" +
+      difference.toLocaleString("ru-RU") +
+      " 💰</b>";
+  } else if (difference === 0) {
+    result.innerHTML = "💰 Ящик окупился!";
+  } else {
+    result.innerHTML =
+      "💰 Получено: <b>+" +
+      money.toLocaleString("ru-RU") +
+      "</b><br>📈 Прибыль: <b>+" +
+      difference.toLocaleString("ru-RU") +
+      " 💰</b>";
+  }
+
+  const rewards = document.getElementById("rewards");
+  rewards.innerHTML = "";
+
+  const count = random(2, 5);
+
+  for (let i = 0; i < count; i++) {
+
+    const item = items[random(0, items.length - 1)];
+    const quantity = random(1, 4);
+
+    const div = document.createElement("div");
+
+    div.className = "reward";
+
+    div.innerHTML =
+      "<span>" + item[0] + " " + item[1] +
+      "</span><b>×" + quantity + "</b>";
+
+    rewards.appendChild(div);
+  }
+
+  document.getElementById("modal").classList.add("show");
+}
+
+function closeModal() {
+
+  document.getElementById("modal").classList.remove("show");
+  document.getElementById("chest").classList.remove("opened");
+
+}
+
+function updateBalance() {
+
+  document.getElementById("balance").innerHTML =
+    "💰 " + balance.toLocaleString("ru-RU");
+
+  document.getElementById("opened").innerHTML =
+    "🎁 " + opened;
+
+}
+
+</script>
+
+</body>
+</html>
