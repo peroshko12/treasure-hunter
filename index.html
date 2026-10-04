@@ -25,7 +25,7 @@ button {
 
 .screen {
   min-height: 100vh;
-  padding: 20px 16px;
+  padding: 18px 16px;
   text-align: center;
 }
 
@@ -33,127 +33,185 @@ button {
   display: none !important;
 }
 
-/* ===== ГЛАВНЫЙ ЭКРАН ===== */
+/* ===== ВЕРХ ===== */
 
 .top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  gap: 8px;
 }
 
-.balance {
+.balance,
+.level-box {
   background: #182840;
   border: 1px solid #294568;
   border-radius: 14px;
-  padding: 10px 14px;
-  font-size: 17px;
+  padding: 10px 13px;
   font-weight: bold;
 }
 
-.level {
-  background: #182840;
-  border: 1px solid #294568;
-  border-radius: 14px;
-  padding: 10px 14px;
+.balance {
+  font-size: 16px;
+}
+
+.level-box {
   font-size: 15px;
 }
 
+/* ===== ЗАГОЛОВОК ===== */
+
 h1 {
-  margin: 15px 0 4px;
-  font-size: 32px;
+  margin: 18px 0 4px;
+  font-size: 31px;
 }
 
 .subtitle {
   color: #8fa8c4;
-  margin-bottom: 20px;
-}
-
-/* ===== СЛОТ КЕЙСА ===== */
-
-.case-area {
-  position: relative;
-  width: 100%;
-  max-width: 420px;
-  margin: 10px auto 0;
-  min-height: 430px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* ===== КНОПКА КЕЙСОВ ===== */
-
-.cases-button {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-
-  width: 58px;
-  height: 58px;
-
-  border: 1px solid #365578;
-  border-radius: 18px;
-
-  background: #14253a;
-  color: white;
-
-  font-size: 24px;
-  cursor: pointer;
-
-  box-shadow: 0 8px 20px rgba(0,0,0,.25);
-}
-
-.cases-button span {
-  display: block;
-  font-size: 10px;
-  margin-top: 2px;
-  color: #9db4cc;
-}
-
-.cases-button:active {
-  transform: translateY(-50%) scale(.94);
-}
-
-/* ===== ВЫБРАННЫЙ КЕЙС ===== */
-
-.selected-case {
-  width: 250px;
-  padding: 22px 16px;
-
-  background: linear-gradient(180deg, #162b45, #0e1d31);
-  border: 1px solid #345677;
-  border-radius: 24px;
-
-  box-shadow: 0 15px 40px rgba(0,0,0,.35);
-}
-
-.case-icon {
-  font-size: 80px;
   margin-bottom: 10px;
 }
 
+/* ===== XP ===== */
+
+.xp-box {
+  width: 100%;
+  max-width: 400px;
+  margin: 12px auto 0;
+}
+
+.xp-text {
+  display: flex;
+  justify-content: space-between;
+  color: #9bb1c9;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.xp-bar {
+  height: 10px;
+  background: #0d1928;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #263d57;
+}
+
+.xp-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #4b9cff, #72d6ff);
+  border-radius: 10px;
+  transition: width .4s ease;
+}
+
+/* ===== СУНДУК ===== */
+
+.chest-area {
+  height: 310px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.chest {
+  position: relative;
+  width: 190px;
+  height: 155px;
+  transition: transform .2s;
+}
+
+.chest-body {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 190px;
+  height: 110px;
+
+  background: linear-gradient(180deg, #a85d25, #6e3516);
+  border: 5px solid #3b1d0b;
+  border-radius: 12px;
+}
+
+.chest-lid {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 190px;
+  height: 60px;
+
+  background: linear-gradient(180deg, #c97932, #874315);
+  border: 5px solid #3b1d0b;
+  border-radius: 15px 15px 5px 5px;
+
+  transform-origin: left bottom;
+  transition: transform .55s cubic-bezier(.2,.8,.2,1);
+  z-index: 2;
+}
+
+.lock {
+  position: absolute;
+  z-index: 5;
+
+  left: 50%;
+  top: 55%;
+
+  width: 34px;
+  height: 40px;
+
+  transform: translate(-50%, -50%);
+
+  background: #f1bd35;
+  border: 4px solid #704707;
+  border-radius: 7px;
+}
+
+.opened .chest-lid {
+  transform: translateY(-52px) rotate(-12deg);
+}
+
+.shake {
+  animation: shake .35s;
+}
+
+@keyframes shake {
+  0%,100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-8px) rotate(-2deg);
+  }
+
+  75% {
+    transform: translateX(8px) rotate(2deg);
+  }
+}
+
+/* ===== КЕЙС ===== */
+
 .case-name {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-top: -5px;
 }
 
 .case-price {
   color: #ffd84d;
   font-size: 18px;
   font-weight: bold;
+  margin-top: 7px;
 }
 
-/* ===== КНОПКА ОТКРЫТИЯ ===== */
+/* ===== ОТКРЫТЬ ===== */
 
 .open-button {
   width: 100%;
-  max-width: 280px;
+  max-width: 290px;
+
   padding: 16px;
-  margin-top: -25px;
+  margin-top: 12px;
 
   border: 0;
   border-radius: 16px;
@@ -164,7 +222,6 @@ h1 {
   font-size: 18px;
   font-weight: bold;
 
-  cursor: pointer;
   box-shadow: 0 8px 25px rgba(255,157,0,.25);
 }
 
@@ -179,7 +236,7 @@ h1 {
 /* ===== СТАТИСТИКА ===== */
 
 .stats {
-  margin: 24px auto 0;
+  margin: 22px auto 0;
   max-width: 420px;
 
   display: grid;
@@ -191,7 +248,7 @@ h1 {
   background: #111f33;
   border: 1px solid #253d59;
   border-radius: 14px;
-  padding: 13px;
+  padding: 12px;
 }
 
 .stat-title {
@@ -200,183 +257,9 @@ h1 {
 }
 
 .stat-value {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: bold;
   margin-top: 4px;
-}
-
-/* ===== ЭКРАН КЕЙСОВ ===== */
-
-.cases-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 22px;
-}
-
-.back-button {
-  width: 44px;
-  height: 44px;
-
-  border: 1px solid #294568;
-  border-radius: 13px;
-
-  background: #162840;
-  color: white;
-  font-size: 20px;
-}
-
-.cases-title {
-  flex: 1;
-  text-align: left;
-  font-size: 25px;
-  font-weight: bold;
-}
-
-.case-list {
-  max-width: 500px;
-  margin: auto;
-
-  display: grid;
-  gap: 12px;
-}
-
-.case-card {
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  gap: 14px;
-
-  padding: 16px;
-
-  background: #14253a;
-  border: 1px solid #2d4865;
-  border-radius: 18px;
-
-  text-align: left;
-}
-
-.case-card.locked {
-  opacity: .48;
-}
-
-.case-card-icon {
-  font-size: 42px;
-  width: 55px;
-  text-align: center;
-}
-
-.case-card-info {
-  flex: 1;
-}
-
-.case-card-name {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.case-card-price {
-  color: #ffd84d;
-  margin-top: 5px;
-}
-
-.lock-text {
-  font-size: 13px;
-  color: #a6b8ca;
-  margin-top: 5px;
-}
-
-.select-case {
-  border: 0;
-  border-radius: 11px;
-  padding: 10px 12px;
-
-  background: #2768a8;
-  color: white;
-
-  font-weight: bold;
-}
-
-.select-case:active {
-  transform: scale(.95);
-}
-
-/* ===== СУНДУК ===== */
-
-.chest-area {
-  position: absolute;
-  left: 50%;
-  top: 55%;
-  transform: translate(-50%, -50%);
-  display: none;
-}
-
-.chest {
-  position: relative;
-  width: 180px;
-  height: 145px;
-}
-
-.chest-body {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-
-  width: 180px;
-  height: 105px;
-
-  background: linear-gradient(180deg, #a85d25, #6e3516);
-  border: 5px solid #3b1d0b;
-  border-radius: 12px;
-}
-
-.chest-lid {
-  position: absolute;
-  left: 0;
-  top: 0;
-
-  width: 180px;
-  height: 55px;
-
-  background: linear-gradient(180deg, #c97932, #874315);
-  border: 5px solid #3b1d0b;
-  border-radius: 14px 14px 5px 5px;
-
-  transform-origin: left bottom;
-  transition: transform .55s cubic-bezier(.2,.8,.2,1);
-  z-index: 2;
-}
-
-.lock {
-  position: absolute;
-  z-index: 5;
-
-  left: 50%;
-  top: 50%;
-
-  width: 32px;
-  height: 38px;
-
-  transform: translate(-50%, -50%);
-
-  background: #f1bd35;
-  border: 4px solid #704707;
-  border-radius: 7px;
-}
-
-.opened .chest-lid {
-  transform: translateY(-48px) rotate(-12deg);
-}
-
-.shake {
-  animation: shake .35s;
-}
-
-@keyframes shake {
-  0%,100% { transform: translateX(0); }
-  25% { transform: translateX(-8px) rotate(-2deg); }
-  75% { transform: translateX(8px) rotate(2deg); }
 }
 
 /* ===== МОДАЛКА ===== */
@@ -389,8 +272,9 @@ h1 {
   justify-content: center;
   align-items: center;
 
-  background: rgba(0,0,0,.7);
+  background: rgba(0,0,0,.72);
   z-index: 100;
+
   padding: 20px;
 }
 
@@ -403,27 +287,39 @@ h1 {
   border-radius: 24px;
 
   padding: 22px;
-
-  box-shadow: 0 20px 60px rgba(0,0,0,.5);
 }
 
 .modal-title {
   font-size: 25px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .reward-money {
   color: #ffd84d;
   font-size: 27px;
   font-weight: bold;
-  margin-bottom: 15px;
+}
+
+.reward-xp {
+  color: #72c8ff;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 7px;
+}
+
+.new-level {
+  color: #70ff9a;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 8px;
 }
 
 .items {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 9px;
+  margin-top: 15px;
 }
 
 .item {
@@ -461,87 +357,146 @@ h1 {
   font-size: 16px;
   font-weight: bold;
 }
-
-/* ===== МОБИЛКА ===== */
-
-@media (max-width: 380px) {
-  .case-area {
-    min-height: 390px;
-  }
-
-  .selected-case {
-    width: 220px;
-  }
-
-  .cases-button {
-    width: 52px;
-    height: 52px;
-  }
-}
 </style>
 </head>
 
 <body>
 
-<!-- ===== ГЛАВНЫЙ ЭКРАН ===== -->
+<div class="screen">
 
-<div class="screen" id="homeScreen">
+  <!-- ВЕРХ -->
 
   <div class="top">
-    <div class="balance">💰 <span id="balance">10000</span></div>
-    <div class="level">⭐ Ур. <span id="level">1</span></div>
-  </div>
 
-  <h1>Treasure Hunter</h1>
-  <div class="subtitle">Открывай кейсы и собирай сокровища!</div>
-
-  <div class="case-area">
-
-    <!-- КЕЙС ПО ЦЕНТРУ -->
-    <div class="selected-case">
-      <div class="case-icon" id="selectedCaseIcon">📦</div>
-
-      <div class="case-name" id="selectedCaseName">
-        Обычный кейс
-      </div>
-
-      <div class="case-price">
-        💰 <span id="selectedCasePrice">2500</span>
-      </div>
+    <div class="balance">
+      💰 <span id="balance">10000</span>
     </div>
 
-    <!-- КНОПКА КЕЙСОВ СПРАВА -->
-    <button class="cases-button" onclick="showCases()">
-      📦
-      <span>Кейсы</span>
-    </button>
+    <div class="level-box">
+      ⭐ Ур. <span id="level">1</span>
+    </div>
 
   </div>
 
-  <button class="open-button" id="openButton" onclick="openCase()">
+
+  <h1>Treasure Hunter</h1>
+
+  <div class="subtitle">
+    Открывай кейсы и собирай сокровища!
+  </div>
+
+
+  <!-- XP -->
+
+  <div class="xp-box">
+
+    <div class="xp-text">
+      <span>⭐ XP</span>
+      <span>
+        <span id="xp">0</span> / <span id="xpNeed">1000</span>
+      </span>
+    </div>
+
+    <div class="xp-bar">
+      <div class="xp-fill" id="xpFill"></div>
+    </div>
+
+  </div>
+
+
+  <!-- СУНДУК -->
+
+  <div class="chest-area">
+
+    <div class="chest" id="chest">
+
+      <div class="chest-lid"></div>
+
+      <div class="chest-body"></div>
+
+      <div class="lock"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- НАЗВАНИЕ КЕЙСА -->
+
+  <div class="case-name" id="caseName">
+    Обычный кейс
+  </div>
+
+  <div class="case-price">
+    💰 <span id="casePrice">2 500</span>
+  </div>
+
+
+  <!-- ОТКРЫТЬ -->
+
+  <button
+    class="open-button"
+    id="openButton"
+    onclick="openCase()">
+
     ОТКРЫТЬ КЕЙС
+
   </button>
+
+
+  <!-- СТАТИСТИКА -->
 
   <div class="stats">
 
     <div class="stat">
-      <div class="stat-title">Открыто кейсов</div>
-      <div class="stat-value" id="opened">0</div>
+
+      <div class="stat-title">
+        Открыто кейсов
+      </div>
+
+      <div class="stat-value" id="opened">
+        0
+      </div>
+
     </div>
 
-    <div class="stat">
-      <div class="stat-title">Энергия</div>
-      <div class="stat-value">⚡ <span id="energy">10</span>/10</div>
-    </div>
 
     <div class="stat">
-      <div class="stat-title">Всего заработано</div>
-      <div class="stat-value">💰 <span id="totalEarned">0</span></div>
+
+      <div class="stat-title">
+        Энергия
+      </div>
+
+      <div class="stat-value">
+        ⚡ <span id="energy">10</span>/10
+      </div>
+
     </div>
 
+
     <div class="stat">
-      <div class="stat-title">Удача</div>
-      <div class="stat-value" id="luck">Обычная</div>
+
+      <div class="stat-title">
+        Всего заработано
+      </div>
+
+      <div class="stat-value">
+        💰 <span id="totalEarned">0</span>
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+        Удача
+      </div>
+
+      <div class="stat-value" id="luck">
+        Обычная
+      </div>
+
     </div>
 
   </div>
@@ -549,28 +504,7 @@ h1 {
 </div>
 
 
-<!-- ===== ЭКРАН КЕЙСОВ ===== -->
-
-<div class="screen hidden" id="casesScreen">
-
-  <div class="cases-header">
-
-    <button class="back-button" onclick="showHome()">
-      ←
-    </button>
-
-    <div class="cases-title">
-      📦 Кейсы
-    </div>
-
-  </div>
-
-  <div class="case-list" id="caseList"></div>
-
-</div>
-
-
-<!-- ===== МОДАЛКА ===== -->
+<!-- ===== НАГРАДА ===== -->
 
 <div class="modal hidden" id="rewardModal">
 
@@ -584,10 +518,22 @@ h1 {
       +💰 <span id="rewardMoney">0</span>
     </div>
 
+    <div class="reward-xp">
+      ⭐ +100 XP
+    </div>
+
+    <div class="new-level hidden" id="newLevel">
+      🎊 Новый уровень!
+    </div>
+
     <div class="items" id="items"></div>
 
-    <button class="close-button" onclick="closeReward()">
+    <button
+      class="close-button"
+      onclick="closeReward()">
+
       ЗАБРАТЬ
+
     </button>
 
   </div>
@@ -598,45 +544,37 @@ h1 {
 <script>
 
 /* =========================
-   ДАННЫЕ КЕЙСОВ
+   КЕЙСЫ
 ========================= */
 
 const cases = {
 
   1: {
     name: "Обычный кейс",
-    icon: "📦",
     price: 2500,
     min: 500,
-    max: 10000,
-    level: 1
+    max: 10000
   },
 
   2: {
     name: "Военный кейс",
-    icon: "🪖",
     price: 10000,
     min: 2000,
-    max: 50000,
-    level: 5
+    max: 50000
   },
 
   3: {
     name: "Алмазный кейс",
-    icon: "💎",
     price: 50000,
     min: 15000,
-    max: 200000,
-    level: 10
+    max: 200000
   },
 
   4: {
     name: "Легендарный кейс",
-    icon: "👑",
     price: 250000,
     min: 40000,
-    max: 1000000,
-    level: 20
+    max: 1000000
   }
 
 };
@@ -707,6 +645,9 @@ if (isNaN(energy)) {
 let totalEarned =
   Number(localStorage.getItem("totalEarned")) || 0;
 
+let xp =
+  Number(localStorage.getItem("xp")) || 0;
+
 let luckyActive =
   localStorage.getItem("luckyActive") === "true";
 
@@ -715,11 +656,11 @@ let luckyProgress =
 
 
 /* =========================
-   ВЫБРАННЫЙ КЕЙС
+   XP
 ========================= */
 
-let selectedCase =
-  Number(localStorage.getItem("selectedCase")) || 1;
+const XP_PER_CASE = 100;
+const XP_PER_LEVEL = 1000;
 
 
 /* =========================
@@ -728,221 +669,164 @@ let selectedCase =
 
 function getLevel() {
 
-  return Math.floor(opened / 10) + 1;
+  return Math.floor(xp / XP_PER_LEVEL) + 1;
 
 }
 
 
 /* =========================
-   СОХРАНИТЬ
+   КАКОЙ КЕЙС ДОСТУПЕН
+========================= */
+
+function getCurrentCase() {
+
+  const level = getLevel();
+
+  if (level >= 20) {
+    return 4;
+  }
+
+  if (level >= 10) {
+    return 3;
+  }
+
+  if (level >= 5) {
+    return 2;
+  }
+
+  return 1;
+
+}
+
+
+/* =========================
+   СОХРАНЕНИЕ
 ========================= */
 
 function save() {
 
-  localStorage.setItem("balance", balance);
-  localStorage.setItem("opened", opened);
-  localStorage.setItem("energy", energy);
-  localStorage.setItem("totalEarned", totalEarned);
-  localStorage.setItem("luckyActive", luckyActive);
-  localStorage.setItem("luckyProgress", luckyProgress);
-  localStorage.setItem("selectedCase", selectedCase);
+  localStorage.setItem(
+    "balance",
+    balance
+  );
+
+  localStorage.setItem(
+    "opened",
+    opened
+  );
+
+  localStorage.setItem(
+    "energy",
+    energy
+  );
+
+  localStorage.setItem(
+    "totalEarned",
+    totalEarned
+  );
+
+  localStorage.setItem(
+    "xp",
+    xp
+  );
+
+  localStorage.setItem(
+    "luckyActive",
+    luckyActive
+  );
+
+  localStorage.setItem(
+    "luckyProgress",
+    luckyProgress
+  );
 
 }
 
 
 /* =========================
-   ОБНОВИТЬ ЭКРАН
+   ОБНОВЛЕНИЕ
 ========================= */
 
 function updateUI() {
 
   const level = getLevel();
 
-  document.getElementById("balance").textContent =
+  const currentCaseId =
+    getCurrentCase();
+
+  const currentCase =
+    cases[currentCaseId];
+
+
+  document.getElementById("balance")
+    .textContent =
     balance.toLocaleString("ru-RU");
 
-  document.getElementById("opened").textContent =
-    opened;
 
-  document.getElementById("energy").textContent =
-    energy;
-
-  document.getElementById("level").textContent =
+  document.getElementById("level")
+    .textContent =
     level;
 
-  document.getElementById("totalEarned").textContent =
+
+  document.getElementById("xp")
+    .textContent =
+    xp % XP_PER_LEVEL;
+
+
+  document.getElementById("xpNeed")
+    .textContent =
+    XP_PER_LEVEL;
+
+
+  const xpPercent =
+    ((xp % XP_PER_LEVEL) /
+    XP_PER_LEVEL) * 100;
+
+
+  document.getElementById("xpFill")
+    .style.width =
+    xpPercent + "%";
+
+
+  document.getElementById("caseName")
+    .textContent =
+    currentCase.name;
+
+
+  document.getElementById("casePrice")
+    .textContent =
+    currentCase.price.toLocaleString("ru-RU");
+
+
+  document.getElementById("opened")
+    .textContent =
+    opened;
+
+
+  document.getElementById("energy")
+    .textContent =
+    energy;
+
+
+  document.getElementById("totalEarned")
+    .textContent =
     totalEarned.toLocaleString("ru-RU");
 
-  document.getElementById("luck").textContent =
-    luckyActive ? "🔥 2× удача" : "Обычная";
 
+  document.getElementById("luck")
+    .textContent =
+    luckyActive
+      ? "🔥 2× удача"
+      : "Обычная";
 
-  const current = cases[selectedCase];
 
-  document.getElementById("selectedCaseIcon").textContent =
-    current.icon;
+  const button =
+    document.getElementById("openButton");
 
-  document.getElementById("selectedCaseName").textContent =
-    current.name;
 
-  document.getElementById("selectedCasePrice").textContent =
-    current.price.toLocaleString("ru-RU");
-
-
-  const button = document.getElementById("openButton");
-
-  if (balance < current.price || energy <= 0) {
-
-    button.disabled = true;
-
-  } else {
-
-    button.disabled = false;
-
-  }
-
-}
-
-
-/* =========================
-   ГЛАВНЫЙ ЭКРАН
-========================= */
-
-function showHome() {
-
-  document.getElementById("homeScreen")
-    .classList.remove("hidden");
-
-  document.getElementById("casesScreen")
-    .classList.add("hidden");
-
-  updateUI();
-
-}
-
-
-/* =========================
-   ЭКРАН КЕЙСОВ
-========================= */
-
-function showCases() {
-
-  document.getElementById("homeScreen")
-    .classList.add("hidden");
-
-  document.getElementById("casesScreen")
-    .classList.remove("hidden");
-
-  renderCases();
-
-}
-
-
-/* =========================
-   СПИСОК КЕЙСОВ
-========================= */
-
-function renderCases() {
-
-  const list =
-    document.getElementById("caseList");
-
-  const level = getLevel();
-
-  list.innerHTML = "";
-
-  for (const id in cases) {
-
-    const c = cases[id];
-
-    const unlocked =
-      level >= c.level;
-
-    const card =
-      document.createElement("div");
-
-    card.className =
-      "case-card" +
-      (unlocked ? "" : " locked");
-
-
-    let buttonHTML = "";
-
-    if (unlocked) {
-
-      buttonHTML = `
-        <button
-          class="select-case"
-          onclick="selectCase(${id})">
-          ВЫБРАТЬ
-        </button>
-      `;
-
-    } else {
-
-      buttonHTML = `
-        <div class="lock-text">
-          🔒 ${c.level} уровень
-        </div>
-      `;
-
-    }
-
-
-    card.innerHTML = `
-
-      <div class="case-card-icon">
-        ${c.icon}
-      </div>
-
-      <div class="case-card-info">
-
-        <div class="case-card-name">
-          ${c.name}
-        </div>
-
-        <div class="case-card-price">
-          💰 ${c.price.toLocaleString("ru-RU")}
-        </div>
-
-        ${
-          !unlocked
-          ? `<div class="lock-text">
-               🔒 Откроется с ${c.level} уровня
-             </div>`
-          : ""
-        }
-
-      </div>
-
-      ${buttonHTML}
-
-    `;
-
-    list.appendChild(card);
-
-  }
-
-}
-
-
-/* =========================
-   ВЫБРАТЬ КЕЙС
-========================= */
-
-function selectCase(id) {
-
-  const c = cases[id];
-
-  if (getLevel() < c.level) {
-    return;
-  }
-
-  selectedCase = id;
-
-  save();
-
-  showHome();
+  button.disabled =
+    balance < currentCase.price ||
+    energy <= 0;
 
 }
 
@@ -954,27 +838,34 @@ function selectCase(id) {
 function randomInt(min, max) {
 
   return Math.floor(
-    Math.random() * (max - min + 1)
+    Math.random() *
+    (max - min + 1)
   ) + min;
 
 }
 
 
 /* =========================
-   ОТКРЫТИЕ КЕЙСА
+   ОТКРЫТИЕ
 ========================= */
 
 function openCase() {
 
-  const c = cases[selectedCase];
+  const caseId =
+    getCurrentCase();
 
-  if (balance < c.price) {
+  const currentCase =
+    cases[caseId];
+
+
+  if (balance < currentCase.price) {
 
     alert("Недостаточно денег!");
 
     return;
 
   }
+
 
   if (energy <= 0) {
 
@@ -985,41 +876,49 @@ function openCase() {
   }
 
 
-  /* Снимаем цену */
+  const oldLevel =
+    getLevel();
 
-  balance -= c.price;
+
+  /* Оплата кейса */
+
+  balance -= currentCase.price;
 
   energy--;
 
 
-  /* Шанс удачи */
+  /* Награда */
 
   let reward;
 
 
   if (luckyActive) {
 
-    reward =
-      randomInt(
-        Math.ceil((c.min + c.max) / 2),
-        c.max
-      );
+    reward = randomInt(
+      Math.ceil(
+        (currentCase.min +
+        currentCase.max) / 2
+      ),
+      currentCase.max
+    );
 
     luckyActive = false;
 
   } else {
 
-    reward =
-      randomInt(c.min, c.max);
+    reward = randomInt(
+      currentCase.min,
+      currentCase.max
+    );
 
   }
 
 
-  /* Маленький шанс выбить максимум */
+  /* 1% шанс максимальной награды */
 
   if (Math.random() < 0.01) {
 
-    reward = c.max;
+    reward = currentCase.max;
 
   }
 
@@ -1028,12 +927,21 @@ function openCase() {
 
   totalEarned += reward;
 
+
+  /* Статистика */
+
   opened++;
+
+
+  /* XP */
+
+  xp += XP_PER_CASE;
+
+
+  /* Удача */
 
   luckyProgress++;
 
-
-  /* Каждые 10 кейсов — удача */
 
   if (luckyProgress >= 10) {
 
@@ -1044,11 +952,8 @@ function openCase() {
   }
 
 
-  /* Не даём балансу уйти ниже нуля */
-
-  if (balance < 0) {
-    balance = 0;
-  }
+  const newLevel =
+    getLevel();
 
 
   save();
@@ -1056,9 +961,35 @@ function openCase() {
   updateUI();
 
 
-  /* Показываем награду */
+  /* Анимация сундука */
 
-  showReward(reward);
+  const chest =
+    document.getElementById("chest");
+
+
+  chest.classList.remove("shake");
+  chest.classList.remove("opened");
+
+
+  void chest.offsetWidth;
+
+
+  chest.classList.add("shake");
+
+
+  setTimeout(() => {
+
+    chest.classList.add("opened");
+
+  }, 350);
+
+
+  /* Награда */
+
+  showReward(
+    reward,
+    newLevel > oldLevel
+  );
 
 }
 
@@ -1067,11 +998,38 @@ function openCase() {
    НАГРАДА
 ========================= */
 
-function showReward(reward) {
+function showReward(
+  reward,
+  leveledUp
+) {
 
   document.getElementById("rewardMoney")
     .textContent =
     reward.toLocaleString("ru-RU");
+
+
+  const levelMessage =
+    document.getElementById("newLevel");
+
+
+  if (leveledUp) {
+
+    levelMessage.textContent =
+      "🎊 Уровень повышен! Теперь " +
+      getLevel() +
+      " уровень";
+
+    levelMessage.classList.remove(
+      "hidden"
+    );
+
+  } else {
+
+    levelMessage.classList.add(
+      "hidden"
+    );
+
+  }
 
 
   const items =
@@ -1091,11 +1049,17 @@ function showReward(reward) {
 
     const item =
       itemPool[
-        randomInt(0, itemPool.length - 1)
+        randomInt(
+          0,
+          itemPool.length - 1
+        )
       ];
 
+
     if (!used.includes(item)) {
+
       used.push(item);
+
     }
 
   }
@@ -1106,7 +1070,9 @@ function showReward(reward) {
     const div =
       document.createElement("div");
 
+
     div.className = "item";
+
 
     div.innerHTML = `
 
@@ -1124,13 +1090,15 @@ function showReward(reward) {
 
     `;
 
+
     items.appendChild(div);
 
   });
 
 
-  document.getElementById("rewardModal")
-    .classList.remove("hidden");
+  document.getElementById(
+    "rewardModal"
+  ).classList.remove("hidden");
 
 }
 
@@ -1141,14 +1109,23 @@ function showReward(reward) {
 
 function closeReward() {
 
-  document.getElementById("rewardModal")
-    .classList.add("hidden");
+  document.getElementById(
+    "rewardModal"
+  ).classList.add("hidden");
+
+
+  const chest =
+    document.getElementById("chest");
+
+
+  chest.classList.remove("opened");
+  chest.classList.remove("shake");
 
 }
 
 
 /* =========================
-   СТАРТ
+   ЗАПУСК
 ========================= */
 
 updateUI();
