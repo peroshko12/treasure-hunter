@@ -6,1053 +6,2122 @@
 <title>Treasure Hunter</title>
 
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-
-html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#0b0e14;
-  color:#fff;
-  font-family:Arial,sans-serif;
-}
-
+*{box-sizing:border-box}
 body{
-  display:flex;
-  justify-content:center;
+margin:0;
+font-family:Arial,sans-serif;
+background:linear-gradient(180deg,#10131c,#080a10);
+color:white;
+overflow-x:hidden
 }
-
-button{
-  border:0;
-  color:white;
-  cursor:pointer;
-}
-
-#app{
-  width:100%;
-  max-width:480px;
-  height:100%;
-  position:relative;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 50% 25%,#20283a 0,#101521 35%,#0b0e14 75%);
-}
-
-.screen{
-  position:absolute;
-  inset:0;
-  padding:18px;
-  overflow:hidden;
-}
-
-.hidden{display:none!important}
-
-.top{
-  display:flex;
-  justify-content:flex-end;
-}
-
-.player-info{
-  background:#171d29;
-  border:1px solid #293244;
-  border-radius:12px;
-  padding:8px 12px;
-  font-size:13px;
-  color:#b9c2d3;
-}
-
-.case-area{
-  height:calc(100% - 65px);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding-bottom:30px;
-}
-
-.case-name{
-  font-size:26px;
-  font-weight:800;
-  margin-bottom:5px;
-}
-
-.case-price{
-  color:#aeb7c8;
-  margin-bottom:20px;
-}
-
-.chest{
-  width:190px;
-  height:145px;
-  position:relative;
-  margin:5px 0 25px;
-  transition:.15s;
-}
-
-.chest.shake{
-  animation:shake .45s;
-}
-
-.chest.glow{
-  filter:drop-shadow(0 0 25px #fff);
-}
-
-@keyframes shake{
-  0%,100%{transform:translateX(0) rotate(0)}
-  20%{transform:translateX(-9px) rotate(-3deg)}
-  40%{transform:translateX(9px) rotate(3deg)}
-  60%{transform:translateX(-7px) rotate(-2deg)}
-  80%{transform:translateX(7px) rotate(2deg)}
-}
-
-.chest-body{
-  position:absolute;
-  bottom:0;
-  left:0;
-  width:190px;
-  height:105px;
-  border-radius:8px 8px 15px 15px;
-  background:linear-gradient(#9a5c28,#633817);
-  border:6px solid #3a2112;
-  box-shadow:inset 0 0 0 3px #bd7737;
-}
-
-.chest-lid{
-  position:absolute;
-  top:8px;
-  left:0;
-  width:190px;
-  height:62px;
-  border-radius:14px 14px 7px 7px;
-  background:linear-gradient(#b96f31,#70401d);
-  border:6px solid #3a2112;
-  transform-origin:bottom;
-  transition:.45s;
-  z-index:3;
-}
-
-.chest.open .chest-lid{
-  transform:rotateX(105deg);
-}
-
-.chest-lock{
-  position:absolute;
-  z-index:5;
-  top:48px;
-  left:78px;
-  width:34px;
-  height:38px;
-  border-radius:5px;
-  background:#e3b84f;
-  border:4px solid #5b4013;
-}
-
-.case1 .chest-body,.case1 .chest-lid{
-  background:linear-gradient(#a9662e,#633817);
-}
-
-.case2 .chest-body,.case2 .chest-lid{
-  background:linear-gradient(#5d6871,#303840);
-}
-
-.case3 .chest-body,.case3 .chest-lid{
-  background:linear-gradient(#5bdcff,#176cbd);
-}
-
-.case4 .chest-body,.case4 .chest-lid{
-  background:linear-gradient(#ffd95a,#a87509);
-}
-
-.case5 .chest-body,.case5 .chest-lid{
-  background:linear-gradient(#47223c,#170d1c);
-}
-
-.case6 .chest-body,.case6 .chest-lid{
-  background:linear-gradient(#38d9ff,#1551b8);
-}
-
-.case7 .chest-body,.case7 .chest-lid{
-  background:linear-gradient(#ff6b20,#651d0e);
-}
-
-.case8 .chest-body,.case8 .chest-lid{
-  background:linear-gradient(#45ff9a,#14553c);
-}
-
-.progress{
-  width:90%;
-  max-width:340px;
-  margin:5px auto;
-}
-
-.progress-text{
-  display:flex;
-  justify-content:space-between;
-  font-size:12px;
-  color:#9099ab;
-  margin-bottom:5px;
-}
-
-.bar{
-  height:8px;
-  background:#202633;
-  border-radius:10px;
-  overflow:hidden;
-}
-
-.fill{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#4a8cff,#8b5cff);
-  transition:.3s;
-}
-
-.luck{
-  margin-top:12px;
-  font-size:13px;
-  color:#ffd75c;
-}
-
-.open-btn{
-  margin-top:20px;
-  width:220px;
-  padding:15px;
-  border-radius:14px;
-  background:linear-gradient(135deg,#586dff,#784cff);
-  font-size:18px;
-  font-weight:800;
-  box-shadow:0 8px 25px #0008;
-}
-
-.open-btn:active{
-  transform:scale(.96);
-}
-
-.balance{
-  margin-top:14px;
-  font-size:16px;
-  color:#e8edf8;
-}
+button{font-family:inherit}
 
 .menu-btn{
-  position:absolute;
-  left:18px;
-  top:18px;
-  width:45px;
-  height:42px;
-  border-radius:12px;
-  background:#171d29;
-  font-size:23px;
-  z-index:10;
+position:fixed;
+left:12px;
+top:12px;
+width:46px;
+height:46px;
+border:0;
+border-radius:13px;
+background:#1b2230;
+color:white;
+font-size:25px;
+z-index:20;
+box-shadow:0 5px 20px #0008
 }
 
-.menu{
-  position:absolute;
-  inset:0;
-  z-index:20;
-  background:#0b0e14f5;
-  padding:70px 20px 20px;
-  overflow:auto;
+.side-menu{
+position:fixed;
+left:0;
+top:0;
+bottom:0;
+width:270px;
+max-width:82vw;
+background:#111621;
+border-right:1px solid #30394b;
+transform:translateX(-105%);
+transition:.25s;
+z-index:30;
+padding:75px 15px 20px
 }
+.side-menu.open{transform:translateX(0)}
 
 .menu-title{
-  font-size:28px;
-  font-weight:800;
-  margin-bottom:20px;
+font-size:22px;
+font-weight:bold;
+margin-bottom:18px
 }
 
 .menu-item{
-  width:100%;
-  padding:17px;
-  margin-bottom:10px;
-  text-align:left;
-  border-radius:14px;
-  background:#171d29;
-  border:1px solid #293244;
-  font-size:17px;
+width:100%;
+border:0;
+background:#1a2130;
+color:white;
+padding:15px;
+border-radius:12px;
+margin-bottom:10px;
+text-align:left;
+font-size:16px
 }
 
-.menu-item:active{
-  transform:scale(.98);
+.overlay{
+position:fixed;
+inset:0;
+background:#0008;
+display:none;
+z-index:25
+}
+.overlay.show{display:block}
+
+.container{
+max-width:650px;
+margin:auto;
+padding:75px 15px 30px
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px
+}
+
+.balance,.level{
+background:#181d29;
+border:1px solid #2b3344;
+border-radius:12px;
+padding:9px 12px;
+font-weight:bold
+}
+
+h1{
+text-align:center;
+margin:5px 0;
+font-size:31px
+}
+
+.subtitle{
+text-align:center;
+color:#8e99ad;
+margin-bottom:15px
+}
+
+.xp-wrap,.luck-wrap{
+background:#171d29;
+border-radius:13px;
+padding:10px;
+margin-bottom:10px
+}
+
+.bar{
+height:10px;
+background:#292f3d;
+border-radius:10px;
+overflow:hidden
+}
+
+.bar-fill{
+height:100%;
+width:0;
+transition:.3s;
+background:#39a7ff
+}
+
+.luck-fill{
+background:#ffbd32
+}
+
+.chest-area{
+height:285px;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative
+}
+
+.chest{
+width:205px;
+height:165px;
+position:relative;
+cursor:pointer;
+transition:.2s;
+filter:drop-shadow(0 15px 25px #0008)
+}
+
+.chest.shake{
+animation:shake .35s
+}
+
+@keyframes shake{
+0%,100%{transform:translateX(0)}
+25%{transform:translateX(-9px) rotate(-2deg)}
+75%{transform:translateX(9px) rotate(2deg)}
+}
+
+.chest-body{
+position:absolute;
+bottom:0;
+width:100%;
+height:105px;
+border-radius:12px 12px 20px 20px;
+background:linear-gradient(145deg,#a85a24,#653014);
+border:5px solid #3b1d0c
+}
+
+.chest-lid{
+position:absolute;
+top:18px;
+width:100%;
+height:70px;
+border-radius:20px 20px 8px 8px;
+background:linear-gradient(145deg,#d87a2c,#793813);
+border:5px solid #3b1d0c;
+transform-origin:center bottom;
+transition:.4s;
+z-index:3
+}
+
+.opened .chest-lid{
+transform:translateY(-53px) rotate(-12deg)
+}
+
+.lock{
+position:absolute;
+left:50%;
+top:72px;
+transform:translateX(-50%);
+width:34px;
+height:43px;
+background:#f4bd43;
+border:4px solid #633b0d;
+border-radius:7px;
+z-index:5
+}
+
+/* КЕЙСЫ */
+
+.case-normal .chest-body{
+background:linear-gradient(145deg,#a85a24,#653014)
+}
+.case-normal .chest-lid{
+background:linear-gradient(145deg,#d87a2c,#793813)
+}
+
+.case-military .chest-body{
+background:linear-gradient(145deg,#566b45,#20291c);
+border-color:#182016
+}
+.case-military .chest-lid{
+background:linear-gradient(145deg,#70885a,#303c27);
+border-color:#182016
+}
+
+.case-diamond .chest-body{
+background:linear-gradient(145deg,#52efff,#126aa5);
+border-color:#073d66
+}
+.case-diamond .chest-lid{
+background:linear-gradient(145deg,#a4fbff,#218bd0);
+border-color:#073d66
+}
+
+.case-legendary .chest-body{
+background:linear-gradient(145deg,#ffe36a,#b76a00);
+border-color:#704000
+}
+.case-legendary .chest-lid{
+background:linear-gradient(145deg,#fff08b,#d28a00);
+border-color:#704000
+}
+
+.case-mythic .chest-body{
+background:linear-gradient(145deg,#ff5b22,#64120a);
+border-color:#360600;
+box-shadow:inset 0 0 30px #ff3b00
+}
+.case-mythic .chest-lid{
+background:linear-gradient(145deg,#ff8b36,#77170b);
+border-color:#360600
+}
+
+.case-energy .chest-body{
+background:linear-gradient(145deg,#48e9ff,#2535bd);
+border-color:#18258c;
+box-shadow:inset 0 0 30px #32eaff
+}
+.case-energy .chest-lid{
+background:linear-gradient(145deg,#8cffff,#354fff);
+border-color:#18258c
+}
+
+.case-magma .chest-body{
+background:linear-gradient(145deg,#55220f,#170b08);
+border-color:#090504;
+box-shadow:inset 0 0 35px #ff4b00
+}
+.case-magma .chest-lid{
+background:linear-gradient(145deg,#8e3514,#28100a);
+border-color:#090504;
+box-shadow:inset 0 0 25px #ff5b00
+}
+
+.case-alien .chest-body{
+background:linear-gradient(145deg,#56ff82,#172e25);
+border-color:#092017;
+box-shadow:inset 0 0 35px #21ff71
+}
+.case-alien .chest-lid{
+background:linear-gradient(145deg,#9cffb4,#1d6242);
+border-color:#092017
+}
+
+.case-name{
+text-align:center;
+font-size:23px;
+font-weight:bold;
+margin-top:5px
+}
+
+.case-price{
+text-align:center;
+color:#ffc84d;
+margin:5px 0 14px
+}
+
+.open-btn{
+display:block;
+width:100%;
+border:0;
+padding:17px;
+border-radius:14px;
+background:linear-gradient(90deg,#ff9d22,#ffca3a);
+color:#241500;
+font-weight:bold;
+font-size:18px
+}
+
+.open-btn:disabled{
+opacity:.4
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:15px
+}
+
+.stat{
+background:#171d29;
+border:1px solid #283143;
+border-radius:13px;
+padding:12px;
+text-align:center
+}
+
+.stat small{
+color:#8792a5
+}
+
+.screen{
+display:none
+}
+
+.screen.active{
+display:block
 }
 
 .back-btn{
-  background:#171d29;
-  border:1px solid #293244;
-  padding:10px 15px;
-  border-radius:10px;
-  margin-bottom:20px;
+width:100%;
+padding:13px;
+border:0;
+border-radius:12px;
+background:#1c2433;
+color:white;
+font-size:16px;
+margin-bottom:15px
 }
 
-.screen-title{
-  text-align:center;
-  font-size:27px;
-  font-weight:800;
-  margin-bottom:25px;
+/* ИНВЕНТАРЬ */
+
+.inventory-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px
 }
 
-.card{
-  background:#171d29;
-  border:1px solid #293244;
-  border-radius:15px;
-  padding:15px;
-  margin-bottom:12px;
+.item{
+background:#171d29;
+border:1px solid #30394b;
+border-radius:14px;
+padding:13px;
+text-align:center
 }
 
-.stat-row{
-  display:flex;
-  justify-content:space-between;
-  padding:9px 0;
-  border-bottom:1px solid #242c3b;
+.item-icon{
+font-size:40px
 }
 
-.stat-row:last-child{
-  border-bottom:0;
+.item-name{
+margin-top:5px;
+font-weight:bold
 }
 
-.bp-list{
-  max-height:70vh;
-  overflow:auto;
+.item-rarity{
+color:#9ca8ba;
+font-size:13px
 }
 
-.bp-level{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:13px;
-  margin-bottom:7px;
-  background:#171d29;
-  border-radius:12px;
+.item-select{
+margin-top:9px;
+width:100%;
+border:0;
+border-radius:9px;
+padding:8px;
+background:#263247;
+color:white
 }
 
-.reward{
-  color:#ffd45a;
+/* BATTLE PASS */
+
+.pass-scroll{
+overflow-x:auto;
+padding:10px 0 20px;
+-webkit-overflow-scrolling:touch
 }
 
-.toggle{
-  float:right;
-  width:52px;
-  height:29px;
-  border-radius:20px;
-  background:#343c4c;
-  position:relative;
+.pass-track{
+display:flex;
+gap:12px;
+width:max-content
 }
 
-.toggle.on{
-  background:#536cff;
+.pass-level{
+width:150px;
+min-height:190px;
+background:#171d29;
+border:1px solid #30394b;
+border-radius:16px;
+padding:12px;
+position:relative
 }
 
-.toggle:after{
-  content:"";
-  position:absolute;
-  width:23px;
-  height:23px;
-  top:3px;
-  left:3px;
-  border-radius:50%;
-  background:#fff;
-  transition:.2s;
+.pass-level.current{
+border:2px solid #ffbd32
 }
 
-.toggle.on:after{
-  left:26px;
+.pass-number{
+font-size:21px;
+font-weight:bold
 }
+
+.pass-reward{
+margin-top:35px;
+font-size:15px
+}
+
+.pass-status{
+position:absolute;
+bottom:12px;
+color:#8d98aa;
+font-size:13px
+}
+
+.pass-special{
+border-color:#ffbd32;
+box-shadow:0 0 18px #ffbd3233
+}
+
+/* UPGRADER */
+
+.upgrader-box{
+background:#171d29;
+border-radius:16px;
+padding:20px;
+text-align:center
+}
+
+.selected-items{
+min-height:80px;
+margin:15px 0;
+border:1px dashed #46536b;
+border-radius:12px;
+padding:15px;
+color:#8490a5
+}
+
+.upgrade-btn{
+width:100%;
+padding:15px;
+border:0;
+border-radius:12px;
+background:#8d4dff;
+color:white;
+font-weight:bold
+}
+
+/* MODAL */
 
 .modal{
-  position:absolute;
-  inset:0;
-  z-index:50;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:#000b;
+position:fixed;
+inset:0;
+background:#000b;
+display:none;
+align-items:center;
+justify-content:center;
+z-index:100;
+padding:20px
+}
+
+.modal.show{
+display:flex
 }
 
 .modal-box{
-  width:100%;
-  max-width:390px;
-  max-height:80vh;
-  overflow:auto;
-  background:#151b27;
-  border:1px solid #34405a;
-  border-radius:20px;
-  padding:22px;
-  text-align:center;
+width:100%;
+max-width:420px;
+background:#151b27;
+border:1px solid #364155;
+border-radius:20px;
+padding:22px;
+text-align:center
 }
 
-.modal-title{
-  font-size:27px;
-  font-weight:800;
-  margin-bottom:18px;
+.reward-total{
+font-size:28px;
+color:#ffc84d;
+font-weight:bold;
+margin:15px 0
 }
 
-.reward-item{
-  display:flex;
-  justify-content:space-between;
-  padding:10px;
-  margin:6px 0;
-  border-radius:10px;
-  background:#1d2533;
+.reward-items{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin:15px 0
 }
 
 .close-btn{
-  margin-top:18px;
-  width:100%;
-  padding:13px;
-  border-radius:12px;
-  background:#536cff;
-  font-weight:800;
+width:100%;
+padding:14px;
+border:0;
+border-radius:12px;
+background:#273247;
+color:white
 }
-
-.common{color:#b9c0cb}
-.uncommon{color:#48e68a}
-.rare{color:#55a9ff}
-.epic{color:#bd70ff}
-.legendary{color:#ffd34d}
-.mythic{color:#ff5050}
 </style>
 </head>
 
 <body>
 
-<audio id="sound-open" src="sounds/open.mp3" preload="auto"></audio>
+<button class="menu-btn" onclick="toggleMenu()">☰</button>
 
-<div id="app">
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
-<button class="menu-btn" onclick="openMenu()">☰</button>
+<div class="side-menu" id="sideMenu">
 
-<div id="mainScreen" class="screen">
+<div class="menu-title">Меню</div>
 
-  <div class="top">
-    <div class="player-info">
-      Уровень <b id="level">1</b> · <span id="xp">0</span>/1000 XP
-    </div>
-  </div>
+<button class="menu-item" onclick="showScreen('settings')">
+⚙️ Настройки
+</button>
 
-  <div class="case-area">
+<button class="menu-item" onclick="showScreen('battlepass')">
+🎫 Battle Pass
+</button>
 
-    <div class="case-name" id="caseName">Обычный</div>
-    <div class="case-price" id="casePrice">2 500 🪙</div>
+<button class="menu-item" onclick="showScreen('inventory')">
+🎒 Инвентарь
+</button>
 
-    <div id="chest" class="chest case1">
-      <div class="chest-lid"></div>
-      <div class="chest-body"></div>
-      <div class="chest-lock"></div>
-    </div>
+<button class="menu-item" onclick="showScreen('upgrader')">
+⬆️ Upgrader
+</button>
 
-    <div class="progress">
-      <div class="progress-text">
-        <span>XP</span>
-        <span id="xpText">0 / 1000</span>
-      </div>
-      <div class="bar">
-        <div id="xpBar" class="fill"></div>
-      </div>
-    </div>
+<button class="menu-item">
+🔜 Скоро...
+</button>
 
-    <div class="luck" id="luckText">🍀 Удача: 0/10</div>
-
-    <button class="open-btn" onclick="openCase()">
-      ОТКРЫТЬ КЕЙС
-    </button>
-
-    <div class="balance">
-      🪙 <span id="balance">10 000</span>
-    </div>
-
-  </div>
 </div>
 
-<div id="menu" class="menu hidden">
-  <button class="back-btn" onclick="closeMenu()">← Назад</button>
+<div class="container">
 
-  <div class="menu-title">Treasure Hunter</div>
+<!-- ГЛАВНЫЙ ЭКРАН -->
 
-  <button class="menu-item" onclick="showScreen('statsScreen')">
-    📊 Статистика
-  </button>
+<div id="mainScreen" class="screen active">
 
-  <button class="menu-item" onclick="showScreen('settingsScreen')">
-    ⚙️ Настройки
-  </button>
+<div class="top">
 
-  <button class="menu-item" onclick="showScreen('battleScreen')">
-    🎫 Battle Pass
-  </button>
-
-  <button class="menu-item" onclick="showScreen('inventoryScreen')">
-    🎒 Инвентарь
-    <span style="color:#858ea0"> — В разработке</span>
-  </button>
-
-  <button class="menu-item" onclick="showScreen('upgraderScreen')">
-    ⬆️ Upgrader
-    <span style="color:#858ea0"> — В разработке</span>
-  </button>
+<div class="balance">
+💰 <span id="balance">10 000</span>
 </div>
 
-<div id="statsScreen" class="screen hidden">
-  <button class="back-btn" onclick="closeScreen()">← Назад</button>
-  <div class="screen-title">📊 Статистика</div>
-
-  <div class="card">
-    <div class="stat-row">
-      <span>Открыто кейсов</span>
-      <b id="statOpened">0</b>
-    </div>
-
-    <div class="stat-row">
-      <span>Заработано</span>
-      <b id="statEarned">0</b>
-    </div>
-
-    <div class="stat-row">
-      <span>Уровень</span>
-      <b id="statLevel">1</b>
-    </div>
-
-    <div class="stat-row">
-      <span>Всего XP</span>
-      <b id="statXP">0</b>
-    </div>
-
-    <div class="stat-row">
-      <span>Самая дорогая награда</span>
-      <b id="statBest">0</b>
-    </div>
-
-    <div class="stat-row">
-      <span>🍀 Активаций удачи</span>
-      <b id="statLuck">0</b>
-    </div>
-
-    <div class="stat-row">
-      <span>👑 Legendary</span>
-      <b id="statLegendary">0</b>
-    </div>
-
-    <div class="stat-row">
-      <span>🔥 Mythic</span>
-      <b id="statMythic">0</b>
-    </div>
-  </div>
+<div class="level">
+LVL <span id="level">1</span>
 </div>
 
-<div id="settingsScreen" class="screen hidden">
-  <button class="back-btn" onclick="closeScreen()">← Назад</button>
-  <div class="screen-title">⚙️ Настройки</div>
-
-  <div class="card" onclick="toggleSound()">
-    🔊 Звуки
-    <div id="soundToggle" class="toggle on"></div>
-  </div>
-
-  <div class="card" onclick="toggleVibration()">
-    📳 Вибрация
-    <div id="vibrationToggle" class="toggle on"></div>
-  </div>
 </div>
 
-<div id="battleScreen" class="screen hidden">
-  <button class="back-btn" onclick="closeScreen()">← Назад</button>
-  <div class="screen-title">🎫 Battle Pass</div>
+<h1>Treasure Hunter</h1>
 
-  <div class="card">
-    <div style="display:flex;justify-content:space-between">
-      <span>Прогресс</span>
-      <b id="bpProgress">0 / 100</b>
-    </div>
-
-    <div class="bar" style="margin-top:10px">
-      <div id="bpBar" class="fill"></div>
-    </div>
-  </div>
-
-  <div id="bpList" class="bp-list"></div>
+<div class="subtitle">
+Охоться за сокровищами
 </div>
 
-<div id="inventoryScreen" class="screen hidden">
-  <button class="back-btn" onclick="closeScreen()">← Назад</button>
-  <div class="screen-title">🎒 Инвентарь</div>
+<div class="xp-wrap">
 
-  <div style="text-align:center;color:#8d96aa;margin-top:80px;font-size:18px;">
-    🚧 В разработке
-  </div>
+<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px">
+
+<span>Опыт</span>
+
+<span id="xpText">
+0 / 1000
+</span>
+
 </div>
 
-<div id="upgraderScreen" class="screen hidden">
-  <button class="back-btn" onclick="closeScreen()">← Назад</button>
-  <div class="screen-title">⬆️ Upgrader</div>
+<div class="bar">
 
-  <div style="text-align:center;color:#8d96aa;margin-top:80px;font-size:18px;">
-    🚧 В разработке
-  </div>
+<div
+class="bar-fill"
+id="xpBar">
 </div>
 
-<div id="rewardModal" class="modal hidden">
-  <div class="modal-box">
-    <div class="modal-title">🎁 Награды</div>
-    <div id="rewardList"></div>
+</div>
 
-    <div style="font-size:18px;margin-top:15px">
-      Получено: <b id="rewardTotal">0</b> 🪙
-    </div>
+</div>
 
-    <button class="close-btn" onclick="closeReward()">
-      ЗАБРАТЬ
-    </button>
-  </div>
+<div class="luck-wrap">
+
+<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px">
+
+<span>🎲 2× Удача</span>
+
+<span id="luckText">
+0 / 10
+</span>
+
+</div>
+
+<div class="bar">
+
+<div
+class="bar-fill luck-fill"
+id="luckBar">
+</div>
+
+</div>
+
+</div>
+
+<div class="chest-area">
+
+<div
+class="chest case-normal"
+id="chest">
+
+<div class="chest-lid"></div>
+
+<div class="chest-body"></div>
+
+<div class="lock"></div>
+
+</div>
+
+</div>
+
+<div
+class="case-name"
+id="caseName">
+Обычный кейс
+</div>
+
+<div class="case-price">
+
+💰 <span id="casePrice">
+2 500
+</span>
+
+</div>
+
+<button
+class="open-btn"
+id="openBtn"
+onclick="openCase()">
+
+ОТКРЫТЬ КЕЙС
+
+</button>
+
+<div class="stats">
+
+<div class="stat">
+
+<div id="opened">0</div>
+
+<small>
+Открыто
+</small>
+
+</div>
+
+<div class="stat">
+
+<div id="totalEarned">0</div>
+
+<small>
+Всего получено
+</small>
+
+</div>
+
+<div class="stat">
+
+<div id="levelStat">1</div>
+
+<small>
+Уровень
+</small>
+
+</div>
+
+<div class="stat">
+
+<div id="caseStat">Обычный</div>
+
+<small>
+Кейс
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- НАСТРОЙКИ -->
+
+<div
+id="settingsScreen"
+class="screen">
+
+<button
+class="back-btn"
+onclick="showScreen('main')">
+
+← Назад
+
+</button>
+
+<h1>
+⚙️ Настройки
+</h1>
+
+<div
+class="stat"
+style="margin-top:20px">
+
+🔊 Звук
+
+<br><br>
+
+<small>
+В разработке
+</small>
+
+</div>
+
+<div
+class="stat"
+style="margin-top:10px">
+
+📳 Вибрация
+
+<br><br>
+
+<small>
+В разработке
+</small>
+
+</div>
+
+</div>
+
+<!-- ИНВЕНТАРЬ -->
+
+<div
+id="inventoryScreen"
+class="screen">
+
+<button
+class="back-btn"
+onclick="showScreen('main')">
+
+← Назад
+
+</button>
+
+<h1>
+🎒 Инвентарь
+</h1>
+
+<p
+style="text-align:center;color:#8d98aa">
+
+Здесь хранятся предметы из кейсов.
+
+</p>
+
+<div
+class="inventory-grid"
+id="inventoryGrid">
+</div>
+
+</div>
+
+<!-- BATTLE PASS -->
+
+<div
+id="battlepassScreen"
+class="screen">
+
+<button
+class="back-btn"
+onclick="showScreen('main')">
+
+← Назад
+
+</button>
+
+<h1>
+🎫 Battle Pass
+</h1>
+
+<p
+style="text-align:center;color:#8d98aa">
+
+100 уровней наград
+
+</p>
+
+<div class="pass-scroll">
+
+<div
+class="pass-track"
+id="passTrack">
+</div>
+
+</div>
+
+</div>
+
+<!-- UPGRADER -->
+
+<div
+id="upgraderScreen"
+class="screen">
+
+<button
+class="back-btn"
+onclick="showScreen('main')">
+
+← Назад
+
+</button>
+
+<h1>
+⬆️ Upgrader
+</h1>
+
+<div class="upgrader-box">
+
+<div
+style="font-size:18px;font-weight:bold">
+
+Улучшение предметов
+
+</div>
+
+<p
+style="color:#8d98aa">
+
+Выбери предметы из инвентаря и попробуй улучшить их.
+
+</p>
+
+<div
+class="selected-items"
+id="selectedItems">
+
+Выбранных предметов пока нет
+
+</div>
+
+<button
+class="upgrade-btn"
+onclick="upgradeItems()">
+
+УЛУЧШИТЬ
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ОКНО НАГРАДЫ -->
+
+<div
+class="modal"
+id="rewardModal">
+
+<div class="modal-box">
+
+<h2>
+🎉 Кейс открыт!
+</h2>
+
+<div class="reward-total">
+
++<span id="rewardMoney">0</span> 💰
+
+</div>
+
+<div
+class="reward-items"
+id="rewardItems">
+</div>
+
+<button
+class="close-btn"
+onclick="closeReward()">
+
+ЗАБРАТЬ
+
+</button>
+
 </div>
 
 </div>
 
 <script>
-const cases=[
-  {name:"Обычный",price:2500,max:5000,maxItems:2,cls:"case1"},
-  {name:"Военный",price:10000,max:30000,maxItems:3,cls:"case2"},
-  {name:"Алмазный",price:50000,max:125000,maxItems:3,cls:"case3"},
-  {name:"Легендарный",price:250000,max:600000,maxItems:4,cls:"case4"},
-  {name:"Мифический",price:500000,max:1500000,maxItems:4,cls:"case5"},
-  {name:"Энергетический",price:1500000,max:4000000,maxItems:4,cls:"case6"},
-  {name:"Магматический",price:5000000,max:15000000,maxItems:5,cls:"case7"},
-  {name:"Инопланетный",price:15000000,max:50000000,maxItems:5,cls:"case8"}
-];
 
-const rarity=[
-  {name:"Common",cls:"common",chance:55},
-  {name:"Uncommon",cls:"uncommon",chance:25},
-  {name:"Rare",cls:"rare",chance:14},
-  {name:"Epic",cls:"epic",chance:4.5},
-  {name:"Legendary",cls:"legendary",chance:1.3},
-  {name:"Mythic",cls:"mythic",chance:.2}
-];
+const cases = {
 
-const icons=[
-  "🪙","💎","💰","🔮","👑","💍","🧿","⚔️",
-  "🛡️","🏆","💠","📿","🗝️","💵","🪙","💎",
-  "🔥","⚡","☄️","🌌","👽","🛸","🌋","💚",
-  "🔷","🔶","⭐","💫","💎","🏅","🎁","💍"
-];
+1:{
+name:"Обычный кейс",
+shortName:"Обычный",
+className:"normal",
+price:2500,
+min:500,
+max:5000,
+maxItems:2
+},
 
-let balance=10000;
-let xp=0;
-let opened=0;
-let totalEarned=0;
-let bestReward=0;
-let luckActivations=0;
-let legendary=0;
-let mythic=0;
+2:{
+name:"Военный кейс",
+shortName:"Военный",
+className:"military",
+price:10000,
+min:2000,
+max:30000,
+maxItems:3
+},
 
-let luckUntil=0;
-let luckMultiplier=1;
+3:{
+name:"Алмазный кейс",
+shortName:"Алмазный",
+className:"diamond",
+price:50000,
+min:15000,
+max:125000,
+maxItems:3
+},
 
-let soundEnabled=true;
-let vibrationEnabled=true;
+4:{
+name:"Легендарный кейс",
+shortName:"Легендарный",
+className:"legendary",
+price:250000,
+min:40000,
+max:600000,
+maxItems:4
+},
 
-let currentCase=0;
-let opening=false;
+5:{
+name:"Мифический кейс",
+shortName:"Мифический",
+className:"mythic",
+price:500000,
+min:80000,
+max:1500000,
+maxItems:4
+},
 
-function save(){
-  localStorage.setItem("th_balance",balance);
-  localStorage.setItem("th_xp",xp);
-  localStorage.setItem("th_opened",opened);
-  localStorage.setItem("th_earned",totalEarned);
-  localStorage.setItem("th_best",bestReward);
-  localStorage.setItem("th_luck",luckActivations);
-  localStorage.setItem("th_legendary",legendary);
-  localStorage.setItem("th_mythic",mythic);
-  localStorage.setItem("th_sound",soundEnabled);
-  localStorage.setItem("th_vibration",vibrationEnabled);
+6:{
+name:"Энергетический кейс",
+shortName:"Энергетический",
+className:"energy",
+price:1500000,
+min:200000,
+max:4000000,
+maxItems:4
+},
+
+7:{
+name:"Магматический кейс",
+shortName:"Магматический",
+className:"magma",
+price:5000000,
+min:500000,
+max:15000000,
+maxItems:5
+},
+
+8:{
+name:"Инопланетный кейс",
+shortName:"Инопланетный",
+className:"alien",
+price:15000000,
+min:1500000,
+max:50000000,
+maxItems:5
 }
 
-function load(){
-  balance=Number(localStorage.getItem("th_balance")||10000);
-  xp=Number(localStorage.getItem("th_xp")||0);
-  opened=Number(localStorage.getItem("th_opened")||0);
-  totalEarned=Number(localStorage.getItem("th_earned")||0);
-  bestReward=Number(localStorage.getItem("th_best")||0);
-  luckActivations=Number(localStorage.getItem("th_luck")||0);
-  legendary=Number(localStorage.getItem("th_legendary")||0);
-  mythic=Number(localStorage.getItem("th_mythic")||0);
+};
 
-  soundEnabled=localStorage.getItem("th_sound")!=="false";
-  vibrationEnabled=localStorage.getItem("th_vibration")!=="false";
+const XP_PER_CASE = 15;
+
+const XP_PER_LEVEL = 1000;
+
+let balance =
+Number(localStorage.getItem("balance"))
+|| 10000;
+
+let opened =
+Number(localStorage.getItem("opened"))
+|| 0;
+
+let totalEarned =
+Number(localStorage.getItem("totalEarned"))
+|| 0;
+
+let xp =
+Number(localStorage.getItem("xp"))
+|| 0;
+
+let luckyProgress =
+Number(localStorage.getItem("luckyProgress"))
+|| 0;
+
+let luckyActive =
+localStorage.getItem("luckyActive")
+=== "true";
+
+let luckMinutes =
+Number(localStorage.getItem("luckMinutes"))
+|| 0;
+
+let inventory =
+JSON.parse(
+localStorage.getItem("inventory")
+|| "[]"
+);
+
+let unlockedPassRewards =
+JSON.parse(
+localStorage.getItem("passRewards")
+|| "[]"
+);
+
+let selectedInventory = [];
+
+const itemPool = [
+
+{
+name:"Монета",
+icon:"🪙",
+rarity:"common"
+},
+
+{
+name:"Кристалл",
+icon:"💠",
+rarity:"uncommon"
+},
+
+{
+name:"Золотой слиток",
+icon:"🥇",
+rarity:"rare"
+},
+
+{
+name:"Алмаз",
+icon:"💎",
+rarity:"epic"
+},
+
+{
+name:"Корона",
+icon:"👑",
+rarity:"legendary"
+},
+
+{
+name:"Артефакт",
+icon:"🔮",
+rarity:"mythic"
+}
+
+];
+
+const rarityNames = {
+
+common:"Обычный",
+
+uncommon:"Необычный",
+
+rare:"Редкий",
+
+epic:"Эпический",
+
+legendary:"Легендарный",
+
+mythic:"Мифический"
+
+};
+
+function formatMoney(n){
+
+return Math.floor(n)
+.toLocaleString("ru-RU");
+
 }
 
 function getLevel(){
-  return Math.floor(xp/1000)+1;
+
+return Math.floor(
+xp / XP_PER_LEVEL
+) + 1;
+
 }
 
-function getCaseIndex(){
-  const level=getLevel();
+function getCurrentCase(){
 
-  if(level<10)return 0;
-  if(level<15)return 1;
-  if(level<20)return 2;
-  if(level<25)return 3;
-  if(level<30)return 4;
-  if(level<40)return 5;
-  if(level<50)return 6;
-  return 7;
+const level =
+getLevel();
+
+if(level >= 50) return 8;
+
+if(level >= 40) return 7;
+
+if(level >= 30) return 6;
+
+if(level >= 25) return 5;
+
+if(level >= 20) return 4;
+
+if(level >= 15) return 3;
+
+if(level >= 10) return 2;
+
+return 1;
+
 }
 
-function format(n){
-  return Math.floor(n).toLocaleString("ru-RU");
+/* Сильно сниженные шансы */
+
+function calculateReward(currentCase){
+
+const roll =
+Math.random();
+
+let multiplier;
+
+if(roll < 0.72){
+
+multiplier =
+0.20 +
+Math.random() * 0.20;
+
 }
 
-function updateCase(){
-  currentCase=getCaseIndex();
-  const c=cases[currentCase];
+else if(roll < 0.92){
 
-  document.getElementById("caseName").textContent=c.name;
-  document.getElementById("casePrice").textContent=format(c.price)+" 🪙";
+multiplier =
+0.40 +
+Math.random() * 0.25;
 
-  const chest=document.getElementById("chest");
-  chest.className="chest "+c.cls;
+}
+
+else if(roll < 0.975){
+
+multiplier =
+0.65 +
+Math.random() * 0.25;
+
+}
+
+else if(roll < 0.995){
+
+multiplier =
+0.90 +
+Math.random() * 0.50;
+
+}
+
+else{
+
+multiplier =
+1.40 +
+Math.random() * 1.60;
+
+}
+
+let reward =
+Math.floor(
+currentCase.price *
+multiplier
+);
+
+reward =
+Math.max(
+currentCase.min,
+reward
+);
+
+reward =
+Math.min(
+currentCase.max,
+reward
+);
+
+/* 2x удача */
+
+if(
+luckyActive ||
+luckMinutes > 0
+){
+
+const lower =
+Math.floor(
+currentCase.price * 0.90
+);
+
+reward =
+randomInt(
+Math.max(
+currentCase.min,
+lower
+),
+currentCase.max
+);
+
+if(luckMinutes > 0){
+
+luckMinutes -= 1;
+
+}else{
+
+luckyActive = false;
+
+}
+
+}
+
+return reward;
+
+}
+
+function randomInt(min,max){
+
+return Math.floor(
+Math.random() *
+(max-min+1)
+) + min;
+
+}
+
+function getRandomRarity(){
+
+const r =
+Math.random();
+
+if(r < 0.55)
+return "common";
+
+if(r < 0.80)
+return "uncommon";
+
+if(r < 0.94)
+return "rare";
+
+if(r < 0.985)
+return "epic";
+
+if(r < 0.998)
+return "legendary";
+
+return "mythic";
+
+}
+
+function generateItems(currentCase){
+
+const count =
+randomInt(
+1,
+currentCase.maxItems
+);
+
+const result = [];
+
+for(
+let i=0;
+i<count;
+i++
+){
+
+const rarity =
+getRandomRarity();
+
+const possible =
+itemPool.filter(
+x => x.rarity === rarity
+);
+
+const item =
+possible.length
+?
+possible[
+randomInt(
+0,
+possible.length-1
+)
+]
+:
+itemPool[0];
+
+result.push({
+
+name:item.name,
+
+icon:item.icon,
+
+rarity:item.rarity,
+
+id:
+Date.now()+"_"+Math.random()
+
+});
+
+}
+
+return result;
+
+}
+
+function highestRarity(items){
+
+const order = [
+
+"common",
+"uncommon",
+"rare",
+"epic",
+"legendary",
+"mythic"
+
+];
+
+let highest =
+"common";
+
+items.forEach(item=>{
+
+if(
+order.indexOf(item.rarity)
+>
+order.indexOf(highest)
+){
+
+highest =
+item.rarity;
+
+}
+
+});
+
+return highest;
+
 }
 
 function updateUI(){
-  const level=getLevel();
-  const xpInLevel=xp%1000;
 
-  document.getElementById("balance").textContent=format(balance);
-  document.getElementById("level").textContent=level;
-  document.getElementById("xp").textContent=xpInLevel;
-  document.getElementById("xpText").textContent=xpInLevel+" / 1000";
-  document.getElementById("xpBar").style.width=(xpInLevel/10)+"%";
+const level =
+getLevel();
 
-  updateCase();
-  updateLuck();
-  updateStats();
-  updateBP();
+const currentCase =
+cases[getCurrentCase()];
+
+document
+.getElementById("balance")
+.textContent =
+formatMoney(balance);
+
+document
+.getElementById("level")
+.textContent =
+level;
+
+document
+.getElementById("levelStat")
+.textContent =
+level;
+
+document
+.getElementById("opened")
+.textContent =
+opened;
+
+document
+.getElementById("totalEarned")
+.textContent =
+formatMoney(totalEarned);
+
+document
+.getElementById("caseName")
+.textContent =
+currentCase.name;
+
+document
+.getElementById("casePrice")
+.textContent =
+formatMoney(
+currentCase.price
+);
+
+document
+.getElementById("caseStat")
+.textContent =
+currentCase.shortName;
+
+const levelXP =
+xp % XP_PER_LEVEL;
+
+document
+.getElementById("xpText")
+.textContent =
+levelXP +
+" / " +
+XP_PER_LEVEL;
+
+document
+.getElementById("xpBar")
+.style.width =
+(
+levelXP /
+XP_PER_LEVEL *
+100
+) + "%";
+
+document
+.getElementById("luckText")
+.textContent =
+luckMinutes > 0
+?
+"2× активно: " +
+luckMinutes +
+" мин."
+:
+luckyActive
+?
+"2× активно"
+:
+luckyProgress +
+" / 10";
+
+document
+.getElementById("luckBar")
+.style.width =
+luckMinutes > 0 ||
+luckyActive
+?
+"100%"
+:
+(
+luckyProgress /
+10 *
+100
+) + "%";
+
+const btn =
+document.getElementById(
+"openBtn"
+);
+
+btn.disabled =
+balance <
+currentCase.price;
+
+const chest =
+document.getElementById(
+"chest"
+);
+
+chest.className =
+"chest case-" +
+currentCase.className;
+
 }
 
-function updateLuck(){
-  const text=document.getElementById("luckText");
+function save(){
 
-  if(Date.now()<luckUntil){
-    const sec=Math.ceil((luckUntil-Date.now())/1000);
-    const m=Math.floor(sec/60);
-    const s=String(sec%60).padStart(2,"0");
+localStorage.setItem(
+"balance",
+balance
+);
 
-    text.textContent="🍀 "+luckMultiplier+"× УДАЧА "+m+":"+s;
-  }else{
-    luckMultiplier=1;
+localStorage.setItem(
+"opened",
+opened
+);
 
-    const progress=opened%10;
+localStorage.setItem(
+"totalEarned",
+totalEarned
+);
 
-    text.textContent="🍀 Удача: "+progress+"/10";
-  }
-}
+localStorage.setItem(
+"xp",
+xp
+);
 
-setInterval(updateLuck,1000);
+localStorage.setItem(
+"luckyProgress",
+luckyProgress
+);
 
-function activateLuck(multiplier,minutes){
-  luckMultiplier=multiplier;
-  luckUntil=Date.now()+minutes*60*1000;
-  luckActivations++;
-}
+localStorage.setItem(
+"luckyActive",
+luckyActive
+);
 
-function isLuckActive(){
-  return Date.now()<luckUntil;
-}
+localStorage.setItem(
+"luckMinutes",
+luckMinutes
+);
 
-function vibration(pattern){
-  if(vibrationEnabled && navigator.vibrate){
-    navigator.vibrate(pattern);
-  }
-}
+localStorage.setItem(
+"inventory",
+JSON.stringify(inventory)
+);
 
-function playOpenSound(){
-  if(!soundEnabled)return;
+localStorage.setItem(
+"passRewards",
+JSON.stringify(
+unlockedPassRewards
+)
+);
 
-  const audio=document.getElementById("sound-open");
-
-  if(audio){
-    audio.currentTime=0;
-    audio.play().catch(()=>{});
-  }
-}
-
-function randomRarity(){
-  let r=Math.random()*100;
-
-  for(const x of rarity){
-    if(r<x.chance)return x;
-    r-=x.chance;
-  }
-
-  return rarity[0];
-}
-
-function calculateCaseReward(c){
-  const roll=Math.random();
-  let multiplier;
-
-  if(roll<.299){
-    multiplier=.70+Math.random()*.20;
-  }else if(roll<.629){
-    multiplier=.90+Math.random()*.10;
-  }else if(roll<.959){
-    multiplier=1+Math.random()*.25;
-  }else if(roll<.999){
-    multiplier=1.25+Math.random()*.45;
-  }else{
-    multiplier=1.70+Math.random()*1.30;
-  }
-
-  if(isLuckActive()){
-    if(luckMultiplier===2)multiplier*=1.18;
-    if(luckMultiplier===5)multiplier*=1.45;
-  }
-
-  let reward=Math.floor(c.price*multiplier);
-
-  reward=Math.max(Math.floor(c.price*.55),reward);
-  reward=Math.min(c.max,reward);
-
-  return reward;
-}
-
-function makeItem(value,rar){
-  const icon=icons[Math.floor(Math.random()*icons.length)];
-
-  return {
-    icon,
-    rarity:rar,
-    value
-  };
 }
 
 function openCase(){
-  if(opening)return;
 
-  const c=cases[currentCase];
+const currentCase =
+cases[getCurrentCase()];
 
-  if(balance<c.price){
-    alert("Недостаточно денег!");
-    return;
-  }
+if(
+balance <
+currentCase.price
+){
 
-  opening=true;
+return;
 
-  balance-=c.price;
-
-  const chest=document.getElementById("chest");
-
-  chest.classList.add("shake");
-
-  vibration(35);
-  playOpenSound();
-
-  setTimeout(()=>{
-    chest.classList.remove("shake");
-    chest.classList.add("glow");
-  },220);
-
-  setTimeout(()=>{
-    chest.classList.add("open");
-  },450);
-
-  const count=1+Math.floor(Math.random()*c.maxItems);
-
-  let target=calculateCaseReward(c);
-
-  const rewards=[];
-  let left=target;
-
-  for(let i=0;i<count;i++){
-
-    let value;
-
-    if(i===count-1){
-      value=left;
-    }else{
-      const min=Math.max(1,Math.floor(left*.15));
-      const max=Math.max(min,Math.floor(left*.65));
-
-      value=min+Math.floor(Math.random()*(max-min+1));
-
-      left-=value;
-    }
-
-    const rar=randomRarity();
-
-    rewards.push(makeItem(value,rar));
-
-    if(rar.name==="Legendary")legendary++;
-    if(rar.name==="Mythic")mythic++;
-  }
-
-  setTimeout(()=>{
-    let total=0;
-
-    rewards.forEach(x=>total+=x.value);
-
-    balance+=total;
-    totalEarned+=total;
-
-    if(total>bestReward)bestReward=total;
-
-    opened++;
-    xp+=15;
-
-    if(opened%50===0){
-      activateLuck(5,5);
-    }else if(opened%10===0){
-      activateLuck(2,5);
-    }
-
-    save();
-    updateUI();
-
-    showRewards(rewards,total);
-
-    chest.classList.remove("glow");
-    chest.classList.remove("open");
-
-    if(rewards.some(x=>x.rarity.name==="Mythic")){
-      vibration([100,80,100,80,200]);
-    }else if(rewards.some(x=>x.rarity.name==="Legendary")){
-      vibration([80,60,160]);
-    }
-
-    opening=false;
-  },700);
 }
 
-function showRewards(rewards,total){
-  const list=document.getElementById("rewardList");
+balance -=
+currentCase.price;
 
-  list.innerHTML="";
+const reward =
+calculateReward(
+currentCase
+);
 
-  rewards.forEach(x=>{
-    const div=document.createElement("div");
+balance += reward;
 
-    div.className="reward-item";
+totalEarned +=
+reward;
 
-    div.innerHTML=
-      "<span>"+x.icon+" <span class='"+x.rarity.cls+"'>"+
-      x.rarity.name+
-      "</span></span><b>+"+
-      format(x.value)+" 🪙</b>";
+opened++;
 
-    list.appendChild(div);
-  });
+const items =
+generateItems(
+currentCase
+);
 
-  document.getElementById("rewardTotal").textContent=format(total);
+inventory.push(
+...items
+);
 
-  document.getElementById("rewardModal").classList.remove("hidden");
+const oldLevel =
+getLevel();
+
+xp +=
+XP_PER_CASE;
+
+const newLevel =
+getLevel();
+
+/* Удача каждые 10 кейсов */
+
+if(
+!luckyActive &&
+luckMinutes <= 0
+){
+
+luckyProgress++;
+
+if(
+luckyProgress >= 10
+){
+
+luckyProgress = 0;
+
+luckyActive =
+true;
+
+}
+
+}
+
+/* Battle Pass */
+
+if(
+newLevel > oldLevel
+){
+
+for(
+let lvl =
+oldLevel + 1;
+
+lvl <= newLevel;
+
+lvl++
+){
+
+if(
+lvl % 20 === 0 &&
+!unlockedPassRewards
+.includes(lvl)
+){
+
+unlockedPassRewards
+.push(lvl);
+
+luckMinutes += 5;
+
+}
+
+}
+
+}
+
+save();
+
+const chest =
+document.getElementById(
+"chest"
+);
+
+chest.classList.add(
+"shake"
+);
+
+setTimeout(()=>{
+
+const rarity =
+highestRarity(items);
+
+chest.style.filter =
+getGlow(rarity);
+
+},220);
+
+setTimeout(()=>{
+
+chest.classList.add(
+"opened"
+);
+
+},450);
+
+setTimeout(()=>{
+
+showReward(
+reward,
+items
+);
+
+chest.classList.remove(
+"shake"
+);
+
+},700);
+
+updateUI();
+
+}
+
+function getGlow(rarity){
+
+const glow = {
+
+common:
+"drop-shadow(0 0 12px #bfc5cc)",
+
+uncommon:
+"drop-shadow(0 0 20px #35ff72)",
+
+rare:
+"drop-shadow(0 0 25px #3498ff)",
+
+epic:
+"drop-shadow(0 0 30px #a85cff)",
+
+legendary:
+"drop-shadow(0 0 35px #ffd23f)",
+
+mythic:
+"drop-shadow(0 0 45px #ff3030)"
+
+};
+
+return glow[rarity];
+
+}
+
+function showReward(
+reward,
+items
+){
+
+document
+.getElementById("rewardMoney")
+.textContent =
+formatMoney(reward);
+
+const box =
+document.getElementById(
+"rewardItems"
+);
+
+box.innerHTML = "";
+
+items.forEach(item=>{
+
+box.innerHTML += `
+
+<div class="item">
+
+<div class="item-icon">
+${item.icon}
+</div>
+
+<div class="item-name">
+${item.name}
+</div>
+
+<div class="item-rarity">
+${rarityNames[item.rarity]}
+</div>
+
+</div>
+
+`;
+
+});
+
+document
+.getElementById(
+"rewardModal"
+)
+.classList.add("show");
+
 }
 
 function closeReward(){
-  document.getElementById("rewardModal").classList.add("hidden");
+
+document
+.getElementById(
+"rewardModal"
+)
+.classList.remove("show");
+
+const chest =
+document.getElementById(
+"chest"
+);
+
+chest.classList.remove(
+"opened"
+);
+
+chest.style.filter =
+"drop-shadow(0 15px 25px #0008)";
+
+renderInventory();
+
+updateUI();
+
 }
 
-function openMenu(){
-  document.getElementById("menu").classList.remove("hidden");
+function toggleMenu(){
+
+document
+.getElementById("sideMenu")
+.classList.toggle("open");
+
+document
+.getElementById("overlay")
+.classList.toggle("show");
+
 }
 
 function closeMenu(){
-  document.getElementById("menu").classList.add("hidden");
+
+document
+.getElementById("sideMenu")
+.classList.remove("open");
+
+document
+.getElementById("overlay")
+.classList.remove("show");
+
 }
 
-function showScreen(id){
-  closeMenu();
+function showScreen(name){
 
-  document.querySelectorAll(".screen").forEach(x=>{
-    if(x.id!=="mainScreen"){
-      x.classList.add("hidden");
-    }
-  });
+closeMenu();
 
-  document.getElementById(id).classList.remove("hidden");
+document
+.querySelectorAll(".screen")
+.forEach(x =>
+x.classList.remove("active")
+);
+
+if(name === "main"){
+
+document
+.getElementById("mainScreen")
+.classList.add("active");
+
 }
 
-function closeScreen(){
-  document.querySelectorAll(".screen").forEach(x=>{
-    if(x.id!=="mainScreen"){
-      x.classList.add("hidden");
-    }
-  });
+if(name === "settings"){
+
+document
+.getElementById("settingsScreen")
+.classList.add("active");
+
 }
 
-function toggleSound(){
-  soundEnabled=!soundEnabled;
+if(name === "inventory"){
 
-  document.getElementById("soundToggle")
-    .classList.toggle("on",soundEnabled);
+document
+.getElementById("inventoryScreen")
+.classList.add("active");
 
-  save();
+renderInventory();
+
 }
 
-function toggleVibration(){
-  vibrationEnabled=!vibrationEnabled;
+if(name === "battlepass"){
 
-  document.getElementById("vibrationToggle")
-    .classList.toggle("on",vibrationEnabled);
+document
+.getElementById("battlepassScreen")
+.classList.add("active");
 
-  save();
+renderBattlePass();
+
 }
 
-function updateStats(){
-  document.getElementById("statOpened").textContent=format(opened);
-  document.getElementById("statEarned").textContent=format(totalEarned);
-  document.getElementById("statLevel").textContent=getLevel();
-  document.getElementById("statXP").textContent=format(xp);
-  document.getElementById("statBest").textContent=format(bestReward);
-  document.getElementById("statLuck").textContent=luckActivations;
-  document.getElementById("statLegendary").textContent=legendary;
-  document.getElementById("statMythic").textContent=mythic;
+if(name === "upgrader"){
 
-  document.getElementById("soundToggle")
-    .classList.toggle("on",soundEnabled);
+document
+.getElementById("upgraderScreen")
+.classList.add("active");
 
-  document.getElementById("vibrationToggle")
-    .classList.toggle("on",vibrationEnabled);
+renderSelectedItems();
+
 }
 
-function updateBP(){
-  const level=Math.min(100,Math.floor(xp/1000)+1);
-
-  document.getElementById("bpProgress").textContent=
-    level+" / 100";
-
-  document.getElementById("bpBar").style.width=
-    level+"%";
-
-  const list=document.getElementById("bpList");
-
-  list.innerHTML="";
-
-  for(let i=1;i<=100;i++){
-
-    let reward;
-
-    if(i===20||i===40||i===60||i===80||i===100){
-      reward="🍀 2× Удача · 5 минут";
-    }else{
-      reward="🪙 "+format(i*1000);
-    }
-
-    const row=document.createElement("div");
-
-    row.className="bp-level";
-
-    row.innerHTML=
-      "<span>Уровень "+i+"</span>"+
-      "<span class='reward'>"+reward+"</span>";
-
-    list.appendChild(row);
-  }
 }
 
-load();
+function renderInventory(){
+
+const grid =
+document.getElementById(
+"inventoryGrid"
+);
+
+grid.innerHTML = "";
+
+if(
+inventory.length === 0
+){
+
+grid.innerHTML = `
+
+<div
+style="
+grid-column:1/-1;
+text-align:center;
+color:#8490a5;
+padding:30px
+">
+
+Инвентарь пуст
+
+</div>
+
+`;
+
+return;
+
+}
+
+inventory.forEach(
+(item,index)=>{
+
+grid.innerHTML += `
+
+<div class="item">
+
+<div class="item-icon">
+${item.icon}
+</div>
+
+<div class="item-name">
+${item.name}
+</div>
+
+<div class="item-rarity">
+${rarityNames[item.rarity]}
+</div>
+
+<button
+class="item-select"
+onclick="selectInventoryItem(${index})">
+
+${
+selectedInventory
+.includes(index)
+?
+"✓ Выбрано"
+:
+"В Upgrader"
+}
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+function selectInventoryItem(index){
+
+if(
+selectedInventory.includes(index)
+){
+
+selectedInventory =
+selectedInventory.filter(
+x => x !== index
+);
+
+}else{
+
+selectedInventory.push(
+index
+);
+
+}
+
+renderInventory();
+
+renderSelectedItems();
+
+}
+
+function renderSelectedItems(){
+
+const box =
+document.getElementById(
+"selectedItems"
+);
+
+if(
+selectedInventory.length === 0
+){
+
+box.textContent =
+"Выбранных предметов пока нет";
+
+return;
+
+}
+
+box.innerHTML =
+selectedInventory
+.map(
+i =>
+inventory[i]
+?
+inventory[i].icon +
+" " +
+inventory[i].name
+:
+""
+)
+.join("<br>");
+
+}
+
+function upgradeItems(){
+
+if(
+selectedInventory.length === 0
+){
+
+alert(
+"Сначала выбери предметы в инвентаре."
+);
+
+return;
+
+}
+
+alert(
+"Система Upgrader будет расширена: здесь появится шанс улучшения, множитель и результат."
+);
+
+}
+
+function renderBattlePass(){
+
+const track =
+document.getElementById(
+"passTrack"
+);
+
+track.innerHTML = "";
+
+const currentLevel =
+getLevel();
+
+for(
+let level=1;
+level<=100;
+level++
+){
+
+let reward;
+
+if(
+level % 20 === 0
+){
+
+reward =
+"🎲 2× Удача<br>на 5 минут";
+
+}
+
+else if(
+level === 100
+){
+
+reward =
+"👑 Главная награда";
+
+}
+
+else{
+
+reward =
+"💰 " +
+formatMoney(
+level * 1000
+);
+
+}
+
+const special =
+level % 20 === 0
+?
+" pass-special"
+:
+"";
+
+const current =
+level === currentLevel
+?
+" current"
+:
+"";
+
+const completed =
+level <= currentLevel
+?
+"✓ Получено"
+:
+"🔒 Закрыто";
+
+track.innerHTML += `
+
+<div
+class="pass-level${special}${current}">
+
+<div class="pass-number">
+
+Уровень ${level}
+
+</div>
+
+<div class="pass-reward">
+
+${reward}
+
+</div>
+
+<div class="pass-status">
+
+${completed}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+}
+
 updateUI();
+
+renderInventory();
+
 </script>
 
 </body>
+<audio id="sound-open" src="sounds/open.mp3" preload="auto"></audio>
 </html>
