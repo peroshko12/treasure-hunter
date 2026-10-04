@@ -25,7 +25,7 @@ button {
 
 .screen {
   min-height: 100vh;
-  padding: 18px 16px;
+  padding: 16px;
   text-align: center;
 }
 
@@ -33,13 +33,14 @@ button {
   display: none !important;
 }
 
-/* ===== ВЕРХ ===== */
+/* =========================
+   ВЕРХ
+========================= */
 
 .top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
 }
 
 .balance,
@@ -59,65 +60,170 @@ button {
   font-size: 15px;
 }
 
-/* ===== ЗАГОЛОВОК ===== */
-
 h1 {
-  margin: 18px 0 4px;
+  margin: 17px 0 3px;
   font-size: 31px;
 }
 
 .subtitle {
   color: #8fa8c4;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-/* ===== XP ===== */
+/* =========================
+   XP
+========================= */
 
 .xp-box {
-  width: 100%;
-  max-width: 400px;
-  margin: 12px auto 0;
+  max-width: 430px;
+  margin: auto;
 }
 
 .xp-text {
   display: flex;
   justify-content: space-between;
-  color: #9bb1c9;
   font-size: 12px;
+  color: #9bb1c9;
   margin-bottom: 6px;
 }
 
 .xp-bar {
   height: 10px;
-  background: #0d1928;
+  background: #0b1726;
+  border: 1px solid #29415e;
   border-radius: 10px;
   overflow: hidden;
-  border: 1px solid #263d57;
 }
 
 .xp-fill {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #4b9cff, #72d6ff);
   border-radius: 10px;
+  background: linear-gradient(90deg, #3c8cff, #71d9ff);
   transition: width .4s ease;
 }
 
-/* ===== СУНДУК ===== */
+/* =========================
+   УДАЧА
+========================= */
+
+.luck-box {
+  max-width: 430px;
+  margin: 10px auto 0;
+}
+
+.luck-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #9bb1c9;
+  margin-bottom: 5px;
+}
+
+.luck-bar {
+  height: 8px;
+  background: #0b1726;
+  border: 1px solid #29415e;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.luck-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #ff9f1c, #ffe66d);
+  transition: width .35s ease;
+}
+
+.luck-active {
+  color: #ffd84d;
+  font-weight: bold;
+}
+
+/* =========================
+   ДОРОЖКА УРОВНЕЙ
+========================= */
+
+.level-track-wrapper {
+  margin: 15px auto 0;
+  max-width: 430px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+  scrollbar-width: none;
+}
+
+.level-track-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.level-track {
+  display: flex;
+  gap: 9px;
+  width: max-content;
+  padding: 2px;
+}
+
+.level-node {
+  width: 72px;
+  min-width: 72px;
+  padding: 8px 5px;
+
+  background: #111f33;
+  border: 1px solid #29415e;
+  border-radius: 13px;
+}
+
+.level-node.current {
+  border-color: #4b9cff;
+  box-shadow: 0 0 12px rgba(75,156,255,.25);
+}
+
+.level-node.completed {
+  border-color: #4fd47b;
+}
+
+.level-number {
+  font-size: 12px;
+  color: #a7bbd0;
+}
+
+.level-reward {
+  font-size: 22px;
+  margin-top: 3px;
+}
+
+.level-reward-text {
+  font-size: 10px;
+  color: #9bb1c9;
+  margin-top: 3px;
+  white-space: nowrap;
+}
+
+/* =========================
+   СУНДУК
+========================= */
 
 .chest-area {
-  height: 310px;
+  height: 280px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
 }
 
 .chest {
   position: relative;
-  width: 190px;
-  height: 155px;
+  width: 200px;
+  height: 165px;
   transition: transform .2s;
+}
+
+.chest-body,
+.chest-lid {
+  transition:
+    background .3s,
+    border-color .3s,
+    box-shadow .3s;
 }
 
 .chest-body {
@@ -125,8 +231,8 @@ h1 {
   left: 0;
   bottom: 0;
 
-  width: 190px;
-  height: 110px;
+  width: 200px;
+  height: 115px;
 
   background: linear-gradient(180deg, #a85d25, #6e3516);
   border: 5px solid #3b1d0b;
@@ -138,8 +244,8 @@ h1 {
   left: 0;
   top: 0;
 
-  width: 190px;
-  height: 60px;
+  width: 200px;
+  height: 62px;
 
   background: linear-gradient(180deg, #c97932, #874315);
   border: 5px solid #3b1d0b;
@@ -157,8 +263,8 @@ h1 {
   left: 50%;
   top: 55%;
 
-  width: 34px;
-  height: 40px;
+  width: 35px;
+  height: 41px;
 
   transform: translate(-50%, -50%);
 
@@ -168,7 +274,7 @@ h1 {
 }
 
 .opened .chest-lid {
-  transform: translateY(-52px) rotate(-12deg);
+  transform: translateY(-53px) rotate(-12deg);
 }
 
 .shake {
@@ -189,12 +295,89 @@ h1 {
   }
 }
 
-/* ===== КЕЙС ===== */
+/* =========================
+   ВИДЫ КЕЙСОВ
+========================= */
+
+/* ОБЫЧНЫЙ */
+
+.chest.normal .chest-body {
+  background: linear-gradient(180deg, #a85d25, #6e3516);
+  border-color: #3b1d0b;
+}
+
+.chest.normal .chest-lid {
+  background: linear-gradient(180deg, #c97932, #874315);
+  border-color: #3b1d0b;
+}
+
+.chest.normal .lock {
+  background: #f1bd35;
+  border-color: #704707;
+}
+
+/* ВОЕННЫЙ */
+
+.chest.military .chest-body {
+  background: linear-gradient(180deg, #53685c, #26372e);
+  border-color: #151d19;
+  box-shadow: 0 0 25px rgba(91,122,99,.2);
+}
+
+.chest.military .chest-lid {
+  background: linear-gradient(180deg, #718776, #394b40);
+  border-color: #151d19;
+}
+
+.chest.military .lock {
+  background: #4e5d53;
+  border-color: #151d19;
+}
+
+/* АЛМАЗНЫЙ */
+
+.chest.diamond .chest-body {
+  background: linear-gradient(180deg, #39bfe8, #17659a);
+  border-color: #073e68;
+  box-shadow: 0 0 30px rgba(50,190,255,.35);
+}
+
+.chest.diamond .chest-lid {
+  background: linear-gradient(180deg, #66e4ff, #197eaf);
+  border-color: #073e68;
+}
+
+.chest.diamond .lock {
+  background: #c8f7ff;
+  border-color: #167a9e;
+}
+
+/* ЛЕГЕНДАРНЫЙ */
+
+.chest.legendary .chest-body {
+  background: linear-gradient(180deg, #dcae32, #8c5810);
+  border-color: #5b3505;
+  box-shadow: 0 0 35px rgba(255,202,55,.45);
+}
+
+.chest.legendary .chest-lid {
+  background: linear-gradient(180deg, #ffe36a, #b87815);
+  border-color: #5b3505;
+}
+
+.chest.legendary .lock {
+  background: #fff0a1;
+  border-color: #8b5a08;
+}
+
+/* =========================
+   НАЗВАНИЕ
+========================= */
 
 .case-name {
   font-size: 24px;
   font-weight: bold;
-  margin-top: -5px;
+  margin-top: -2px;
 }
 
 .case-price {
@@ -204,14 +387,16 @@ h1 {
   margin-top: 7px;
 }
 
-/* ===== ОТКРЫТЬ ===== */
+/* =========================
+   КНОПКА
+========================= */
 
 .open-button {
   width: 100%;
   max-width: 290px;
 
   padding: 16px;
-  margin-top: 12px;
+  margin-top: 13px;
 
   border: 0;
   border-radius: 16px;
@@ -233,15 +418,17 @@ h1 {
   opacity: .45;
 }
 
-/* ===== СТАТИСТИКА ===== */
+/* =========================
+   СТАТИСТИКА
+========================= */
 
 .stats {
-  margin: 22px auto 0;
-  max-width: 420px;
+  margin: 21px auto 0;
+  max-width: 430px;
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 9px;
 }
 
 .stat {
@@ -262,7 +449,9 @@ h1 {
   margin-top: 4px;
 }
 
-/* ===== МОДАЛКА ===== */
+/* =========================
+   МОДАЛКА
+========================= */
 
 .modal {
   position: fixed;
@@ -292,13 +481,13 @@ h1 {
 .modal-title {
   font-size: 25px;
   font-weight: bold;
-  margin-bottom: 10px;
 }
 
 .reward-money {
   color: #ffd84d;
   font-size: 27px;
   font-weight: bold;
+  margin-top: 9px;
 }
 
 .reward-xp {
@@ -392,8 +581,10 @@ h1 {
 
     <div class="xp-text">
       <span>⭐ XP</span>
+
       <span>
-        <span id="xp">0</span> / <span id="xpNeed">1000</span>
+        <span id="xp">0</span> /
+        <span id="xpNeed">1000</span>
       </span>
     </div>
 
@@ -404,11 +595,51 @@ h1 {
   </div>
 
 
+  <!-- УДАЧА -->
+
+  <div class="luck-box">
+
+    <div class="luck-top">
+
+      <span id="luckText">
+        🍀 2× удача
+      </span>
+
+      <span>
+        <span id="luckProgress">0</span>/10
+      </span>
+
+    </div>
+
+    <div class="luck-bar">
+
+      <div
+        class="luck-fill"
+        id="luckFill">
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ДОРОЖКА УРОВНЕЙ -->
+
+  <div class="level-track-wrapper">
+
+    <div class="level-track" id="levelTrack">
+    </div>
+
+  </div>
+
+
   <!-- СУНДУК -->
 
   <div class="chest-area">
 
-    <div class="chest" id="chest">
+    <div
+      class="chest normal"
+      id="chest">
 
       <div class="chest-lid"></div>
 
@@ -421,14 +652,22 @@ h1 {
   </div>
 
 
-  <!-- НАЗВАНИЕ КЕЙСА -->
+  <!-- КЕЙС -->
 
-  <div class="case-name" id="caseName">
+  <div
+    class="case-name"
+    id="caseName">
+
     Обычный кейс
+
   </div>
 
   <div class="case-price">
-    💰 <span id="casePrice">2 500</span>
+
+    💰 <span id="casePrice">
+      2 500
+    </span>
+
   </div>
 
 
@@ -454,21 +693,12 @@ h1 {
         Открыто кейсов
       </div>
 
-      <div class="stat-value" id="opened">
+      <div
+        class="stat-value"
+        id="opened">
+
         0
-      </div>
 
-    </div>
-
-
-    <div class="stat">
-
-      <div class="stat-title">
-        Энергия
-      </div>
-
-      <div class="stat-value">
-        ⚡ <span id="energy">10</span>/10
       </div>
 
     </div>
@@ -480,8 +710,13 @@ h1 {
         Всего заработано
       </div>
 
-      <div class="stat-value">
-        💰 <span id="totalEarned">0</span>
+      <div
+        class="stat-value">
+
+        💰 <span id="totalEarned">
+          0
+        </span>
+
       </div>
 
     </div>
@@ -490,11 +725,33 @@ h1 {
     <div class="stat">
 
       <div class="stat-title">
-        Удача
+        Уровень
       </div>
 
-      <div class="stat-value" id="luck">
-        Обычная
+      <div
+        class="stat-value">
+
+        ⭐ <span id="levelStat">
+          1
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+        Текущий кейс
+      </div>
+
+      <div
+        class="stat-value"
+        id="caseStat">
+
+        Обычный
+
       </div>
 
     </div>
@@ -504,9 +761,13 @@ h1 {
 </div>
 
 
-<!-- ===== НАГРАДА ===== -->
+<!-- =========================
+     НАГРАДА
+========================= -->
 
-<div class="modal hidden" id="rewardModal">
+<div
+  class="modal hidden"
+  id="rewardModal">
 
   <div class="modal-box">
 
@@ -522,11 +783,18 @@ h1 {
       ⭐ +100 XP
     </div>
 
-    <div class="new-level hidden" id="newLevel">
+    <div
+      class="new-level hidden"
+      id="newLevel">
+
       🎊 Новый уровень!
+
     </div>
 
-    <div class="items" id="items"></div>
+    <div
+      class="items"
+      id="items">
+    </div>
 
     <button
       class="close-button"
@@ -551,6 +819,8 @@ const cases = {
 
   1: {
     name: "Обычный кейс",
+    shortName: "Обычный",
+    className: "normal",
     price: 2500,
     min: 500,
     max: 10000
@@ -558,6 +828,8 @@ const cases = {
 
   2: {
     name: "Военный кейс",
+    shortName: "Военный",
+    className: "military",
     price: 10000,
     min: 2000,
     max: 50000
@@ -565,6 +837,8 @@ const cases = {
 
   3: {
     name: "Алмазный кейс",
+    shortName: "Алмазный",
+    className: "diamond",
     price: 50000,
     min: 15000,
     max: 200000
@@ -572,6 +846,8 @@ const cases = {
 
   4: {
     name: "Легендарный кейс",
+    shortName: "Легендарный",
+    className: "legendary",
     price: 250000,
     min: 40000,
     max: 1000000
@@ -626,6 +902,110 @@ const itemPool = [
 
 
 /* =========================
+   НАГРАДЫ ЗА УРОВНИ
+========================= */
+
+const levelRewards = {
+
+  2: {
+    icon: "💰",
+    text: "1 000"
+  },
+
+  3: {
+    icon: "💰",
+    text: "2 000"
+  },
+
+  4: {
+    icon: "💰",
+    text: "3 000"
+  },
+
+  5: {
+    icon: "🪖",
+    text: "Военный"
+  },
+
+  6: {
+    icon: "💰",
+    text: "5 000"
+  },
+
+  7: {
+    icon: "💰",
+    text: "7 500"
+  },
+
+  8: {
+    icon: "💰",
+    text: "10 000"
+  },
+
+  9: {
+    icon: "💰",
+    text: "15 000"
+  },
+
+  10: {
+    icon: "💎",
+    text: "Алмазный"
+  },
+
+  11: {
+    icon: "💰",
+    text: "20 000"
+  },
+
+  12: {
+    icon: "💰",
+    text: "25 000"
+  },
+
+  13: {
+    icon: "💰",
+    text: "30 000"
+  },
+
+  14: {
+    icon: "💰",
+    text: "35 000"
+  },
+
+  15: {
+    icon: "💰",
+    text: "50 000"
+  },
+
+  16: {
+    icon: "💰",
+    text: "60 000"
+  },
+
+  17: {
+    icon: "💰",
+    text: "70 000"
+  },
+
+  18: {
+    icon: "💰",
+    text: "80 000"
+  },
+
+  19: {
+    icon: "💰",
+    text: "100 000"
+  },
+
+  20: {
+    icon: "👑",
+    text: "Легендарный"
+  }
+
+};
+
+
+/* =========================
    СОХРАНЕНИЕ
 ========================= */
 
@@ -634,13 +1014,6 @@ let balance =
 
 let opened =
   Number(localStorage.getItem("opened")) || 0;
-
-let energy =
-  Number(localStorage.getItem("energy"));
-
-if (isNaN(energy)) {
-  energy = 10;
-}
 
 let totalEarned =
   Number(localStorage.getItem("totalEarned")) || 0;
@@ -656,10 +1029,11 @@ let luckyProgress =
 
 
 /* =========================
-   XP
+   НАСТРОЙКИ
 ========================= */
 
 const XP_PER_CASE = 100;
+
 const XP_PER_LEVEL = 1000;
 
 
@@ -669,13 +1043,15 @@ const XP_PER_LEVEL = 1000;
 
 function getLevel() {
 
-  return Math.floor(xp / XP_PER_LEVEL) + 1;
+  return Math.floor(
+    xp / XP_PER_LEVEL
+  ) + 1;
 
 }
 
 
 /* =========================
-   КАКОЙ КЕЙС ДОСТУПЕН
+   ТЕКУЩИЙ КЕЙС
 ========================= */
 
 function getCurrentCase() {
@@ -700,7 +1076,7 @@ function getCurrentCase() {
 
 
 /* =========================
-   СОХРАНЕНИЕ
+   СОХРАНИТЬ
 ========================= */
 
 function save() {
@@ -713,11 +1089,6 @@ function save() {
   localStorage.setItem(
     "opened",
     opened
-  );
-
-  localStorage.setItem(
-    "energy",
-    energy
   );
 
   localStorage.setItem(
@@ -744,37 +1115,175 @@ function save() {
 
 
 /* =========================
-   ОБНОВЛЕНИЕ
+   ДОРОЖКА УРОВНЕЙ
+========================= */
+
+function renderLevelTrack() {
+
+  const track =
+    document.getElementById("levelTrack");
+
+  const level =
+    getLevel();
+
+  track.innerHTML = "";
+
+
+  for (
+    let i = 1;
+    i <= Math.max(20, level + 3);
+    i++
+  ) {
+
+    const node =
+      document.createElement("div");
+
+    node.className = "level-node";
+
+
+    if (i === level) {
+      node.classList.add("current");
+    }
+
+    if (i < level) {
+      node.classList.add("completed");
+    }
+
+
+    let reward =
+      levelRewards[i];
+
+
+    if (!reward) {
+
+      reward = {
+        icon: "🎁",
+        text: "Награда"
+      };
+
+    }
+
+
+    node.innerHTML = `
+
+      <div class="level-number">
+        Уровень ${i}
+      </div>
+
+      <div class="level-reward">
+        ${reward.icon}
+      </div>
+
+      <div class="level-reward-text">
+        ${reward.text}
+      </div>
+
+    `;
+
+
+    track.appendChild(node);
+
+  }
+
+
+  /* Прокручиваем к текущему уровню */
+
+  setTimeout(() => {
+
+    const current =
+      track.querySelector(".current");
+
+    if (current) {
+
+      current.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest"
+      });
+
+    }
+
+  }, 100);
+
+}
+
+
+/* =========================
+   ВЫДАТЬ НАГРАДУ
+========================= */
+
+function giveLevelReward(level) {
+
+  const reward =
+    levelRewards[level];
+
+
+  if (!reward) {
+    return;
+  }
+
+
+  /* Награды деньгами */
+
+  if (reward.icon === "💰") {
+
+    const amount =
+      Number(
+        reward.text.replace(/\s/g, "")
+      );
+
+    balance += amount;
+
+    totalEarned += amount;
+
+  }
+
+}
+
+
+/* =========================
+   ОБНОВИТЬ
 ========================= */
 
 function updateUI() {
 
-  const level = getLevel();
+  const level =
+    getLevel();
 
-  const currentCaseId =
+  const caseId =
     getCurrentCase();
 
   const currentCase =
-    cases[currentCaseId];
+    cases[caseId];
 
 
-  document.getElementById("balance")
-    .textContent =
+  document.getElementById(
+    "balance"
+  ).textContent =
     balance.toLocaleString("ru-RU");
 
 
-  document.getElementById("level")
-    .textContent =
+  document.getElementById(
+    "level"
+  ).textContent =
     level;
 
 
-  document.getElementById("xp")
-    .textContent =
+  document.getElementById(
+    "levelStat"
+  ).textContent =
+    level;
+
+
+  document.getElementById(
+    "xp"
+  ).textContent =
     xp % XP_PER_LEVEL;
 
 
-  document.getElementById("xpNeed")
-    .textContent =
+  document.getElementById(
+    "xpNeed"
+  ).textContent =
     XP_PER_LEVEL;
 
 
@@ -783,50 +1292,110 @@ function updateUI() {
     XP_PER_LEVEL) * 100;
 
 
-  document.getElementById("xpFill")
-    .style.width =
+  document.getElementById(
+    "xpFill"
+  ).style.width =
     xpPercent + "%";
 
 
-  document.getElementById("caseName")
-    .textContent =
+  /* УДАЧА */
+
+  document.getElementById(
+    "luckProgress"
+  ).textContent =
+    luckyProgress;
+
+
+  document.getElementById(
+    "luckFill"
+  ).style.width =
+    (luckyProgress * 10) + "%";
+
+
+  document.getElementById(
+    "luckText"
+  ).textContent =
+    luckyActive
+      ? "🔥 2× удача активна!"
+      : "🍀 2× удача";
+
+
+  if (luckyActive) {
+
+    document.getElementById(
+      "luckText"
+    ).classList.add("luck-active");
+
+  } else {
+
+    document.getElementById(
+      "luckText"
+    ).classList.remove("luck-active");
+
+  }
+
+
+  /* КЕЙС */
+
+  document.getElementById(
+    "caseName"
+  ).textContent =
     currentCase.name;
 
 
-  document.getElementById("casePrice")
-    .textContent =
+  document.getElementById(
+    "casePrice"
+  ).textContent =
     currentCase.price.toLocaleString("ru-RU");
 
 
-  document.getElementById("opened")
-    .textContent =
+  document.getElementById(
+    "caseStat"
+  ).textContent =
+    currentCase.shortName;
+
+
+  document.getElementById(
+    "opened"
+  ).textContent =
     opened;
 
 
-  document.getElementById("energy")
-    .textContent =
-    energy;
-
-
-  document.getElementById("totalEarned")
-    .textContent =
+  document.getElementById(
+    "totalEarned"
+  ).textContent =
     totalEarned.toLocaleString("ru-RU");
 
 
-  document.getElementById("luck")
-    .textContent =
-    luckyActive
-      ? "🔥 2× удача"
-      : "Обычная";
+  /* СТИЛЬ СУНДУКА */
 
+  const chest =
+    document.getElementById("chest");
+
+  chest.className =
+    "chest " +
+    currentCase.className;
+
+
+  /* КНОПКА */
 
   const button =
-    document.getElementById("openButton");
+    document.getElementById(
+      "openButton"
+    );
 
+
+  /*
+    ВАЖНО:
+    проверяем только деньги.
+    ЭНЕРГИИ БОЛЬШЕ НЕТ.
+  */
 
   button.disabled =
-    balance < currentCase.price ||
-    energy <= 0;
+    balance < currentCase.price;
+
+
+  renderLevelTrack();
 
 }
 
@@ -846,7 +1415,7 @@ function randomInt(min, max) {
 
 
 /* =========================
-   ОТКРЫТИЕ
+   ОТКРЫТЬ КЕЙС
 ========================= */
 
 function openCase() {
@@ -860,16 +1429,9 @@ function openCase() {
 
   if (balance < currentCase.price) {
 
-    alert("Недостаточно денег!");
-
-    return;
-
-  }
-
-
-  if (energy <= 0) {
-
-    alert("Закончилась энергия!");
+    alert(
+      "Недостаточно денег для открытия кейса!"
+    );
 
     return;
 
@@ -880,45 +1442,46 @@ function openCase() {
     getLevel();
 
 
-  /* Оплата кейса */
+  /* Снимаем цену */
 
   balance -= currentCase.price;
 
-  energy--;
 
-
-  /* Награда */
+  /* НАГРАДА */
 
   let reward;
 
 
   if (luckyActive) {
 
-    reward = randomInt(
-      Math.ceil(
-        (currentCase.min +
-        currentCase.max) / 2
-      ),
-      currentCase.max
-    );
+    reward =
+      randomInt(
+        Math.ceil(
+          (currentCase.min +
+          currentCase.max) / 2
+        ),
+        currentCase.max
+      );
 
     luckyActive = false;
 
   } else {
 
-    reward = randomInt(
-      currentCase.min,
-      currentCase.max
-    );
+    reward =
+      randomInt(
+        currentCase.min,
+        currentCase.max
+      );
 
   }
 
 
-  /* 1% шанс максимальной награды */
+  /* 1% максимальной награды */
 
   if (Math.random() < 0.01) {
 
-    reward = currentCase.max;
+    reward =
+      currentCase.max;
 
   }
 
@@ -928,7 +1491,7 @@ function openCase() {
   totalEarned += reward;
 
 
-  /* Статистика */
+  /* Кейс открыт */
 
   opened++;
 
@@ -938,9 +1501,13 @@ function openCase() {
   xp += XP_PER_CASE;
 
 
-  /* Удача */
+  /* УДАЧА */
 
-  luckyProgress++;
+  if (!luckyActive) {
+
+    luckyProgress++;
+
+  }
 
 
   if (luckyProgress >= 10) {
@@ -956,12 +1523,29 @@ function openCase() {
     getLevel();
 
 
+  /* Выдаём награды за все новые уровни */
+
+  if (newLevel > oldLevel) {
+
+    for (
+      let lvl = oldLevel + 1;
+      lvl <= newLevel;
+      lvl++
+    ) {
+
+      giveLevelReward(lvl);
+
+    }
+
+  }
+
+
   save();
 
   updateUI();
 
 
-  /* Анимация сундука */
+  /* СУНДУК */
 
   const chest =
     document.getElementById("chest");
@@ -984,7 +1568,7 @@ function openCase() {
   }, 350);
 
 
-  /* Награда */
+  /* ПОКАЗАТЬ НАГРАДУ */
 
   showReward(
     reward,
@@ -1003,21 +1587,23 @@ function showReward(
   leveledUp
 ) {
 
-  document.getElementById("rewardMoney")
-    .textContent =
+  document.getElementById(
+    "rewardMoney"
+  ).textContent =
     reward.toLocaleString("ru-RU");
 
 
   const levelMessage =
-    document.getElementById("newLevel");
+    document.getElementById(
+      "newLevel"
+    );
 
 
   if (leveledUp) {
 
     levelMessage.textContent =
-      "🎊 Уровень повышен! Теперь " +
-      getLevel() +
-      " уровень";
+      "🎊 Новый уровень! Ур. " +
+      getLevel();
 
     levelMessage.classList.remove(
       "hidden"
@@ -1033,7 +1619,9 @@ function showReward(
 
 
   const items =
-    document.getElementById("items");
+    document.getElementById(
+      "items"
+    );
 
   items.innerHTML = "";
 
@@ -1070,7 +1658,6 @@ function showReward(
     const div =
       document.createElement("div");
 
-
     div.className = "item";
 
 
@@ -1098,28 +1685,39 @@ function showReward(
 
   document.getElementById(
     "rewardModal"
-  ).classList.remove("hidden");
+  ).classList.remove(
+    "hidden"
+  );
 
 }
 
 
 /* =========================
-   ЗАКРЫТЬ НАГРАДУ
+   ЗАКРЫТЬ
 ========================= */
 
 function closeReward() {
 
   document.getElementById(
     "rewardModal"
-  ).classList.add("hidden");
+  ).classList.add(
+    "hidden"
+  );
 
 
   const chest =
-    document.getElementById("chest");
+    document.getElementById(
+      "chest"
+    );
 
 
-  chest.classList.remove("opened");
-  chest.classList.remove("shake");
+  chest.classList.remove(
+    "opened"
+  );
+
+  chest.classList.remove(
+    "shake"
+  );
 
 }
 
