@@ -10,7 +10,7 @@
 <style>
 *{
   box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent
+  -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
@@ -20,8 +20,8 @@ html,body{
   height:100%;
   min-height:100%;
   overflow:hidden;
-  background:#0b0e14;
-  color:#fff;
+  background:#090c12;
+  color:white;
   font-family:Arial,sans-serif;
 }
 
@@ -39,20 +39,21 @@ body{
   position:relative;
   overflow:hidden;
   background:
-    radial-gradient(circle at 50% 25%,#20283a 0,#101521 35%,#0b0e14 75%);
+    radial-gradient(circle at 50% 20%,#202a40 0%,#111722 38%,#090c12 80%);
 }
 
 button{
   border:0;
   color:white;
   cursor:pointer;
+  font-family:Arial,sans-serif;
 }
 
 .screen{
-  width:100%;
-  height:100%;
   position:absolute;
   inset:0;
+  width:100%;
+  height:100%;
   display:none;
   flex-direction:column;
 }
@@ -61,36 +62,98 @@ button{
   display:flex;
 }
 
-/* TOP */
+/* ===== ВЕРХ ===== */
 
 .top{
-  height:75px;
+  padding:10px 13px 0;
+}
+
+.top-row{
   display:flex;
-  justify-content:flex-end;
   align-items:center;
-  padding:12px 15px;
+  gap:8px;
 }
 
-.player{
-  background:#171d2a;
-  border:1px solid #2c3548;
-  border-radius:14px;
-  padding:8px 13px;
-  text-align:right;
-  box-shadow:0 5px 20px #0005;
+.xp-panel{
+  flex:1;
+  background:#151b28;
+  border:1px solid #2b3549;
+  border-radius:13px;
+  padding:8px 10px;
 }
 
-.player b{
+.xp-head{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  color:#aeb8ca;
+  margin-bottom:6px;
+}
+
+.xp-head b{
+  color:white;
+}
+
+.xp-line{
+  width:100%;
+  height:7px;
+  background:#252c3b;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.xp-fill{
+  width:0%;
+  height:100%;
+  border-radius:10px;
+  background:linear-gradient(90deg,#6375ff,#ad65ff);
+  transition:.35s;
+}
+
+.level-box{
+  min-width:78px;
+  background:#151b28;
+  border:1px solid #2b3549;
+  border-radius:13px;
+  padding:9px 8px;
+  text-align:center;
+}
+
+.level-box small{
   display:block;
-  font-size:14px;
+  color:#929db1;
+  font-size:10px;
 }
 
-.player span{
-  color:#8d9ab0;
+.level-box b{
+  font-size:17px;
+}
+
+.luck-row{
+  display:flex;
+  gap:7px;
+  margin-top:7px;
+}
+
+.luck-box{
+  flex:1;
+  background:#121925;
+  border:1px solid #293449;
+  border-radius:10px;
+  padding:7px;
+  text-align:center;
   font-size:11px;
 }
 
-/* MAIN */
+.luck-box.x2{
+  color:#76e994;
+}
+
+.luck-box.x5{
+  color:#ffb84e;
+}
+
+/* ===== ГЛАВНЫЙ ЭКРАН ===== */
 
 .main{
   flex:1;
@@ -98,103 +161,127 @@ button{
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  padding-bottom:15px;
+  padding-bottom:10px;
 }
 
 .case-name{
-  font-size:23px;
+  font-size:24px;
   font-weight:bold;
   margin-bottom:4px;
 }
 
 .case-price{
-  color:#ffd95a;
+  color:#ffd45a;
   font-size:15px;
-  margin-bottom:22px;
+  margin-bottom:10px;
 }
 
-/* 2D CHEST */
+/* ===== СУНДУК ===== */
 
-.chest-wrap{
-  width:230px;
-  height:205px;
+.chest-area{
+  width:250px;
+  height:235px;
   position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
-  perspective:600px;
+  perspective:800px;
 }
 
 .chest-shadow{
   position:absolute;
-  bottom:15px;
-  width:150px;
+  bottom:18px;
+  width:155px;
   height:25px;
   border-radius:50%;
-  background:#0008;
-  filter:blur(8px);
+  background:#0009;
+  filter:blur(9px);
+  transition:.5s;
 }
 
 .chest{
-  width:145px;
-  height:115px;
+  width:150px;
+  height:125px;
   position:relative;
   transform-style:preserve-3d;
-  transition:.15s;
-  filter:drop-shadow(0 15px 20px #0008);
+  z-index:3;
 }
 
 .chest-body{
   position:absolute;
   left:0;
   bottom:0;
-  width:145px;
+  width:150px;
   height:82px;
-  border-radius:8px 8px 15px 15px;
-  background:linear-gradient(145deg,#d99120,#8c4d0c);
+  border-radius:7px 7px 15px 15px;
+  background:
+    linear-gradient(145deg,#e4a126,#914e0a);
   border:4px solid #5c3008;
   box-shadow:
-    inset 0 8px 10px #fff3,
-    inset 0 -12px 15px #0005;
+    inset 0 8px 10px #ffffff33,
+    inset 0 -15px 18px #0006;
 }
 
 .chest-body:before{
   content:"";
   position:absolute;
+  left:11px;
+  right:11px;
+  top:14px;
+  height:6px;
+  border-radius:5px;
+  background:#ffd052;
+}
+
+.chest-body:after{
+  content:"";
+  position:absolute;
   left:12px;
   right:12px;
-  top:14px;
+  bottom:13px;
   height:5px;
   border-radius:5px;
-  background:#f7bd35;
+  background:#6e3908;
 }
 
 .chest-lid{
   position:absolute;
   left:0;
-  top:12px;
-  width:145px;
-  height:48px;
-  border-radius:12px 12px 6px 6px;
-  background:linear-gradient(145deg,#f3ad2b,#914e0b);
+  top:13px;
+  width:150px;
+  height:53px;
+  border-radius:13px 13px 5px 5px;
+  background:
+    linear-gradient(145deg,#f2ad2d,#98520c);
   border:4px solid #5c3008;
-  transform-origin:bottom center;
-  transition:transform .45s cubic-bezier(.2,.8,.2,1);
-  z-index:3;
-  box-shadow:inset 0 8px 10px #fff3;
+  transform-origin:50% 100%;
+  z-index:5;
+  box-shadow:
+    inset 0 8px 12px #ffffff33,
+    0 5px 8px #0007;
+}
+
+.chest-lid:before{
+  content:"";
+  position:absolute;
+  left:11px;
+  right:11px;
+  top:12px;
+  height:5px;
+  border-radius:5px;
+  background:#ffd45b;
 }
 
 .chest-lock{
   position:absolute;
-  z-index:5;
-  left:59px;
-  top:53px;
+  left:61px;
+  top:55px;
   width:28px;
   height:35px;
   border-radius:5px;
-  background:linear-gradient(#ffe27a,#b56a0c);
+  background:linear-gradient(#ffe47a,#b66c0d);
   border:3px solid #633808;
-  transition:.25s;
+  z-index:8;
 }
 
 .chest-lock:after{
@@ -203,77 +290,131 @@ button{
   width:8px;
   height:10px;
   border-radius:50%;
-  background:#4b2908;
+  background:#4a2808;
   left:7px;
   top:8px;
 }
 
-.chest-light{
+.chest-inside{
   position:absolute;
-  z-index:1;
-  left:20px;
-  top:50px;
-  width:105px;
-  height:75px;
+  left:15px;
+  bottom:28px;
+  width:120px;
+  height:60px;
   border-radius:50%;
-  background:#ffe66d;
+  background:radial-gradient(
+    circle,
+    #fff 0%,
+    #ffe875 18%,
+    #ff9d00 45%,
+    transparent 72%
+  );
+  filter:blur(10px);
   opacity:0;
-  filter:blur(22px);
-  transition:.25s;
-}
-
-.chest.opening .chest-lid{
-  transform:rotateX(-115deg);
-}
-
-.chest.opening .chest-lock{
-  transform:scale(0);
-}
-
-.chest.opening .chest-light{
-  opacity:1;
-  animation:lightPulse .7s infinite alternate;
+  z-index:1;
 }
 
 .chest.opening{
-  animation:chestShake .45s;
+  animation:chestJump .85s ease;
 }
 
-@keyframes chestShake{
-  0%{transform:translateX(0) rotate(0)}
-  20%{transform:translateX(-7px) rotate(-3deg)}
-  40%{transform:translateX(7px) rotate(3deg)}
-  60%{transform:translateX(-5px) rotate(-2deg)}
-  80%{transform:translateX(5px) rotate(2deg)}
-  100%{transform:translateX(0) rotate(0)}
+.chest.opening .chest-lid{
+  animation:lidRip .7s .2s cubic-bezier(.12,.8,.2,1) forwards;
 }
 
-@keyframes lightPulse{
-  from{transform:scale(.8);opacity:.45}
-  to{transform:scale(1.2);opacity:1}
+.chest.opening .chest-lock{
+  animation:lockBreak .25s .2s forwards;
 }
 
-/* FLYING REWARDS */
+.chest.opening .chest-inside{
+  animation:insideLight .8s .25s ease-out forwards;
+}
+
+@keyframes chestJump{
+  0%{transform:translateY(0) scale(1)}
+  20%{transform:translateY(5px) scale(.97)}
+  40%{transform:translateY(-10px) scale(1.04)}
+  60%{transform:translateY(-3px) scale(1)}
+  100%{transform:translateY(0) scale(1)}
+}
+
+@keyframes lidRip{
+  0%{
+    transform:rotateX(0deg) translateY(0);
+  }
+
+  35%{
+    transform:rotateX(-55deg) translateY(-8px);
+  }
+
+  65%{
+    transform:rotateX(-125deg) translateY(-28px) translateZ(8px);
+  }
+
+  100%{
+    transform:rotateX(-155deg) translateY(-48px) translateZ(15px);
+    opacity:.95;
+  }
+}
+
+@keyframes lockBreak{
+  0%{
+    transform:scale(1);
+    opacity:1;
+  }
+
+  100%{
+    transform:scale(.1) translateY(20px);
+    opacity:0;
+  }
+}
+
+@keyframes insideLight{
+  0%{
+    opacity:0;
+    transform:scale(.2);
+  }
+
+  35%{
+    opacity:1;
+    transform:scale(1);
+  }
+
+  65%{
+    opacity:.9;
+    transform:scale(1.3);
+  }
+
+  100%{
+    opacity:0;
+    transform:scale(1.8);
+  }
+}
+
+/* ===== ЛЕТЯЩИЕ НАГРАДЫ ===== */
 
 .reward-particle{
   position:absolute;
   left:50%;
-  top:75px;
-  transform:translate(-50%,-50%);
-  font-size:28px;
-  pointer-events:none;
+  top:90px;
   z-index:20;
-  animation:rewardFly .75s ease-out forwards;
+  font-size:31px;
+  pointer-events:none;
+  animation:rewardFly .9s cubic-bezier(.15,.8,.2,1) forwards;
+  filter:drop-shadow(0 0 9px #fff9);
 }
 
 @keyframes rewardFly{
   0%{
     opacity:0;
-    transform:translate(-50%,-50%) scale(.3);
+    transform:translate(-50%,-50%) scale(.2);
   }
-  20%{
+
+  15%{
     opacity:1;
+    transform:translate(-50%,-50%) scale(1.5);
   }
+
   100%{
     opacity:0;
     transform:
@@ -281,60 +422,23 @@ button{
         calc(-50% + var(--x)),
         calc(-50% + var(--y))
       )
-      scale(1.4) rotate(var(--r));
+      scale(.8)
+      rotate(var(--r));
   }
 }
 
-/* XP */
-
-.xp-box{
-  width:85%;
-  max-width:360px;
-  margin-top:20px;
-}
-
-.xp-line{
-  height:8px;
-  background:#1a2030;
-  border-radius:10px;
-  overflow:hidden;
-}
-
-.xp-fill{
-  height:100%;
-  background:linear-gradient(90deg,#6b7cff,#b66cff);
-  border-radius:10px;
-  transition:.3s;
-}
-
-.xp-text{
-  font-size:11px;
-  color:#8792a8;
-  text-align:center;
-  margin-top:5px;
-}
-
-/* LUCK */
-
-.luck{
-  margin-top:12px;
-  color:#72e28b;
-  font-size:13px;
-  min-height:18px;
-}
-
-/* OPEN BUTTON */
+/* ===== КНОПКА ===== */
 
 .open-btn{
-  margin-top:14px;
-  width:85%;
+  width:86%;
   max-width:360px;
   height:55px;
+  margin-top:4px;
   border-radius:15px;
-  background:linear-gradient(135deg,#586cff,#7b4dff);
+  background:linear-gradient(135deg,#596dff,#7c4dff);
+  box-shadow:0 8px 25px #514dff55;
   font-size:16px;
   font-weight:bold;
-  box-shadow:0 8px 25px #504dff55;
   transition:.15s;
 }
 
@@ -343,22 +447,20 @@ button{
 }
 
 .open-btn:disabled{
-  opacity:.5;
+  opacity:.45;
 }
 
-/* BALANCE */
-
 .balance{
-  margin-top:12px;
-  color:#ffd95a;
+  margin-top:10px;
+  color:#ffd45a;
   font-size:20px;
   font-weight:bold;
 }
 
-/* BOTTOM */
+/* ===== НИЖНЕЕ МЕНЮ ===== */
 
 .bottom{
-  height:68px;
+  height:62px;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -367,125 +469,143 @@ button{
 .menu-btn{
   width:90%;
   max-width:360px;
-  height:48px;
+  height:46px;
   border-radius:14px;
-  background:#171d2a;
-  border:1px solid #2c3548;
-  font-size:15px;
+  background:#171e2c;
+  border:1px solid #2c374b;
 }
 
-/* MENU */
+/* ===== МЕНЮ ===== */
 
 .menu{
-  padding:25px 15px;
-  gap:12px;
+  padding:20px 15px;
+  gap:11px;
 }
 
-.menu h2{
-  margin:10px 0 8px;
+.menu h2,
+.page h2{
   text-align:center;
+  margin:8px 0 12px;
 }
 
 .menu-item{
   width:100%;
-  min-height:55px;
+  min-height:53px;
   border-radius:14px;
-  background:#171d2a;
-  border:1px solid #2c3548;
-  display:flex;
-  align-items:center;
-  padding:0 17px;
+  background:#171e2c;
+  border:1px solid #2c374b;
+  padding:0 16px;
+  text-align:left;
   font-size:15px;
 }
 
 .back{
-  background:#242b3b;
   margin-top:auto;
+  text-align:center;
 }
 
-/* PAGES */
+/* ===== СТРАНИЦЫ ===== */
 
 .page{
   padding:20px 15px;
   overflow:auto;
 }
 
-.page h2{
-  text-align:center;
-  margin:10px 0 20px;
-}
-
 .stat{
-  background:#171d2a;
-  border:1px solid #2c3548;
+  background:#171e2c;
+  border:1px solid #2c374b;
   border-radius:14px;
   padding:14px;
-  margin-bottom:10px;
+  margin-bottom:9px;
   display:flex;
   justify-content:space-between;
 }
 
 .stat span{
-  color:#8995aa;
+  color:#8e9aaf;
 }
 
 .settings-btn{
-  background:#171d2a;
-  border:1px solid #2c3548;
+  width:100%;
+  background:#171e2c;
+  border:1px solid #2c374b;
   border-radius:14px;
   padding:16px;
-  width:100%;
-  margin-bottom:10px;
+  margin-bottom:9px;
   text-align:left;
   font-size:15px;
 }
 
 .pass{
-  background:#171d2a;
-  border:1px solid #2c3548;
+  background:#171e2c;
+  border:1px solid #2c374b;
   border-radius:14px;
   padding:13px;
   margin-bottom:8px;
 }
 
 .pass b{
-  color:#ffd95a;
+  color:#ffd45a;
 }
 
-/* MODAL */
+/* ===== ОКНО НАГРАД ===== */
 
 .modal{
   position:absolute;
   inset:0;
-  background:#000b;
+  background:#000c;
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:100;
   padding:20px;
+  z-index:100;
+  animation:modalBg .25s ease;
 }
 
 .modal.active{
   display:flex;
 }
 
+@keyframes modalBg{
+  from{opacity:0}
+  to{opacity:1}
+}
+
 .modal-box{
   width:100%;
   max-width:390px;
-  max-height:80%;
+  max-height:82%;
   overflow:auto;
-  background:#111722;
-  border:1px solid #303b51;
-  border-radius:20px;
+  background:
+    radial-gradient(circle at 50% 0%,#242f49,#111722 55%);
+  border:1px solid #3b4861;
+  border-radius:22px;
   padding:20px;
-  box-shadow:0 20px 60px #000;
+  box-shadow:0 20px 70px #000;
+  animation:rewardWindow .45s cubic-bezier(.15,.8,.2,1);
+}
+
+@keyframes rewardWindow{
+  0%{
+    transform:translateY(80px) scale(.7);
+    opacity:0;
+  }
+
+  70%{
+    transform:translateY(-8px) scale(1.03);
+  }
+
+  100%{
+    transform:translateY(0) scale(1);
+    opacity:1;
+  }
 }
 
 .modal-title{
   text-align:center;
-  font-size:22px;
+  font-size:23px;
   font-weight:bold;
-  margin-bottom:15px;
+  margin-bottom:16px;
 }
 
 .reward{
@@ -493,12 +613,15 @@ button{
   align-items:center;
   gap:12px;
   padding:12px;
-  background:#1a2130;
-  border-radius:12px;
+  background:#192131;
+  border:1px solid #2a3549;
+  border-radius:13px;
   margin-bottom:8px;
 }
 
 .reward-icon{
+  width:42px;
+  text-align:center;
   font-size:30px;
 }
 
@@ -508,39 +631,39 @@ button{
 
 .reward-rarity{
   font-size:11px;
-  color:#929db0;
+  margin-bottom:3px;
 }
 
 .reward-value{
   font-size:17px;
   font-weight:bold;
-  color:#ffd95a;
+  color:#ffd45a;
 }
 
 .total{
   text-align:center;
-  font-size:20px;
+  color:#ffd45a;
+  font-size:21px;
   font-weight:bold;
-  color:#ffd95a;
-  margin:15px 0;
+  margin:16px 0;
 }
 
 .close-btn{
   width:100%;
-  height:48px;
-  border-radius:13px;
-  background:#586cff;
+  height:49px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#596dff,#7c4dff);
   font-weight:bold;
 }
 
-/* RARITY */
+/* редкости */
 
-.common{color:#bfc7d5}
-.uncommon{color:#5ee08b}
-.rare{color:#55a9ff}
-.epic{color:#bb70ff}
+.common{color:#c4ccd9}
+.uncommon{color:#60df89}
+.rare{color:#55aaff}
+.epic{color:#bc70ff}
 .legendary{color:#ffbd45}
-.mythic{color:#ff5d72}
+.mythic{color:#ff5c76}
 </style>
 </head>
 
@@ -548,204 +671,411 @@ button{
 
 <div id="app">
 
-  <div id="home" class="screen active">
+<!-- ГЛАВНЫЙ ЭКРАН -->
 
-    <div class="top">
-      <div class="player">
-        <b id="level">Уровень 1</b>
-        <span id="xpTop">0 / 1000 XP</span>
-      </div>
-    </div>
+<div id="home" class="screen active">
 
-    <div class="main">
+  <div class="top">
 
-      <div class="case-name" id="caseName">Обычный</div>
-      <div class="case-price" id="casePrice">💰 2 500</div>
+    <div class="top-row">
 
-      <div class="chest-wrap">
-        <div class="chest-shadow"></div>
+      <div class="xp-panel">
 
-        <div class="chest" id="chest">
-          <div class="chest-light"></div>
-          <div class="chest-lid"></div>
-          <div class="chest-body"></div>
-          <div class="chest-lock"></div>
+        <div class="xp-head">
+          <b id="levelText">Уровень 1</b>
+          <span id="xpText">0 / 1000 XP</span>
         </div>
-      </div>
 
-      <div class="xp-box">
         <div class="xp-line">
           <div class="xp-fill" id="xpFill"></div>
         </div>
-        <div class="xp-text" id="xpText">0 / 1000 XP</div>
+
       </div>
 
-      <div class="luck" id="luck">🍀 Удача: 0/10</div>
-
-      <button class="open-btn" id="openBtn" onclick="openCase()">
-        ОТКРЫТЬ КЕЙС
-      </button>
-
-      <div class="balance" id="balance">💰 10 000</div>
+      <div class="level-box">
+        <small>УРОВЕНЬ</small>
+        <b id="level">1</b>
+      </div>
 
     </div>
 
-    <div class="bottom">
-      <button class="menu-btn" onclick="showScreen('menu')">
-        ☰ МЕНЮ
-      </button>
+    <div class="luck-row">
+
+      <div class="luck-box x2" id="luck2">
+        🍀 ×2: 10 открытий
+      </div>
+
+      <div class="luck-box x5" id="luck5">
+        🔥 ×5: 50 открытий
+      </div>
+
     </div>
 
   </div>
 
-  <div id="menu" class="screen menu">
-    <h2>МЕНЮ</h2>
+  <div class="main">
 
-    <button class="menu-item" onclick="showScreen('stats')">
-      📊 Статистика
-    </button>
-
-    <button class="menu-item" onclick="showScreen('settings')">
-      ⚙️ Настройки
-    </button>
-
-    <button class="menu-item" onclick="showScreen('pass')">
-      🎟️ Battle Pass
-    </button>
-
-    <button class="menu-item" onclick="showScreen('inventory')">
-      🎒 Инвентарь
-    </button>
-
-    <button class="menu-item" onclick="showScreen('upgrader')">
-      ⬆️ Апгрейдер
-    </button>
-
-    <button class="menu-item back" onclick="showScreen('home')">
-      ← Назад
-    </button>
-  </div>
-
-  <div id="stats" class="screen page">
-    <h2>📊 Статистика</h2>
-
-    <div class="stat"><span>Открыто кейсов</span><b id="sOpened">0</b></div>
-    <div class="stat"><span>Заработано</span><b id="sEarned">0</b></div>
-    <div class="stat"><span>Уровень</span><b id="sLevel">1</b></div>
-    <div class="stat"><span>Всего XP</span><b id="sXp">0</b></div>
-    <div class="stat"><span>Лучший выигрыш</span><b id="sBest">0</b></div>
-    <div class="stat"><span>Удача активирована</span><b id="sLuck">0</b></div>
-    <div class="stat"><span>Legendary</span><b id="sLegendary">0</b></div>
-    <div class="stat"><span>Mythic</span><b id="sMythic">0</b></div>
-
-    <button class="menu-item back" onclick="showScreen('menu')">
-      ← Назад
-    </button>
-  </div>
-
-  <div id="settings" class="screen page">
-    <h2>⚙️ Настройки</h2>
-
-    <button class="settings-btn" onclick="toggleSound()" id="soundBtn">
-      🔊 Звук: ВКЛ
-    </button>
-
-    <button class="settings-btn" onclick="toggleVibration()" id="vibrationBtn">
-      📳 Вибрация: ВКЛ
-    </button>
-
-    <button class="menu-item back" onclick="showScreen('menu')">
-      ← Назад
-    </button>
-  </div>
-
-  <div id="pass" class="screen page">
-    <h2>🎟️ Battle Pass</h2>
-
-    <div id="passList"></div>
-
-    <button class="menu-item back" onclick="showScreen('menu')">
-      ← Назад
-    </button>
-  </div>
-
-  <div id="inventory" class="screen page">
-    <h2>🎒 Инвентарь</h2>
-
-    <div class="stat">
-      <span>Статус</span>
-      <b>🚧 В разработке</b>
+    <div class="case-name" id="caseName">
+      Обычный
     </div>
 
-    <button class="menu-item back" onclick="showScreen('menu')">
-      ← Назад
-    </button>
-  </div>
-
-  <div id="upgrader" class="screen page">
-    <h2>⬆️ Апгрейдер</h2>
-
-    <div class="stat">
-      <span>Статус</span>
-      <b>🚧 В разработке</b>
+    <div class="case-price" id="casePrice">
+      💰 2 500
     </div>
 
-    <button class="menu-item back" onclick="showScreen('menu')">
-      ← Назад
+    <div class="chest-area">
+
+      <div class="chest-shadow"></div>
+
+      <div class="chest" id="chest">
+
+        <div class="chest-inside"></div>
+
+        <div class="chest-body"></div>
+
+        <div class="chest-lid"></div>
+
+        <div class="chest-lock"></div>
+
+      </div>
+
+    </div>
+
+    <button
+      class="open-btn"
+      id="openBtn"
+      onclick="openCase()">
+      ОТКРЫТЬ КЕЙС
     </button>
+
+    <div class="balance" id="balance">
+      💰 10 000
+    </div>
+
   </div>
 
-  <div class="modal" id="rewardModal">
-    <div class="modal-box">
-      <div class="modal-title">🎉 Вы выиграли!</div>
-
-      <div id="rewardList"></div>
-
-      <div class="total" id="rewardTotal"></div>
-
-      <button class="close-btn" onclick="closeRewards()">
-        ЗАБРАТЬ
-      </button>
-    </div>
+  <div class="bottom">
+    <button class="menu-btn" onclick="showScreen('menu')">
+      ☰ МЕНЮ
+    </button>
   </div>
 
 </div>
 
-<audio id="sound-open" src="sounds/open.mp3" preload="auto"></audio>
+<!-- МЕНЮ -->
+
+<div id="menu" class="screen menu">
+
+  <h2>МЕНЮ</h2>
+
+  <button class="menu-item" onclick="showScreen('stats')">
+    📊 Статистика
+  </button>
+
+  <button class="menu-item" onclick="showScreen('settings')">
+    ⚙️ Настройки
+  </button>
+
+  <button class="menu-item" onclick="showScreen('pass')">
+    🎟️ Battle Pass
+  </button>
+
+  <button class="menu-item" onclick="showScreen('inventory')">
+    🎒 Инвентарь
+  </button>
+
+  <button class="menu-item" onclick="showScreen('upgrader')">
+    ⬆️ Апгрейдер
+  </button>
+
+  <button class="menu-item back" onclick="showScreen('home')">
+    ← Назад
+  </button>
+
+</div>
+
+<!-- СТАТИСТИКА -->
+
+<div id="stats" class="screen page">
+
+  <h2>📊 Статистика</h2>
+
+  <div class="stat">
+    <span>Открыто кейсов</span>
+    <b id="sOpened">0</b>
+  </div>
+
+  <div class="stat">
+    <span>Заработано</span>
+    <b id="sEarned">0</b>
+  </div>
+
+  <div class="stat">
+    <span>Уровень</span>
+    <b id="sLevel">1</b>
+  </div>
+
+  <div class="stat">
+    <span>Всего XP</span>
+    <b id="sXp">0</b>
+  </div>
+
+  <div class="stat">
+    <span>Лучший выигрыш</span>
+    <b id="sBest">0</b>
+  </div>
+
+  <div class="stat">
+    <span>Удача активирована</span>
+    <b id="sLuck">0</b>
+  </div>
+
+  <div class="stat">
+    <span>Legendary</span>
+    <b id="sLegendary">0</b>
+  </div>
+
+  <div class="stat">
+    <span>Mythic</span>
+    <b id="sMythic">0</b>
+  </div>
+
+  <button class="menu-item back" onclick="showScreen('menu')">
+    ← Назад
+  </button>
+
+</div>
+
+<!-- НАСТРОЙКИ -->
+
+<div id="settings" class="screen page">
+
+  <h2>⚙️ Настройки</h2>
+
+  <button class="settings-btn" onclick="toggleSound()" id="soundBtn">
+    🔊 Звук: ВКЛ
+  </button>
+
+  <button class="settings-btn" onclick="toggleVibration()" id="vibrationBtn">
+    📳 Вибрация: ВКЛ
+  </button>
+
+  <button class="menu-item back" onclick="showScreen('menu')">
+    ← Назад
+  </button>
+
+</div>
+
+<!-- BATTLE PASS -->
+
+<div id="pass" class="screen page">
+
+  <h2>🎟️ Battle Pass</h2>
+
+  <div id="passList"></div>
+
+  <button class="menu-item back" onclick="showScreen('menu')">
+    ← Назад
+  </button>
+
+</div>
+
+<!-- ИНВЕНТАРЬ -->
+
+<div id="inventory" class="screen page">
+
+  <h2>🎒 Инвентарь</h2>
+
+  <div class="stat">
+    <span>Статус</span>
+    <b>🚧 В разработке</b>
+  </div>
+
+  <button class="menu-item back" onclick="showScreen('menu')">
+    ← Назад
+  </button>
+
+</div>
+
+<!-- АПГРЕЙДЕР -->
+
+<div id="upgrader" class="screen page">
+
+  <h2>⬆️ Апгрейдер</h2>
+
+  <div class="stat">
+    <span>Статус</span>
+    <b>🚧 В разработке</b>
+  </div>
+
+  <button class="menu-item back" onclick="showScreen('menu')">
+    ← Назад
+  </button>
+
+</div>
+
+<!-- ОКНО НАГРАД -->
+
+<div class="modal" id="rewardModal">
+
+  <div class="modal-box">
+
+    <div class="modal-title">
+      🎉 ВЫИГРЫШ!
+    </div>
+
+    <div id="rewardList"></div>
+
+    <div class="total" id="rewardTotal"></div>
+
+    <button class="close-btn" onclick="closeRewards()">
+      ЗАБРАТЬ
+    </button>
+
+  </div>
+
+</div>
+
+</div>
+
+<!-- ТВОЙ ЗВУК -->
+<audio
+  id="sound-open"
+  src="sounds/open.mp3"
+  preload="auto">
+</audio>
 
 <script>
 
+/* ===== TELEGRAM ===== */
+
 if(window.Telegram && Telegram.WebApp){
+
   Telegram.WebApp.ready();
   Telegram.WebApp.expand();
+
 }
 
+/* ===== ДАННЫЕ КЕЙСОВ ===== */
+
 const cases=[
-  {name:"Обычный",price:2500,max:5000,maxItems:2,cls:"case1"},
-  {name:"Военный",price:10000,max:30000,maxItems:3,cls:"case2"},
-  {name:"Алмазный",price:50000,max:125000,maxItems:3,cls:"case3"},
-  {name:"Легендарный",price:250000,max:600000,maxItems:4,cls:"case4"},
-  {name:"Мифический",price:500000,max:1500000,maxItems:4,cls:"case5"},
-  {name:"Энергетический",price:1500000,max:4000000,maxItems:4,cls:"case6"},
-  {name:"Магматический",price:5000000,max:15000000,maxItems:5,cls:"case7"},
-  {name:"Инопланетный",price:15000000,max:50000000,maxItems:5,cls:"case8"}
+
+  {
+    name:"Обычный",
+    price:2500,
+    max:5000,
+    maxItems:2
+  },
+
+  {
+    name:"Военный",
+    price:10000,
+    max:30000,
+    maxItems:3
+  },
+
+  {
+    name:"Алмазный",
+    price:50000,
+    max:125000,
+    maxItems:3
+  },
+
+  {
+    name:"Легендарный",
+    price:250000,
+    max:600000,
+    maxItems:4
+  },
+
+  {
+    name:"Мифический",
+    price:500000,
+    max:1500000,
+    maxItems:4
+  },
+
+  {
+    name:"Энергетический",
+    price:1500000,
+    max:4000000,
+    maxItems:4
+  },
+
+  {
+    name:"Магматический",
+    price:5000000,
+    max:15000000,
+    maxItems:5
+  },
+
+  {
+    name:"Инопланетный",
+    price:15000000,
+    max:50000000,
+    maxItems:5
+  }
+
 ];
+
+/* ===== РЕДКОСТИ ===== */
 
 const rarity=[
-  {name:"Common",cls:"common",chance:55},
-  {name:"Uncommon",cls:"uncommon",chance:25},
-  {name:"Rare",cls:"rare",chance:14},
-  {name:"Epic",cls:"epic",chance:4.5},
-  {name:"Legendary",cls:"legendary",chance:1.3},
-  {name:"Mythic",cls:"mythic",chance:.2}
+
+  {
+    name:"Common",
+    cls:"common",
+    chance:55
+  },
+
+  {
+    name:"Uncommon",
+    cls:"uncommon",
+    chance:25
+  },
+
+  {
+    name:"Rare",
+    cls:"rare",
+    chance:14
+  },
+
+  {
+    name:"Epic",
+    cls:"epic",
+    chance:4.5
+  },
+
+  {
+    name:"Legendary",
+    cls:"legendary",
+    chance:1.3
+  },
+
+  {
+    name:"Mythic",
+    cls:"mythic",
+    chance:.2
+  }
+
 ];
 
+/* ===== ИКОНКИ ===== */
+
 const icons=[
-  "🪙","💎","💰","🔮","👑","💍","🧿","⚔️",
-  "🛡️","🏆","💠","📿","🗝️","💵","🪙","💎",
-  "🔥","⚡","☄️","🌌","👽","🛸","🌋","💚",
-  "🔷","🔶","⭐","💫","💎","🏅","🎁","💍"
+
+  "🪙","💎","💰","🔮",
+  "👑","💍","🧿","⚔️",
+  "🛡️","🏆","💠","📿",
+  "🗝️","💵","🪙","💎",
+  "🔥","⚡","☄️","🌌",
+  "👽","🛸","🌋","💚",
+  "🔷","🔶","⭐","💫",
+  "💎","🏅","🎁","💍"
+
 ];
+
+/* ===== СОСТОЯНИЕ ===== */
 
 let balance=10000;
 let xp=0;
@@ -762,21 +1092,27 @@ let vibrationEnabled=true;
 let currentCase=0;
 let opening=false;
 
-/* ВАЖНО:
-   бонус удачи НЕ хранится как таймер.
-   Он выдаётся конкретно следующему открытию.
-*/
-let nextLuck=1;
+/* ===== ФОРМАТ ===== */
 
 function format(n){
-  return Math.floor(n).toLocaleString("ru-RU");
+
+  return Math.floor(n)
+    .toLocaleString("ru-RU");
+
 }
+
+/* ===== УРОВЕНЬ ===== */
 
 function getLevel(){
+
   return Math.floor(xp/1000)+1;
+
 }
 
+/* ===== ДОСТУПНЫЙ КЕЙС ===== */
+
 function getUnlockedCase(){
+
   const l=getLevel();
 
   if(l<10)return 0;
@@ -788,130 +1124,277 @@ function getUnlockedCase(){
   if(l<50)return 6;
 
   return 7;
+
 }
 
+/* ===== РЕДКОСТЬ ===== */
+
 function randomRarity(){
+
   let roll=Math.random()*100;
   let sum=0;
 
   for(const r of rarity){
+
     sum+=r.chance;
 
-    if(roll<=sum)return r;
+    if(roll<=sum){
+      return r;
+    }
+
   }
 
   return rarity[0];
+
 }
+
+/* ===== ПРЕДМЕТ ===== */
 
 function makeItem(value,rar){
-  return{
+
+  return {
+
     value:value,
     rarity:rar,
-    icon:icons[Math.floor(Math.random()*icons.length)]
+    icon:icons[
+      Math.floor(
+        Math.random()*icons.length
+      )
+    ]
+
   };
+
 }
 
-function calculateCaseReward(c,luck=1){
+/* ===== НАГРАДА ===== */
+
+function calculateCaseReward(c,luck){
 
   const roll=Math.random();
+
   let multiplier;
 
   if(roll<.299){
-    multiplier=.70+Math.random()*.20;
+
+    multiplier=.70+
+      Math.random()*.20;
+
   }else if(roll<.629){
-    multiplier=.90+Math.random()*.10;
+
+    multiplier=.90+
+      Math.random()*.10;
+
   }else if(roll<.959){
-    multiplier=1+Math.random()*.25;
+
+    multiplier=1+
+      Math.random()*.25;
+
   }else if(roll<.999){
-    multiplier=1.25+Math.random()*.45;
+
+    multiplier=1.25+
+      Math.random()*.45;
+
   }else{
-    multiplier=1.70+Math.random()*1.30;
+
+    multiplier=1.70+
+      Math.random()*1.30;
+
   }
 
-  /* Удача только для ЭТОГО открытия */
+  /* бонус действует только на один ролл */
 
   if(luck===2){
+
     multiplier*=1.18;
+
   }
 
   if(luck===5){
+
     multiplier*=1.45;
+
   }
 
-  let reward=Math.floor(c.price*multiplier);
+  let reward=Math.floor(
+    c.price*multiplier
+  );
 
-  reward=Math.max(Math.floor(c.price*.55),reward);
-  reward=Math.min(c.max,reward);
+  reward=Math.max(
+    Math.floor(c.price*.55),
+    reward
+  );
+
+  reward=Math.min(
+    c.max,
+    reward
+  );
 
   return reward;
+
 }
+
+/* ===== ЗВУК ===== */
 
 function playOpenSound(){
+
   if(!soundEnabled)return;
 
-  const audio=document.getElementById("sound-open");
+  const audio=
+    document.getElementById("sound-open");
 
   if(audio){
+
     audio.currentTime=0;
+
     audio.play().catch(()=>{});
+
   }
+
 }
+
+/* ===== ВИБРАЦИЯ ===== */
 
 function vibration(pattern){
 
   if(!vibrationEnabled)return;
 
   if(navigator.vibrate){
+
     navigator.vibrate(pattern);
+
   }
+
 }
+
+/* ===== СОХРАНЕНИЕ ===== */
 
 function save(){
 
-  localStorage.setItem("th_balance",balance);
-  localStorage.setItem("th_xp",xp);
-  localStorage.setItem("th_opened",opened);
-  localStorage.setItem("th_earned",totalEarned);
-  localStorage.setItem("th_best",bestReward);
-  localStorage.setItem("th_luck",luckActivations);
-  localStorage.setItem("th_legendary",legendary);
-  localStorage.setItem("th_mythic",mythic);
-  localStorage.setItem("th_sound",soundEnabled);
-  localStorage.setItem("th_vibration",vibrationEnabled);
+  localStorage.setItem(
+    "th_balance",
+    balance
+  );
+
+  localStorage.setItem(
+    "th_xp",
+    xp
+  );
+
+  localStorage.setItem(
+    "th_opened",
+    opened
+  );
+
+  localStorage.setItem(
+    "th_earned",
+    totalEarned
+  );
+
+  localStorage.setItem(
+    "th_best",
+    bestReward
+  );
+
+  localStorage.setItem(
+    "th_luck",
+    luckActivations
+  );
+
+  localStorage.setItem(
+    "th_legendary",
+    legendary
+  );
+
+  localStorage.setItem(
+    "th_mythic",
+    mythic
+  );
+
+  localStorage.setItem(
+    "th_sound",
+    soundEnabled
+  );
+
+  localStorage.setItem(
+    "th_vibration",
+    vibrationEnabled
+  );
+
 }
+
+/* ===== ЗАГРУЗКА ===== */
 
 function load(){
 
-  balance=Number(localStorage.getItem("th_balance")||10000);
-  xp=Number(localStorage.getItem("th_xp")||0);
-  opened=Number(localStorage.getItem("th_opened")||0);
-  totalEarned=Number(localStorage.getItem("th_earned")||0);
-  bestReward=Number(localStorage.getItem("th_best")||0);
-  luckActivations=Number(localStorage.getItem("th_luck")||0);
-  legendary=Number(localStorage.getItem("th_legendary")||0);
-  mythic=Number(localStorage.getItem("th_mythic")||0);
+  balance=Number(
+    localStorage.getItem("th_balance")
+    ||10000
+  );
 
-  const s=localStorage.getItem("th_sound");
-  const v=localStorage.getItem("th_vibration");
+  xp=Number(
+    localStorage.getItem("th_xp")
+    ||0
+  );
 
-  if(s!==null)soundEnabled=s==="true";
-  if(v!==null)vibrationEnabled=v==="true";
+  opened=Number(
+    localStorage.getItem("th_opened")
+    ||0
+  );
+
+  totalEarned=Number(
+    localStorage.getItem("th_earned")
+    ||0
+  );
+
+  bestReward=Number(
+    localStorage.getItem("th_best")
+    ||0
+  );
+
+  luckActivations=Number(
+    localStorage.getItem("th_luck")
+    ||0
+  );
+
+  legendary=Number(
+    localStorage.getItem("th_legendary")
+    ||0
+  );
+
+  mythic=Number(
+    localStorage.getItem("th_mythic")
+    ||0
+  );
+
+  const s=
+    localStorage.getItem("th_sound");
+
+  const v=
+    localStorage.getItem("th_vibration");
+
+  if(s!==null){
+    soundEnabled=s==="true";
+  }
+
+  if(v!==null){
+    vibrationEnabled=v==="true";
+  }
+
 }
+
+/* ===== ОБНОВЛЕНИЕ ===== */
 
 function updateUI(){
 
   const level=getLevel();
 
-  document.getElementById("balance").textContent=
-    "💰 "+format(balance);
-
-  document.getElementById("level").textContent=
-    "Уровень "+level;
-
   const currentXP=xp%1000;
 
-  document.getElementById("xpTop").textContent=
-    currentXP+" / 1000 XP";
+  document.getElementById("level").textContent=
+    level;
+
+  document.getElementById("levelText").textContent=
+    "Уровень "+level;
 
   document.getElementById("xpText").textContent=
     currentXP+" / 1000 XP";
@@ -919,7 +1402,11 @@ function updateUI(){
   document.getElementById("xpFill").style.width=
     (currentXP/10)+"%";
 
-  const unlocked=getUnlockedCase();
+  document.getElementById("balance").textContent=
+    "💰 "+format(balance);
+
+  const unlocked=
+    getUnlockedCase();
 
   if(currentCase>unlocked){
     currentCase=unlocked;
@@ -927,66 +1414,100 @@ function updateUI(){
 
   const c=cases[currentCase];
 
-  document.getElementById("caseName").textContent=c.name;
+  document.getElementById("caseName").textContent=
+    c.name;
 
   document.getElementById("casePrice").textContent=
     "💰 "+format(c.price);
 
   document.getElementById("openBtn").disabled=
-    opening || balance<c.price;
+    opening ||
+    balance<c.price;
 
-  /* Следующий бонус */
+  /* ===== СЧЁТЧИКИ УДАЧИ ===== */
 
-  if((opened+1)%50===0){
-    document.getElementById("luck").textContent=
-      "🍀 Следующее открытие: ×5 УДАЧА";
-  }else if((opened+1)%10===0){
-    document.getElementById("luck").textContent=
-      "🍀 Следующее открытие: ×2 УДАЧА";
-  }else{
-    const next10=10-(opened%10);
+  const next10=
+    10-(opened%10);
 
-    document.getElementById("luck").textContent=
-      "🍀 ×2 через "+next10+" открытий";
-  }
+  const next50=
+    50-(opened%50);
+
+  document.getElementById("luck2").textContent=
+    next10===10
+      ? "🍀 ×2: ГОТОВО"
+      : "🍀 ×2: "+next10+" открытий";
+
+  document.getElementById("luck5").textContent=
+    next50===50
+      ? "🔥 ×5: ГОТОВО"
+      : "🔥 ×5: "+next50+" открытий";
 
   updateStats();
+
 }
+
+/* ===== СТАТИСТИКА ===== */
 
 function updateStats(){
 
-  document.getElementById("sOpened").textContent=format(opened);
-  document.getElementById("sEarned").textContent=format(totalEarned);
-  document.getElementById("sLevel").textContent=getLevel();
-  document.getElementById("sXp").textContent=format(xp);
-  document.getElementById("sBest").textContent=format(bestReward);
-  document.getElementById("sLuck").textContent=luckActivations;
-  document.getElementById("sLegendary").textContent=legendary;
-  document.getElementById("sMythic").textContent=mythic;
+  document.getElementById("sOpened").textContent=
+    format(opened);
+
+  document.getElementById("sEarned").textContent=
+    format(totalEarned);
+
+  document.getElementById("sLevel").textContent=
+    getLevel();
+
+  document.getElementById("sXp").textContent=
+    format(xp);
+
+  document.getElementById("sBest").textContent=
+    format(bestReward);
+
+  document.getElementById("sLuck").textContent=
+    luckActivations;
+
+  document.getElementById("sLegendary").textContent=
+    legendary;
+
+  document.getElementById("sMythic").textContent=
+    mythic;
 
   document.getElementById("soundBtn").textContent=
-    "🔊 Звук: "+(soundEnabled?"ВКЛ":"ВЫКЛ");
+    "🔊 Звук: "+
+    (soundEnabled?"ВКЛ":"ВЫКЛ");
 
   document.getElementById("vibrationBtn").textContent=
-    "📳 Вибрация: "+(vibrationEnabled?"ВКЛ":"ВЫКЛ");
+    "📳 Вибрация: "+
+    (vibrationEnabled?"ВКЛ":"ВЫКЛ");
+
 }
 
-/* НОВАЯ 2D АНИМАЦИЯ */
+/* ===== АНИМАЦИЯ НАГРАД ===== */
 
 function animateRewards(rewards){
 
-  const wrap=document.querySelector(".chest-wrap");
+  const area=
+    document.querySelector(".chest-area");
 
   rewards.forEach((reward,i)=>{
 
-    const p=document.createElement("div");
+    const p=
+      document.createElement("div");
 
-    p.className="reward-particle";
-    p.textContent=reward.icon;
+    p.className=
+      "reward-particle";
 
-    const angle=(Math.PI*2/rewards.length)*i;
+    p.textContent=
+      reward.icon;
 
-    const distance=80+Math.random()*80;
+    const angle=
+      (Math.PI*2/rewards.length)*i
+      -Math.PI/2;
+
+    const distance=
+      90+Math.random()*100;
 
     p.style.setProperty(
       "--x",
@@ -995,65 +1516,89 @@ function animateRewards(rewards){
 
     p.style.setProperty(
       "--y",
-      Math.sin(angle)*distance-60+"px"
+      Math.sin(angle)*distance-70+"px"
     );
 
     p.style.setProperty(
       "--r",
-      (-30+Math.random()*60)+"deg"
+      (-50+Math.random()*100)+"deg"
     );
 
-    wrap.appendChild(p);
+    area.appendChild(p);
 
     setTimeout(()=>{
       p.remove();
-    },800);
+    },1000);
+
   });
+
 }
 
-/* ОТКРЫТИЕ */
+/* ===== ОТКРЫТИЕ КЕЙСА ===== */
 
 function openCase(){
 
   if(opening)return;
 
-  const c=cases[currentCase];
+  const c=
+    cases[currentCase];
 
   if(balance<c.price){
+
     alert("Недостаточно денег!");
     return;
+
   }
 
   opening=true;
 
   balance-=c.price;
 
-  const chest=document.getElementById("chest");
+  const chest=
+    document.getElementById("chest");
 
-  chest.classList.remove("opening");
-
-  /* определяем бонус именно для этого открытия */
+  /* определяем бонус именно этому открытию */
 
   let luck=1;
 
   if((opened+1)%50===0){
+
     luck=5;
+
   }else if((opened+1)%10===0){
+
     luck=2;
+
   }
+
+  chest.classList.remove("opening");
+
+  /*
+   * принудительный reflow,
+   * чтобы анимация снова запускалась
+   */
 
   chest.offsetWidth;
 
   chest.classList.add("opening");
 
   vibration(35);
+
   playOpenSound();
 
-  const count=1+Math.floor(Math.random()*c.maxItems);
+  /* количество предметов */
 
-  let target=calculateCaseReward(c,luck);
+  const count=
+    1+
+    Math.floor(
+      Math.random()*c.maxItems
+    );
+
+  let target=
+    calculateCaseReward(c,luck);
 
   const rewards=[];
+
   let left=target;
 
   for(let i=0;i<count;i++){
@@ -1061,24 +1606,55 @@ function openCase(){
     let value;
 
     if(i===count-1){
+
       value=left;
+
     }else{
 
-      const min=Math.max(1,Math.floor(left*.15));
-      const max=Math.max(min,Math.floor(left*.65));
+      const min=
+        Math.max(
+          1,
+          Math.floor(left*.15)
+        );
 
-      value=min+Math.floor(Math.random()*(max-min+1));
+      const max=
+        Math.max(
+          min,
+          Math.floor(left*.65)
+        );
+
+      value=
+        min+
+        Math.floor(
+          Math.random()*
+          (max-min+1)
+        );
 
       left-=value;
+
     }
 
-    const rar=randomRarity();
+    const rar=
+      randomRarity();
 
-    rewards.push(makeItem(value,rar));
+    rewards.push(
+      makeItem(value,rar)
+    );
 
-    if(rar.name==="Legendary")legendary++;
-    if(rar.name==="Mythic")mythic++;
+    if(rar.name==="Legendary"){
+      legendary++;
+    }
+
+    if(rar.name==="Mythic"){
+      mythic++;
+    }
+
   }
+
+  /*
+   * ЭТАП 2:
+   * предметы вылетают из сундука
+   */
 
   setTimeout(()=>{
 
@@ -1086,143 +1662,258 @@ function openCase(){
 
     vibration(30);
 
-  },430);
+  },650);
+
+  /*
+   * после анимации открываем окно
+   */
 
   setTimeout(()=>{
 
     let total=0;
 
-    rewards.forEach(x=>total+=x.value);
+    rewards.forEach(x=>{
+      total+=x.value;
+    });
 
     balance+=total;
+
     totalEarned+=total;
 
-    if(total>bestReward)bestReward=total;
+    if(total>bestReward){
+      bestReward=total;
+    }
 
     opened++;
+
     xp+=15;
 
-    /* бонус считается использованным */
-
-    if(luck===5 || luck===2){
+    if(luck===2 || luck===5){
       luckActivations++;
     }
 
     save();
+
     updateUI();
 
-    showRewards(rewards,total);
+    showRewards(
+      rewards,
+      total,
+      luck
+    );
 
     chest.classList.remove("opening");
 
-    if(rewards.some(x=>x.rarity.name==="Mythic")){
-      vibration([100,80,100,80,200]);
-    }else if(rewards.some(x=>x.rarity.name==="Legendary")){
-      vibration([80,60,160]);
+    if(
+      rewards.some(
+        x=>x.rarity.name==="Mythic"
+      )
+    ){
+
+      vibration(
+        [100,80,100,80,200]
+      );
+
+    }else if(
+      rewards.some(
+        x=>x.rarity.name==="Legendary"
+      )
+    ){
+
+      vibration(
+        [80,60,160]
+      );
+
     }
 
     opening=false;
+
     updateUI();
 
-  },850);
+  },1450);
+
 }
 
-function showRewards(rewards,total){
+/* ===== ОКНО НАГРАД ===== */
 
-  const list=document.getElementById("rewardList");
+function showRewards(
+  rewards,
+  total,
+  luck
+){
+
+  const list=
+    document.getElementById(
+      "rewardList"
+    );
 
   list.innerHTML="";
 
+  if(luck===2){
+
+    const bonus=
+      document.createElement("div");
+
+    bonus.style.textAlign="center";
+    bonus.style.color="#72e28b";
+    bonus.style.fontWeight="bold";
+    bonus.style.marginBottom="12px";
+
+    bonus.textContent=
+      "🍀 ×2 УДАЧА";
+
+    list.appendChild(bonus);
+
+  }
+
+  if(luck===5){
+
+    const bonus=
+      document.createElement("div");
+
+    bonus.style.textAlign="center";
+    bonus.style.color="#ffbd45";
+    bonus.style.fontWeight="bold";
+    bonus.style.marginBottom="12px";
+
+    bonus.textContent=
+      "🔥 ×5 УДАЧА";
+
+    list.appendChild(bonus);
+
+  }
+
   rewards.forEach(x=>{
 
-    const div=document.createElement("div");
+    const div=
+      document.createElement("div");
 
     div.className="reward";
 
     div.innerHTML=`
-      <div class="reward-icon">${x.icon}</div>
+
+      <div class="reward-icon">
+        ${x.icon}
+      </div>
+
       <div class="reward-info">
+
         <div class="reward-rarity ${x.rarity.cls}">
           ${x.rarity.name}
         </div>
+
         <div class="reward-value">
           💰 ${format(x.value)}
         </div>
+
       </div>
+
     `;
 
     list.appendChild(div);
+
   });
 
-  document.getElementById("rewardTotal").textContent=
+  document.getElementById(
+    "rewardTotal"
+  ).textContent=
     "Итого: 💰 "+format(total);
 
-  document.getElementById("rewardModal")
-    .classList.add("active");
+  document.getElementById(
+    "rewardModal"
+  ).classList.add("active");
+
 }
+
+/* ===== ЗАКРЫТЬ НАГРАДУ ===== */
 
 function closeRewards(){
 
-  document.getElementById("rewardModal")
-    .classList.remove("active");
+  document.getElementById(
+    "rewardModal"
+  ).classList.remove("active");
+
 }
+
+/* ===== ЭКРАНЫ ===== */
 
 function showScreen(id){
 
   document.querySelectorAll(".screen")
-    .forEach(x=>x.classList.remove("active"));
+    .forEach(x=>{
+      x.classList.remove("active");
+    });
 
   document.getElementById(id)
     .classList.add("active");
 
-  if(id==="stats"){
-    updateStats();
-  }
+  updateUI();
 
-  if(id==="settings"){
-    updateStats();
-  }
 }
+
+/* ===== ЗВУК ===== */
 
 function toggleSound(){
 
-  soundEnabled=!soundEnabled;
+  soundEnabled=
+    !soundEnabled;
 
   save();
-  updateStats();
+  updateUI();
+
 }
+
+/* ===== ВИБРАЦИЯ ===== */
 
 function toggleVibration(){
 
-  vibrationEnabled=!vibrationEnabled;
+  vibrationEnabled=
+    !vibrationEnabled;
 
   save();
-  updateStats();
+  updateUI();
+
 }
+
+/* ===== BATTLE PASS ===== */
 
 function createPass(){
 
-  const list=document.getElementById("passList");
+  const list=
+    document.getElementById(
+      "passList"
+    );
 
   list.innerHTML="";
 
   for(let i=1;i<=100;i++){
 
-    const div=document.createElement("div");
+    const div=
+      document.createElement("div");
 
     div.className="pass";
 
     if(i%20===0){
+
       div.innerHTML=
-        `<b>Уровень ${i}</b><br>🍀 2× Удача · 5 минут`;
+        `<b>Уровень ${i}</b><br>
+         🍀 2× Удача · 5 минут`;
+
     }else{
+
       div.innerHTML=
-        `<b>Уровень ${i}</b><br>💰 Награда`;
+        `<b>Уровень ${i}</b><br>
+         💰 Награда`;
+
     }
 
     list.appendChild(div);
+
   }
+
 }
+
+/* ===== СТАРТ ===== */
 
 load();
 createPass();
