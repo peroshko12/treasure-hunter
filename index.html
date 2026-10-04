@@ -45,7 +45,6 @@ h1 {
   text-align: center;
   font-size: 23px;
   font-weight: bold;
-  margin-bottom: 10px;
 }
 
 .luck {
@@ -53,62 +52,33 @@ h1 {
   background: #173963;
   border-radius: 12px;
   padding: 10px;
-  margin-bottom: 18px;
+  margin-top: 10px;
   color: #ffd34d;
   font-weight: bold;
 }
 
-.section-title {
-  font-size: 21px;
-  font-weight: bold;
-  margin: 18px 0 10px;
-}
-
-/* КЕЙСЫ */
-
-.cases {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.case {
-  background: #102b50;
-  border: 1px solid #244a78;
-  border-radius: 15px;
-  padding: 14px 8px;
+.level-box {
   text-align: center;
-  cursor: pointer;
-  transition: .15s;
+  margin-top: 10px;
+  color: #9eb6d8;
 }
 
-.case:active {
-  transform: scale(.96);
-}
-
-.case-icon {
-  font-size: 48px;
-  margin-bottom: 7px;
-}
-
-.case-name {
+.main-button {
+  width: 100%;
+  margin-top: 25px;
+  padding: 17px;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #ffb52e, #ff7b18);
+  color: white;
+  font-size: 19px;
   font-weight: bold;
-  font-size: 15px;
+  box-shadow: 0 8px 20px rgba(255,130,20,.25);
 }
 
-.case-price {
-  color: #ffd34d;
-  margin-top: 6px;
-  font-size: 14px;
+.main-button:active {
+  transform: scale(.97);
 }
-
-.case-drop {
-  color: #91acd0;
-  font-size: 11px;
-  margin-top: 5px;
-}
-
-/* СТАТИСТИКА */
 
 .stats {
   display: grid;
@@ -136,130 +106,87 @@ h1 {
   margin-top: 4px;
 }
 
-/* ЗАДАНИЯ */
+/* ЭКРАН КЕЙСОВ */
 
-.task {
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.back-button {
+  background: #173963;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 11px 16px;
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
+.screen-title {
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.cases {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.case {
   background: #102b50;
   border: 1px solid #244a78;
-  border-radius: 13px;
-  padding: 12px;
-  margin-bottom: 8px;
+  border-radius: 15px;
+  padding: 15px 8px;
+  text-align: center;
+  position: relative;
 }
 
-.task-title {
+.case.locked {
+  opacity: .5;
+}
+
+.case-icon {
+  font-size: 48px;
+}
+
+.case-name {
+  font-size: 16px;
   font-weight: bold;
-}
-
-.task-progress {
-  color: #91acd0;
-  font-size: 13px;
   margin-top: 5px;
 }
 
-.task-reward {
+.case-price {
   color: #ffd34d;
-  font-size: 13px;
-  margin-top: 4px;
+  font-size: 14px;
+  margin-top: 7px;
 }
 
-/* МОДАЛКА */
-
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.78);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .2s;
-  z-index: 20;
+.case-lock {
+  color: #ff9f43;
+  font-size: 12px;
+  margin-top: 8px;
 }
 
-.modal.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.modal-box {
+.case-button {
   width: 100%;
-  max-width: 390px;
-  max-height: 90vh;
-  overflow-y: auto;
-  background: #102b50;
-  border: 1px solid #315b8c;
-  border-radius: 20px;
-  padding: 22px 17px;
-  text-align: center;
-}
-
-.modal-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 12px;
-}
-
-.modal-price {
-  color: #9eb6d8;
-  margin-bottom: 16px;
-}
-
-.money-reward {
-  color: #ffd34d;
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
-.items {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #173963;
-  border-radius: 11px;
-  padding: 10px;
-  text-align: left;
-}
-
-.item-image {
-  width: 42px;
-  height: 42px;
-  border-radius: 9px;
-  background: #0b213d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 25px;
-}
-
-.item-name {
-  font-weight: bold;
-}
-
-.item-rarity {
-  color: #91acd0;
-  font-size: 11px;
-  margin-top: 3px;
-}
-
-.close-button {
-  width: 100%;
-  margin-top: 18px;
-  padding: 14px;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
   background: #315b8c;
   color: white;
-  font-size: 16px;
   font-weight: bold;
+}
+
+.case-button:disabled {
+  opacity: .5;
 }
 
 /* СУНДУК */
@@ -335,12 +262,110 @@ h1 {
   80% { transform: translateX(5px) rotate(1deg); }
   100% { transform: translateX(0); }
 }
+
+/* МОДАЛКА */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s;
+  z-index: 20;
+}
+
+.modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 390px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #102b50;
+  border: 1px solid #315b8c;
+  border-radius: 20px;
+  padding: 22px 17px;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.money-reward {
+  color: #ffd34d;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #173963;
+  border-radius: 11px;
+  padding: 10px;
+  text-align: left;
+}
+
+.item-image {
+  width: 42px;
+  height: 42px;
+  border-radius: 9px;
+  background: #0b213d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.item-name {
+  font-weight: bold;
+}
+
+.item-rarity {
+  color: #91acd0;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+.close-button {
+  width: 100%;
+  margin-top: 18px;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: #315b8c;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
 </style>
 </head>
 
 <body>
 
 <div class="container">
+
+<!-- ГЛАВНЫЙ ЭКРАН -->
+
+<div id="homeScreen" class="screen active">
 
 <h1>💎 Treasure Hunter</h1>
 
@@ -356,51 +381,13 @@ h1 {
 🍀 До 2× удачи: 10 сундуков
 </div>
 
-<div class="chest-area">
-
-<div class="chest" id="chest">
-<div class="chest-lid"></div>
-<div class="chest-body"></div>
-<div class="lock"></div>
+<div class="level-box">
+⭐ Уровень <span id="level">1</span>
 </div>
 
-</div>
-
-<div class="section-title">
-📦 Кейсы
-</div>
-
-<div class="cases">
-
-<div class="case" onclick="openCase(1)">
-<div class="case-icon">📦</div>
-<div class="case-name">Старый ящик</div>
-<div class="case-price">2 500 💰</div>
-<div class="case-drop">500 — 10 000 💰</div>
-</div>
-
-<div class="case" onclick="openCase(2)">
-<div class="case-icon">💼</div>
-<div class="case-name">Военный кейс</div>
-<div class="case-price">10 000 💰</div>
-<div class="case-drop">2 000 — 50 000 💰</div>
-</div>
-
-<div class="case" onclick="openCase(3)">
-<div class="case-icon">💎</div>
-<div class="case-name">Алмазный кейс</div>
-<div class="case-price">50 000 💰</div>
-<div class="case-drop">15 000 — 200 000 💰</div>
-</div>
-
-<div class="case" onclick="openCase(4)">
-<div class="case-icon">👑</div>
-<div class="case-name">Легендарный</div>
-<div class="case-price">250 000 💰</div>
-<div class="case-drop">40 000 — 1 000 000 💰</div>
-</div>
-
-</div>
+<button class="main-button" onclick="openCasesScreen()">
+📦 КЕЙСЫ
+</button>
 
 <div class="stats">
 
@@ -410,7 +397,7 @@ h1 {
 </div>
 
 <div class="stat">
-<div class="stat-number">⭐ <span id="level">1</span></div>
+<div class="stat-number">⭐ <span id="level2">1</span></div>
 <div class="stat-name">Уровень</div>
 </div>
 
@@ -421,42 +408,135 @@ h1 {
 
 </div>
 
-<div class="section-title">
-📋 Задания
-</div>
-
-<div class="task">
-<div class="task-title">📦 Открыть 5 сундуков</div>
-<div class="task-progress" id="task1">Прогресс: 0 / 5</div>
-<div class="task-reward">Награда: 5 000 💰</div>
-</div>
-
-<div class="task">
-<div class="task-title">📦 Открыть 10 сундуков</div>
-<div class="task-progress" id="task2">Прогресс: 0 / 10</div>
-<div class="task-reward">Награда: 15 000 💰</div>
-</div>
-
-<div class="task">
-<div class="task-title">💰 Получить 25 000 💰</div>
-<div class="task-progress" id="task3">Прогресс: 0 / 25 000</div>
-<div class="task-reward">Награда: 10 000 💰</div>
-</div>
-
 </div>
 
 
-<!-- МОДАЛКА -->
+<!-- ЭКРАН КЕЙСОВ -->
+
+<div id="casesScreen" class="screen">
+
+<button class="back-button" onclick="goHome()">
+← Назад
+</button>
+
+<div class="screen-title">
+📦 Кейсы
+</div>
+
+<div class="cases">
+
+<div class="case">
+
+<div class="case-icon">📦</div>
+
+<div class="case-name">
+Обычный кейс
+</div>
+
+<div class="case-price">
+2 500 💰
+</div>
+
+<button class="case-button"
+onclick="openCase(1)">
+Открыть
+</button>
+
+</div>
+
+
+<div class="case" id="case2">
+
+<div class="case-icon">💼</div>
+
+<div class="case-name">
+Военный кейс
+</div>
+
+<div class="case-price">
+10 000 💰
+</div>
+
+<div class="case-lock" id="lock2">
+🔒 5 уровень
+</div>
+
+<button class="case-button"
+id="button2"
+onclick="openCase(2)"
+disabled>
+Открыть
+</button>
+
+</div>
+
+
+<div class="case" id="case3">
+
+<div class="case-icon">💎</div>
+
+<div class="case-name">
+Алмазный кейс
+</div>
+
+<div class="case-price">
+50 000 💰
+</div>
+
+<div class="case-lock" id="lock3">
+🔒 10 уровень
+</div>
+
+<button class="case-button"
+id="button3"
+onclick="openCase(3)"
+disabled>
+Открыть
+</button>
+
+</div>
+
+
+<div class="case" id="case4">
+
+<div class="case-icon">👑</div>
+
+<div class="case-name">
+Легендарный кейс
+</div>
+
+<div class="case-price">
+250 000 💰
+</div>
+
+<div class="case-lock" id="lock4">
+🔒 20 уровень
+</div>
+
+<button class="case-button"
+id="button4"
+onclick="openCase(4)"
+disabled>
+Открыть
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- МОДАЛЬНОЕ ОКНО -->
 
 <div class="modal" id="modal">
 
 <div class="modal-box">
 
 <div class="modal-title" id="modalTitle">
-🎉 Кейc открыт!
-</div>
-
-<div class="modal-price" id="modalCase">
+🎉 Кейс открыт!
 </div>
 
 <div class="money-reward" id="moneyReward">
@@ -465,7 +545,8 @@ h1 {
 
 <div class="items" id="items"></div>
 
-<button class="close-button" onclick="closeModal()">
+<button class="close-button"
+onclick="closeModal()">
 Забрать награды
 </button>
 
@@ -480,34 +561,40 @@ h1 {
    СОХРАНЕНИЕ
 ========================= */
 
-let saved = JSON.parse(localStorage.getItem("treasureHunter"));
+let saved =
+JSON.parse(localStorage.getItem("treasureHunter"));
 
 let balance = saved ? saved.balance : 10000;
 let opened = saved ? saved.opened : 0;
 let energy = saved ? saved.energy : 10;
 let level = saved ? saved.level : 1;
 let totalEarned = saved ? saved.totalEarned : 0;
-let luckyActive = saved ? saved.luckyActive : false;
-let luckyProgress = saved ? saved.luckyProgress : 0;
 
-let completedTasks = saved ? saved.completedTasks : [];
+let luckyActive =
+saved ? saved.luckyActive : false;
+
+let luckyProgress =
+saved ? saved.luckyProgress : 0;
 
 
 function saveGame() {
 
-  localStorage.setItem(
-    "treasureHunter",
-    JSON.stringify({
-      balance,
-      opened,
-      energy,
-      level,
-      totalEarned,
-      luckyActive,
-      luckyProgress,
-      completedTasks
-    })
-  );
+localStorage.setItem(
+"treasureHunter",
+
+JSON.stringify({
+
+balance,
+opened,
+energy,
+level,
+totalEarned,
+luckyActive,
+luckyProgress
+
+})
+
+);
 
 }
 
@@ -519,7 +606,7 @@ function saveGame() {
 const cases = {
 
 1: {
-name: "Старый ящик",
+name: "Обычный кейс",
 price: 2500,
 min: 500,
 max: 10000
@@ -529,21 +616,24 @@ max: 10000
 name: "Военный кейс",
 price: 10000,
 min: 2000,
-max: 50000
+max: 50000,
+level: 5
 },
 
 3: {
 name: "Алмазный кейс",
 price: 50000,
 min: 15000,
-max: 200000
+max: 200000,
+level: 10
 },
 
 4: {
-name: "Легендарный сундук",
+name: "Легендарный кейс",
 price: 250000,
 min: 40000,
-max: 1000000
+max: 1000000,
+level: 20
 }
 
 };
@@ -595,36 +685,108 @@ rarity: "Легендарный"
 
 
 /* =========================
-   ЗАПУСК
+   ЭКРАНЫ
 ========================= */
 
-updateUI();
+function openCasesScreen() {
 
+document.getElementById("homeScreen")
+.classList.remove("active");
+
+document.getElementById("casesScreen")
+.classList.add("active");
+
+updateCases();
+
+}
+
+
+function goHome() {
+
+document.getElementById("casesScreen")
+.classList.remove("active");
+
+document.getElementById("homeScreen")
+.classList.add("active");
+
+}
+
+
+/* =========================
+   ДОСТУП К КЕЙСАМ
+========================= */
+
+function updateCases() {
+
+for (let i = 2; i <= 4; i++) {
+
+const data = cases[i];
+
+const button =
+document.getElementById("button" + i);
+
+const lock =
+document.getElementById("lock" + i);
+
+const box =
+document.getElementById("case" + i);
+
+
+if (level >= data.level) {
+
+button.disabled = false;
+
+lock.style.display = "none";
+
+box.classList.remove("locked");
+
+} else {
+
+button.disabled = true;
+
+lock.style.display = "block";
+
+box.classList.add("locked");
+
+}
+
+}
+
+}
+
+
+/* =========================
+   UI
+========================= */
 
 function updateUI() {
 
-document.getElementById("balance").textContent =
-format(balance);
+document.getElementById("balance")
+.textContent = format(balance);
 
-document.getElementById("opened").textContent =
-opened;
+document.getElementById("opened")
+.textContent = opened;
 
-document.getElementById("energy").textContent =
-energy;
+document.getElementById("energy")
+.textContent = energy;
 
-document.getElementById("level").textContent =
-level;
+document.getElementById("level")
+.textContent = level;
+
+document.getElementById("level2")
+.textContent = level;
 
 updateLuck();
 
-updateTasks();
+updateCases();
 
 }
 
 
 function format(number) {
 
-return Math.floor(number).toLocaleString("ru-RU");
+return Math.floor(number)
+.toLocaleString("ru-RU");
 
 }
 
@@ -637,16 +799,17 @@ function updateLuck() {
 
 if (luckyActive) {
 
-document.getElementById("luckText").textContent =
-"🍀 2× УДАЧА АКТИВНА!";
+document.getElementById("luckText")
+.textContent = "🍀 2× УДАЧА АКТИВНА!";
 
 return;
 
 }
 
-let left = 10 - luckyProgress;
+const left = 10 - luckyProgress;
 
-document.getElementById("luckText").textContent =
+document.getElementById("luckText")
+.textContent =
 "🍀 До 2× удачи: " + left + " сундуков";
 
 }
@@ -667,12 +830,23 @@ luckyActive = true;
 
 
 /* =========================
-   ОТКРЫТИЕ
+   ОТКРЫТИЕ КЕЙСА
 ========================= */
 
 function openCase(id) {
 
 const data = cases[id];
+
+if (level < (data.level || 1)) {
+
+alert(
+"🔒 Этот кейс открывается на " +
+data.level + " уровне!"
+);
+
+return;
+
+}
 
 if (balance < data.price) {
 
@@ -690,10 +864,14 @@ return;
 
 }
 
+
 balance -= data.price;
+
 energy--;
 
-const chest = document.getElementById("chest");
+
+const chest =
+document.getElementById("chest");
 
 chest.classList.remove("opened");
 chest.classList.remove("shake");
@@ -726,20 +904,21 @@ function giveReward(id) {
 
 const data = cases[id];
 
-let reward = random(data.min, data.max);
+let reward =
+random(data.min, data.max);
+
 
 /*
-2X удача увеличивает шанс
-получить крупную часть диапазона.
+2X удача:
+повышаем шанс крупной награды
 */
 
 if (luckyActive) {
 
-const roll = Math.random();
+if (Math.random() < 0.5) {
 
-if (roll < 0.35) {
-
-reward = random(
+reward =
+random(
 Math.floor(data.max * 0.5),
 data.max
 );
@@ -750,7 +929,10 @@ luckyActive = false;
 
 }
 
-/* Редкие максимальные дропы */
+
+/*
+Очень редкий максимальный дроп
+*/
 
 if (Math.random() < 0.01) {
 
@@ -759,13 +941,12 @@ reward = data.max;
 }
 
 
-/* Деньги */
-
 balance += reward;
 
 totalEarned += reward;
 
 opened++;
+
 
 checkLuck();
 
@@ -781,7 +962,7 @@ saveGame();
 
 
 /* =========================
-   РАЗНЫЕ ШАНСЫ
+   СЛУЧАЙНОЕ ЧИСЛО
 ========================= */
 
 function random(min, max) {
@@ -799,56 +980,70 @@ Math.random() * (max - min + 1)
 
 function updateLevel() {
 
-level = Math.floor(opened / 10) + 1;
+level =
+Math.floor(opened / 10) + 1;
 
 }
 
 
 /* =========================
-   НАГРАДА + ПРЕДМЕТЫ
+   НАГРАДА
 ========================= */
 
 function showReward(id, reward) {
 
 const data = cases[id];
 
-document.getElementById("modalTitle").textContent =
+document.getElementById("modalTitle")
+.textContent =
 "🎉 " + data.name + " открыт!";
 
-document.getElementById("modalCase").textContent =
-"Стоимость: " + format(data.price) + " 💰";
-
-document.getElementById("moneyReward").textContent =
+document.getElementById("moneyReward")
+.textContent =
 "+" + format(reward) + " 💰";
 
 
-const container = document.getElementById("items");
+const container =
+document.getElementById("items");
 
 container.innerHTML = "";
 
 
-/* 2–5 предметов */
-
 const count = random(2, 5);
 
-const shuffled = [...items]
-.sort(() => Math.random() - 0.5);
+const shuffled =
+[...items].sort(
+() => Math.random() - 0.5
+);
+
 
 for (let i = 0; i < count; i++) {
 
 const item = shuffled[i];
 
-const div = document.createElement("div");
+const div =
+document.createElement("div");
 
 div.className = "item";
 
 div.innerHTML = `
-<div class="item-image">${item.icon}</div>
+
+<div class="item-image">
+${item.icon}
+</div>
 
 <div>
-<div class="item-name">${item.name}</div>
-<div class="item-rarity">${item.rarity}</div>
+
+<div class="item-name">
+${item.name}
 </div>
+
+<div class="item-rarity">
+${item.rarity}
+</div>
+
+</div>
+
 `;
 
 container.appendChild(div);
@@ -862,65 +1057,6 @@ document.getElementById("modal")
 .classList.add("show");
 
 }, 100);
-
-}
-
-
-/* =========================
-   ЗАДАНИЯ
-========================= */
-
-function updateTasks() {
-
-document.getElementById("task1").textContent =
-"Прогресс: " + Math.min(opened,5) + " / 5";
-
-document.getElementById("task2").textContent =
-"Прогресс: " + Math.min(opened,10) + " / 10";
-
-document.getElementById("task3").textContent =
-"Прогресс: " + Math.min(totalEarned,25000).toLocaleString("ru-RU")
-+ " / 25 000";
-
-checkTasks();
-
-}
-
-
-function checkTasks() {
-
-if (opened >= 5 && !completedTasks.includes(1)) {
-
-balance += 5000;
-
-completedTasks.push(1);
-
-alert("🎁 Задание выполнено! +5 000 💰");
-
-}
-
-if (opened >= 10 && !completedTasks.includes(2)) {
-
-balance += 15000;
-
-completedTasks.push(2);
-
-alert("🎁 Задание выполнено! +15 000 💰");
-
-}
-
-if (totalEarned >= 25000 &&
-!completedTasks.includes(3)) {
-
-balance += 10000;
-
-completedTasks.push(3);
-
-alert("🎁 Задание выполнено! +10 000 💰");
-
-}
-
-saveGame();
 
 }
 
@@ -947,9 +1083,16 @@ chest.classList.remove("shake");
 }
 
 
-/* Сохраняем при выходе */
+/* =========================
+   АВТОСОХРАНЕНИЕ
+========================= */
 
-window.addEventListener("beforeunload", saveGame);
+window.addEventListener(
+"beforeunload",
+saveGame
+);
+
+updateUI();
 
 </script>
 
