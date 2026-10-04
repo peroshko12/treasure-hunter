@@ -17,142 +17,95 @@ body {
   background: linear-gradient(180deg, #07152e, #0d2345);
   color: white;
   min-height: 100vh;
-  text-align: center;
 }
 
 .container {
   max-width: 430px;
   margin: auto;
-  padding: 20px 15px;
+  padding: 18px 15px 40px;
 }
 
 h1 {
-  margin: 10px 0 5px;
+  text-align: center;
+  margin: 5px 0;
   font-size: 30px;
 }
 
 .subtitle {
+  text-align: center;
   color: #9eb6d8;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .balance {
   background: #102b50;
   border: 1px solid #244a78;
   border-radius: 16px;
-  padding: 15px;
+  padding: 14px;
+  text-align: center;
   font-size: 23px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-.location {
-  color: #82b7ff;
-  margin-bottom: 25px;
-}
-
-/* СУНДУК */
-
-.chest-area {
-  height: 240px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.chest {
-  width: 190px;
-  height: 145px;
-  position: relative;
-  filter: drop-shadow(0 15px 15px rgba(0,0,0,.4));
-}
-
-.chest-body {
-  position: absolute;
-  width: 190px;
-  height: 95px;
-  bottom: 0;
-  left: 0;
-  background: linear-gradient(#a85d27, #713716);
-  border: 5px solid #49230f;
-  border-radius: 8px 8px 15px 15px;
-}
-
-.chest-lid {
-  position: absolute;
-  width: 190px;
-  height: 72px;
-  top: 0;
-  left: 0;
-  background: linear-gradient(#c87532, #8b451c);
-  border: 5px solid #49230f;
-  border-radius: 18px 18px 6px 6px;
-
-  /* 2D-анимация */
-  transform-origin: left bottom;
-  transition: transform .55s cubic-bezier(.2,.8,.2,1);
-  z-index: 3;
-}
-
-/* ОТКРЫТИЕ ТОЛЬКО В 2D */
-.opened .chest-lid {
-  transform: translateY(-55px) rotate(-12deg);
-}
-
-.lock {
-  position: absolute;
-  width: 32px;
-  height: 42px;
-  background: #e5b82e;
-  border: 4px solid #8a6410;
-  border-radius: 6px;
-  left: 79px;
-  top: 55px;
-  z-index: 5;
-  transition: opacity .2s, transform .2s;
-}
-
-.opened .lock {
-  opacity: 0;
-  transform: scale(.7);
-}
-
-/* АНИМАЦИЯ ТРЯСКИ */
-
-.shake {
-  animation: shake .45s;
-}
-
-@keyframes shake {
-  0% { transform: translateX(0); }
-  20% { transform: translateX(-8px) rotate(-2deg); }
-  40% { transform: translateX(8px) rotate(2deg); }
-  60% { transform: translateX(-6px) rotate(-1deg); }
-  80% { transform: translateX(6px) rotate(1deg); }
-  100% { transform: translateX(0); }
-}
-
-/* КНОПКА */
-
-.open-button {
-  width: 100%;
-  border: none;
-  border-radius: 15px;
-  padding: 17px;
-  background: linear-gradient(135deg, #ffb52e, #ff7b18);
-  color: white;
-  font-size: 18px;
+.luck {
+  text-align: center;
+  background: #173963;
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 18px;
+  color: #ffd34d;
   font-weight: bold;
+}
+
+.section-title {
+  font-size: 21px;
+  font-weight: bold;
+  margin: 18px 0 10px;
+}
+
+/* КЕЙСЫ */
+
+.cases {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.case {
+  background: #102b50;
+  border: 1px solid #244a78;
+  border-radius: 15px;
+  padding: 14px 8px;
+  text-align: center;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(255,130,20,.25);
+  transition: .15s;
 }
 
-.open-button:active {
-  transform: scale(.97);
+.case:active {
+  transform: scale(.96);
 }
 
-.open-button:disabled {
-  opacity: .5;
+.case-icon {
+  font-size: 48px;
+  margin-bottom: 7px;
+}
+
+.case-name {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.case-price {
+  color: #ffd34d;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.case-drop {
+  color: #91acd0;
+  font-size: 11px;
+  margin-top: 5px;
 }
 
 /* СТАТИСТИКА */
@@ -161,41 +114,68 @@ h1 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .stat {
   background: #102b50;
   border: 1px solid #244a78;
   border-radius: 12px;
-  padding: 12px 5px;
+  padding: 11px 4px;
+  text-align: center;
 }
 
 .stat-number {
-  font-size: 19px;
+  font-size: 17px;
   font-weight: bold;
 }
 
 .stat-name {
   color: #8fa9ca;
-  font-size: 12px;
+  font-size: 11px;
   margin-top: 4px;
 }
 
-/* МОДАЛЬНОЕ ОКНО */
+/* ЗАДАНИЯ */
+
+.task {
+  background: #102b50;
+  border: 1px solid #244a78;
+  border-radius: 13px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+
+.task-title {
+  font-weight: bold;
+}
+
+.task-progress {
+  color: #91acd0;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.task-reward {
+  color: #ffd34d;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* МОДАЛКА */
 
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.75);
+  background: rgba(0,0,0,.78);
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 20px;
-
+  justify-content: center;
+  padding: 18px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity .25s;
+  transition: opacity .2s;
+  z-index: 20;
 }
 
 .modal.show {
@@ -206,24 +186,31 @@ h1 {
 .modal-box {
   width: 100%;
   max-width: 390px;
+  max-height: 90vh;
+  overflow-y: auto;
   background: #102b50;
   border: 1px solid #315b8c;
   border-radius: 20px;
-  padding: 25px 18px;
-  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  padding: 22px 17px;
+  text-align: center;
 }
 
 .modal-title {
-  font-size: 25px;
+  font-size: 24px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
+}
+
+.modal-price {
+  color: #9eb6d8;
+  margin-bottom: 16px;
 }
 
 .money-reward {
-  font-size: 27px;
   color: #ffd34d;
+  font-size: 28px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .items {
@@ -233,15 +220,39 @@ h1 {
 }
 
 .item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   background: #173963;
-  border-radius: 10px;
-  padding: 11px;
+  border-radius: 11px;
+  padding: 10px;
   text-align: left;
 }
 
+.item-image {
+  width: 42px;
+  height: 42px;
+  border-radius: 9px;
+  background: #0b213d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.item-name {
+  font-weight: bold;
+}
+
+.item-rarity {
+  color: #91acd0;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
 .close-button {
-  margin-top: 20px;
   width: 100%;
+  margin-top: 18px;
   padding: 14px;
   border: none;
   border-radius: 12px;
@@ -251,12 +262,78 @@ h1 {
   font-weight: bold;
 }
 
-/* ТЕКСТ */
+/* СУНДУК */
 
-.small {
-  color: #8fa9ca;
-  font-size: 13px;
-  margin-top: 15px;
+.chest-area {
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chest {
+  width: 170px;
+  height: 130px;
+  position: relative;
+  filter: drop-shadow(0 15px 15px rgba(0,0,0,.4));
+}
+
+.chest-body {
+  position: absolute;
+  width: 170px;
+  height: 85px;
+  bottom: 0;
+  background: linear-gradient(#a85d27, #713716);
+  border: 5px solid #49230f;
+  border-radius: 8px 8px 14px 14px;
+}
+
+.chest-lid {
+  position: absolute;
+  width: 170px;
+  height: 65px;
+  top: 0;
+  background: linear-gradient(#c87532, #8b451c);
+  border: 5px solid #49230f;
+  border-radius: 17px 17px 6px 6px;
+  transform-origin: left bottom;
+  transition: transform .55s cubic-bezier(.2,.8,.2,1);
+  z-index: 3;
+}
+
+.opened .chest-lid {
+  transform: translateY(-48px) rotate(-12deg);
+}
+
+.lock {
+  position: absolute;
+  width: 29px;
+  height: 39px;
+  background: #e5b82e;
+  border: 4px solid #8a6410;
+  border-radius: 6px;
+  left: 70px;
+  top: 49px;
+  z-index: 5;
+  transition: .2s;
+}
+
+.opened .lock {
+  opacity: 0;
+  transform: scale(.7);
+}
+
+.shake {
+  animation: shake .45s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-7px) rotate(-2deg); }
+  40% { transform: translateX(7px) rotate(2deg); }
+  60% { transform: translateX(-5px) rotate(-1deg); }
+  80% { transform: translateX(5px) rotate(1deg); }
+  100% { transform: translateX(0); }
 }
 </style>
 </head>
@@ -265,253 +342,614 @@ h1 {
 
 <div class="container">
 
-  <h1>💎 Treasure Hunter</h1>
+<h1>💎 Treasure Hunter</h1>
 
-  <div class="subtitle">
-    Охота за сокровищами
-  </div>
+<div class="subtitle">
+Охота за сокровищами
+</div>
 
-  <div class="balance">
-    💰 <span id="balance">10 000</span>
-  </div>
+<div class="balance">
+💰 <span id="balance">10 000</span>
+</div>
 
-  <div class="location">
-    📍 Старая бухта
-  </div>
+<div class="luck" id="luckText">
+🍀 До 2× удачи: 10 сундуков
+</div>
 
-  <div class="chest-area">
+<div class="chest-area">
 
-    <div class="chest" id="chest">
+<div class="chest" id="chest">
+<div class="chest-lid"></div>
+<div class="chest-body"></div>
+<div class="lock"></div>
+</div>
 
-      <div class="chest-lid"></div>
+</div>
 
-      <div class="chest-body"></div>
+<div class="section-title">
+📦 Кейсы
+</div>
 
-      <div class="lock"></div>
+<div class="cases">
 
-    </div>
+<div class="case" onclick="openCase(1)">
+<div class="case-icon">📦</div>
+<div class="case-name">Старый ящик</div>
+<div class="case-price">2 500 💰</div>
+<div class="case-drop">500 — 10 000 💰</div>
+</div>
 
-  </div>
+<div class="case" onclick="openCase(2)">
+<div class="case-icon">💼</div>
+<div class="case-name">Военный кейс</div>
+<div class="case-price">10 000 💰</div>
+<div class="case-drop">2 000 — 50 000 💰</div>
+</div>
 
-  <button class="open-button" id="openButton" onclick="openChest()">
-    🎁 ОТКРЫТЬ ЯЩИК — 2 500 💰
-  </button>
+<div class="case" onclick="openCase(3)">
+<div class="case-icon">💎</div>
+<div class="case-name">Алмазный кейс</div>
+<div class="case-price">50 000 💰</div>
+<div class="case-drop">15 000 — 200 000 💰</div>
+</div>
 
-  <div class="stats">
+<div class="case" onclick="openCase(4)">
+<div class="case-icon">👑</div>
+<div class="case-name">Легендарный</div>
+<div class="case-price">250 000 💰</div>
+<div class="case-drop">40 000 — 1 000 000 💰</div>
+</div>
 
-    <div class="stat">
-      <div class="stat-number">⚡ <span id="energy">10</span>/10</div>
-      <div class="stat-name">Энергия</div>
-    </div>
+</div>
 
-    <div class="stat">
-      <div class="stat-number">⭐ 1</div>
-      <div class="stat-name">Уровень</div>
-    </div>
+<div class="stats">
 
-    <div class="stat">
-      <div class="stat-number" id="opened">0</div>
-      <div class="stat-name">Открыто</div>
-    </div>
+<div class="stat">
+<div class="stat-number">📦 <span id="opened">0</span></div>
+<div class="stat-name">Открыто</div>
+</div>
 
-  </div>
+<div class="stat">
+<div class="stat-number">⭐ <span id="level">1</span></div>
+<div class="stat-name">Уровень</div>
+</div>
 
-  <div class="small">
-    Каждый ящик может принести как прибыль, так и убыток.
-  </div>
+<div class="stat">
+<div class="stat-number">⚡ <span id="energy">10</span></div>
+<div class="stat-name">Энергия</div>
+</div>
+
+</div>
+
+<div class="section-title">
+📋 Задания
+</div>
+
+<div class="task">
+<div class="task-title">📦 Открыть 5 сундуков</div>
+<div class="task-progress" id="task1">Прогресс: 0 / 5</div>
+<div class="task-reward">Награда: 5 000 💰</div>
+</div>
+
+<div class="task">
+<div class="task-title">📦 Открыть 10 сундуков</div>
+<div class="task-progress" id="task2">Прогресс: 0 / 10</div>
+<div class="task-reward">Награда: 15 000 💰</div>
+</div>
+
+<div class="task">
+<div class="task-title">💰 Получить 25 000 💰</div>
+<div class="task-progress" id="task3">Прогресс: 0 / 25 000</div>
+<div class="task-reward">Награда: 10 000 💰</div>
+</div>
 
 </div>
 
 
-<!-- ОКНО НАГРАД -->
+<!-- МОДАЛКА -->
 
 <div class="modal" id="modal">
 
-  <div class="modal-box">
+<div class="modal-box">
 
-    <div class="modal-title">
-      🎉 Ящик открыт!
-    </div>
+<div class="modal-title" id="modalTitle">
+🎉 Кейc открыт!
+</div>
 
-    <div class="money-reward" id="moneyReward">
-      +0 💰
-    </div>
+<div class="modal-price" id="modalCase">
+</div>
 
-    <div class="items" id="items"></div>
+<div class="money-reward" id="moneyReward">
++0 💰
+</div>
 
-    <button class="close-button" onclick="closeModal()">
-      Забрать награды
-    </button>
+<div class="items" id="items"></div>
 
-  </div>
+<button class="close-button" onclick="closeModal()">
+Забрать награды
+</button>
+
+</div>
 
 </div>
 
 
 <script>
 
-let balance = 10000;
-let opened = 0;
+/* =========================
+   СОХРАНЕНИЕ
+========================= */
 
-const price = 2500;
+let saved = JSON.parse(localStorage.getItem("treasureHunter"));
 
-const itemsList = [
-  "🪙 Старинная монета",
-  "🗝️ Старый ключ",
-  "💎 Кристалл",
-  "🏺 Старая реликвия",
-  "🧭 Компас",
-  "👑 Золотая реликвия"
+let balance = saved ? saved.balance : 10000;
+let opened = saved ? saved.opened : 0;
+let energy = saved ? saved.energy : 10;
+let level = saved ? saved.level : 1;
+let totalEarned = saved ? saved.totalEarned : 0;
+let luckyActive = saved ? saved.luckyActive : false;
+let luckyProgress = saved ? saved.luckyProgress : 0;
+
+let completedTasks = saved ? saved.completedTasks : [];
+
+
+function saveGame() {
+
+  localStorage.setItem(
+    "treasureHunter",
+    JSON.stringify({
+      balance,
+      opened,
+      energy,
+      level,
+      totalEarned,
+      luckyActive,
+      luckyProgress,
+      completedTasks
+    })
+  );
+
+}
+
+
+/* =========================
+   КЕЙСЫ
+========================= */
+
+const cases = {
+
+1: {
+name: "Старый ящик",
+price: 2500,
+min: 500,
+max: 10000
+},
+
+2: {
+name: "Военный кейс",
+price: 10000,
+min: 2000,
+max: 50000
+},
+
+3: {
+name: "Алмазный кейс",
+price: 50000,
+min: 15000,
+max: 200000
+},
+
+4: {
+name: "Легендарный сундук",
+price: 250000,
+min: 40000,
+max: 1000000
+}
+
+};
+
+
+/* =========================
+   ПРЕДМЕТЫ
+========================= */
+
+const items = [
+
+{
+name: "Старинная монета",
+icon: "🪙",
+rarity: "Обычный"
+},
+
+{
+name: "Старый ключ",
+icon: "🗝️",
+rarity: "Обычный"
+},
+
+{
+name: "Кристалл",
+icon: "💎",
+rarity: "Редкий"
+},
+
+{
+name: "Старая реликвия",
+icon: "🏺",
+rarity: "Редкий"
+},
+
+{
+name: "Компас",
+icon: "🧭",
+rarity: "Эпический"
+},
+
+{
+name: "Золотая реликвия",
+icon: "👑",
+rarity: "Легендарный"
+}
+
 ];
 
-function formatNumber(number) {
-  return number.toLocaleString("ru-RU");
-}
 
-function updateBalance() {
-  document.getElementById("balance").textContent =
-    formatNumber(balance);
-}
+/* =========================
+   ЗАПУСК
+========================= */
 
-function openChest() {
-
-  if (balance < price) {
-    alert("Недостаточно денег!");
-    return;
-  }
-
-  const chest = document.getElementById("chest");
-  const button = document.getElementById("openButton");
-
-  button.disabled = true;
-
-  // Списываем стоимость
-  balance -= price;
-  updateBalance();
-
-  // Сбрасываем старую анимацию
-  chest.classList.remove("opened");
-  chest.classList.remove("shake");
-
-  // Перезапуск анимации
-  void chest.offsetWidth;
-
-  chest.classList.add("shake");
-
-  setTimeout(function() {
-
-    chest.classList.add("opened");
-
-    createRewards();
-
-  }, 500);
-}
+updateUI();
 
 
-function createRewards() {
+function updateUI() {
 
-  let reward;
+document.getElementById("balance").textContent =
+format(balance);
 
-  const random = Math.random();
+document.getElementById("opened").textContent =
+opened;
 
-  if (random < 0.25) {
+document.getElementById("energy").textContent =
+energy;
 
-    reward = randomNumber(300, 800);
+document.getElementById("level").textContent =
+level;
 
-  } else if (random < 0.50) {
+updateLuck();
 
-    reward = randomNumber(800, 1500);
-
-  } else if (random < 0.70) {
-
-    reward = randomNumber(1500, 2400);
-
-  } else if (random < 0.85) {
-
-    reward = randomNumber(2500, 5000);
-
-  } else if (random < 0.97) {
-
-    reward = randomNumber(5000, 15000);
-
-  } else {
-
-    reward = randomNumber(15000, 50000);
-
-  }
-
-
-  // Деньги добавляются только после открытия
-  balance += reward;
-
-  opened++;
-
-  updateBalance();
-
-  document.getElementById("opened").textContent = opened;
-
-  document.getElementById("moneyReward").textContent =
-    "+" + formatNumber(reward) + " 💰";
-
-
-  // От 2 до 5 предметов
-  const amount = randomNumber(2, 5);
-
-  const shuffled = [...itemsList].sort(() => Math.random() - 0.5);
-
-  const selectedItems = shuffled.slice(0, amount);
-
-  const itemsContainer = document.getElementById("items");
-
-  itemsContainer.innerHTML = "";
-
-  selectedItems.forEach(function(item) {
-
-    const div = document.createElement("div");
-
-    div.className = "item";
-
-    div.textContent = "✨ " + item;
-
-    itemsContainer.appendChild(div);
-
-  });
-
-
-  setTimeout(function() {
-
-    document.getElementById("modal").classList.add("show");
-
-  }, 500);
+updateTasks();
 
 }
 
 
-function randomNumber(min, max) {
+function format(number) {
 
-  return Math.floor(
-    Math.random() * (max - min + 1)
-  ) + min;
+return Math.floor(number).toLocaleString("ru-RU");
 
 }
 
+
+/* =========================
+   2X УДАЧА
+========================= */
+
+function updateLuck() {
+
+if (luckyActive) {
+
+document.getElementById("luckText").textContent =
+"🍀 2× УДАЧА АКТИВНА!";
+
+return;
+
+}
+
+let left = 10 - luckyProgress;
+
+document.getElementById("luckText").textContent =
+"🍀 До 2× удачи: " + left + " сундуков";
+
+}
+
+
+function checkLuck() {
+
+luckyProgress++;
+
+if (luckyProgress >= 10) {
+
+luckyProgress = 0;
+luckyActive = true;
+
+}
+
+}
+
+
+/* =========================
+   ОТКРЫТИЕ
+========================= */
+
+function openCase(id) {
+
+const data = cases[id];
+
+if (balance < data.price) {
+
+alert("Недостаточно денег!");
+
+return;
+
+}
+
+if (energy <= 0) {
+
+alert("Закончилась энергия!");
+
+return;
+
+}
+
+balance -= data.price;
+energy--;
+
+const chest = document.getElementById("chest");
+
+chest.classList.remove("opened");
+chest.classList.remove("shake");
+
+void chest.offsetWidth;
+
+chest.classList.add("shake");
+
+
+setTimeout(function() {
+
+chest.classList.add("opened");
+
+setTimeout(function() {
+
+giveReward(id);
+
+}, 500);
+
+}, 450);
+
+}
+
+
+/* =========================
+   НАГРАДА
+========================= */
+
+function giveReward(id) {
+
+const data = cases[id];
+
+let reward = random(data.min, data.max);
+
+/*
+2X удача увеличивает шанс
+получить крупную часть диапазона.
+*/
+
+if (luckyActive) {
+
+const roll = Math.random();
+
+if (roll < 0.35) {
+
+reward = random(
+Math.floor(data.max * 0.5),
+data.max
+);
+
+}
+
+luckyActive = false;
+
+}
+
+/* Редкие максимальные дропы */
+
+if (Math.random() < 0.01) {
+
+reward = data.max;
+
+}
+
+
+/* Деньги */
+
+balance += reward;
+
+totalEarned += reward;
+
+opened++;
+
+checkLuck();
+
+updateLevel();
+
+showReward(id, reward);
+
+updateUI();
+
+saveGame();
+
+}
+
+
+/* =========================
+   РАЗНЫЕ ШАНСЫ
+========================= */
+
+function random(min, max) {
+
+return Math.floor(
+Math.random() * (max - min + 1)
+) + min;
+
+}
+
+
+/* =========================
+   УРОВЕНЬ
+========================= */
+
+function updateLevel() {
+
+level = Math.floor(opened / 10) + 1;
+
+}
+
+
+/* =========================
+   НАГРАДА + ПРЕДМЕТЫ
+========================= */
+
+function showReward(id, reward) {
+
+const data = cases[id];
+
+document.getElementById("modalTitle").textContent =
+"🎉 " + data.name + " открыт!";
+
+document.getElementById("modalCase").textContent =
+"Стоимость: " + format(data.price) + " 💰";
+
+document.getElementById("moneyReward").textContent =
+"+" + format(reward) + " 💰";
+
+
+const container = document.getElementById("items");
+
+container.innerHTML = "";
+
+
+/* 2–5 предметов */
+
+const count = random(2, 5);
+
+const shuffled = [...items]
+.sort(() => Math.random() - 0.5);
+
+for (let i = 0; i < count; i++) {
+
+const item = shuffled[i];
+
+const div = document.createElement("div");
+
+div.className = "item";
+
+div.innerHTML = `
+<div class="item-image">${item.icon}</div>
+
+<div>
+<div class="item-name">${item.name}</div>
+<div class="item-rarity">${item.rarity}</div>
+</div>
+`;
+
+container.appendChild(div);
+
+}
+
+
+setTimeout(function() {
+
+document.getElementById("modal")
+.classList.add("show");
+
+}, 100);
+
+}
+
+
+/* =========================
+   ЗАДАНИЯ
+========================= */
+
+function updateTasks() {
+
+document.getElementById("task1").textContent =
+"Прогресс: " + Math.min(opened,5) + " / 5";
+
+document.getElementById("task2").textContent =
+"Прогресс: " + Math.min(opened,10) + " / 10";
+
+document.getElementById("task3").textContent =
+"Прогресс: " + Math.min(totalEarned,25000).toLocaleString("ru-RU")
++ " / 25 000";
+
+checkTasks();
+
+}
+
+
+function checkTasks() {
+
+if (opened >= 5 && !completedTasks.includes(1)) {
+
+balance += 5000;
+
+completedTasks.push(1);
+
+alert("🎁 Задание выполнено! +5 000 💰");
+
+}
+
+if (opened >= 10 && !completedTasks.includes(2)) {
+
+balance += 15000;
+
+completedTasks.push(2);
+
+alert("🎁 Задание выполнено! +15 000 💰");
+
+}
+
+if (totalEarned >= 25000 &&
+!completedTasks.includes(3)) {
+
+balance += 10000;
+
+completedTasks.push(3);
+
+alert("🎁 Задание выполнено! +10 000 💰");
+
+}
+
+saveGame();
+
+}
+
+
+/* =========================
+   ЗАКРЫТИЕ
+========================= */
 
 function closeModal() {
 
-  document.getElementById("modal").classList.remove("show");
+document.getElementById("modal")
+.classList.remove("show");
 
-  const chest = document.getElementById("chest");
+const chest =
+document.getElementById("chest");
 
-  setTimeout(function() {
+setTimeout(function() {
 
-    chest.classList.remove("opened");
-    chest.classList.remove("shake");
+chest.classList.remove("opened");
+chest.classList.remove("shake");
 
-    document.getElementById("openButton").disabled = false;
-
-  }, 250);
+}, 250);
 
 }
+
+
+/* Сохраняем при выходе */
+
+window.addEventListener("beforeunload", saveGame);
 
 </script>
 
