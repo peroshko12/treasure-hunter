@@ -2,8 +2,10 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,viewport-fit=cover">
 <title>Treasure Hunter</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -13,6 +15,7 @@ html,body{
   padding:0;
   width:100%;
   height:100%;
+  min-height:100%;
   overflow:hidden;
   background:#0b0e14;
   color:#fff;
@@ -22,6 +25,7 @@ html,body{
 body{
   display:flex;
   justify-content:center;
+  min-height:100dvh;
 }
 
 button{
@@ -33,7 +37,8 @@ button{
 #app{
   width:100%;
   max-width:480px;
-  height:100%;
+  height:100dvh;
+  min-height:100dvh;
   position:relative;
   overflow:hidden;
   background:
@@ -44,6 +49,8 @@ button{
   position:absolute;
   inset:0;
   padding:18px;
+  padding-top:calc(18px + env(safe-area-inset-top));
+  padding-bottom:calc(18px + env(safe-area-inset-bottom));
   overflow:hidden;
 }
 
@@ -239,7 +246,7 @@ button{
 .menu-btn{
   position:absolute;
   left:18px;
-  top:18px;
+  top:calc(18px + env(safe-area-inset-top));
   width:45px;
   height:42px;
   border-radius:12px;
@@ -254,6 +261,7 @@ button{
   z-index:20;
   background:#0b0e14f5;
   padding:70px 20px 20px;
+  padding-top:calc(70px + env(safe-area-inset-top));
   overflow:auto;
 }
 
@@ -610,6 +618,25 @@ button{
 </div>
 
 <script>
+/* Telegram Mini App */
+const tg=window.Telegram?.WebApp;
+
+if(tg){
+  tg.ready();
+  tg.expand();
+
+  try{
+    tg.disableVerticalSwipes();
+  }catch(e){}
+
+  document.documentElement.style.setProperty(
+    "--tg-viewport-height",
+    (tg.viewportHeight||window.innerHeight)+"px"
+  );
+}
+
+/* Игра */
+
 const cases=[
   {name:"Обычный",price:2500,max:5000,maxItems:2,cls:"case1"},
   {name:"Военный",price:10000,max:30000,maxItems:3,cls:"case2"},
@@ -820,7 +847,7 @@ function calculateCaseReward(c){
 function makeItem(value,rar){
   const icon=icons[Math.floor(Math.random()*icons.length)];
 
-  return {
+  return{
     icon,
     rarity:rar,
     value
@@ -1055,5 +1082,4 @@ updateUI();
 </script>
 
 </body>
-<audio id="sound-open" src="sounds/open.mp3" preload="auto"></audio>
 </html>
