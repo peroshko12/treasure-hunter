@@ -636,10 +636,6 @@ font-weight:bold;
 ⚙️ Настройки
 </button>
 
-<button class="menu-item" onclick="openCodes()">
-🎁 Коды
-</button>
-
 <button class="menu-item" onclick="openBattlePass()">
 🎫 Battle Pass
 </button>
@@ -815,68 +811,6 @@ onclick="openCase()">
 </button>
 
 <div class="pass-progress" id="passProgress"></div>
-
-</div>
-
-
-<div class="inner-screen hidden" id="codesScreen">
-
-<div class="inner-header">
-
-<div class="inner-title">
-🎁 Коды
-</div>
-
-</div>
-
-<button class="back-button" onclick="showHome()">
-✕
-</button>
-
-<div class="settings-box">
-
-<div class="setting">
-
-<div style="width:100%">
-
-<div class="setting-info">
-🎁 Промокод
-</div>
-
-<div class="setting-description">
-Введите код и получите награду
-</div>
-
-<input
-id="codeInput"
-type="text"
-placeholder="Введите код"
-style="
-width:100%;
-margin-top:12px;
-padding:14px;
-border-radius:12px;
-border:1px solid #294568;
-background:#0d1b2d;
-color:white;
-font-size:16px;
-outline:none;
-">
-
-<button
-class="open-button"
-style="margin-top:10px"
-onclick="activateCode()">
-
-АКТИВИРОВАТЬ
-
-</button>
-
-</div>
-
-</div>
-
-</div>
 
 </div>
 
@@ -1313,10 +1247,6 @@ document
 .getElementById("upgraderScreen")
 .classList.add("hidden");
 
-document
-.getElementById("codesScreen")
-.classList.add("hidden");
-
 }
 
 
@@ -1341,19 +1271,6 @@ hideAllScreens();
 
 document
 .getElementById("settingsScreen")
-.classList.remove("hidden");
-
-closeMenu();
-
-}
-
-
-function openCodes(){
-
-hideAllScreens();
-
-document
-.getElementById("codesScreen")
 .classList.remove("hidden");
 
 closeMenu();
@@ -2078,112 +1995,6 @@ document.getElementById("chest");
 
 chest.classList.remove("opened");
 chest.classList.remove("shake");
-
-}
-
-
-/* =========================
-   ПРОМОКОДЫ
-========================= */
-
-async function activateCode(){
-
-const input=document.getElementById("codeInput");
-
-if(!input){
-alert("Ошибка: поле промокода не найдено");
-return;
-}
-
-const code=input.value.trim().toLowerCase();
-
-if(!code){
-alert("Введите код");
-return;
-}
-
-if(code!=="test"){
-alert("❌ Неверный код");
-return;
-}
-
-/*
-Промокод использует ТО ЖЕ самое
-изменение баланса, которое уже
-используется в игре.
-*/
-
-if(!userId){
-
-alert(
-"❌ Игра должна быть открыта через Telegram"
-);
-
-return;
-
-}
-
-const button=input.parentElement.querySelector("button");
-
-if(button){
-button.disabled=true;
-}
-
-try{
-
-const data=await serverRequest(
-"change_balance",
-100000
-);
-
-/*
-Если сервер вернул актуальный баланс —
-используем его.
-Если нет — прибавляем 100000 локально.
-*/
-
-if(
-data &&
-data.balance!==undefined &&
-data.balance!==null
-){
-
-balance=Number(data.balance);
-
-}else{
-
-balance+=100000;
-
-}
-
-save();
-updateUI();
-
-input.value="";
-
-alert(
-"🎉 Код активирован!\n\n+100 000 серебра"
-);
-
-}catch(error){
-
-console.error(
-"PROMO ERROR:",
-error
-);
-
-alert(
-"❌ Не удалось активировать код\n\n"+
-(error.message || "Неизвестная ошибка")
-);
-
-}finally{
-
-if(button){
-button.disabled=false;
-}
-
-}
 
 }
 
