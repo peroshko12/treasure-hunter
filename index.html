@@ -656,7 +656,7 @@ font-weight:bold;
 <div class="top">
 
 <div class="balance">
-💰 <span id="balance">0</span>
+💰 <span id="balance">...</span>
 </div>
 
 <div class="level-box">
@@ -735,7 +735,7 @@ font-weight:bold;
 <button
 class="open-button"
 id="openButton"
-onclick="openCase">
+onclick="openCase()">
 
 ОТКРЫТЬ КЕЙС
 
@@ -979,21 +979,17 @@ window.Telegram?.WebApp;
 if(tg){
 
 tg.ready();
-
 tg.expand();
 
 }
 
-
 const telegramUser =
 tg?.initDataUnsafe?.user;
-
 
 const userId =
 telegramUser?.id
 ? String(telegramUser.id)
 : "";
-
 
 const username =
 telegramUser?.username || "";
@@ -1102,7 +1098,6 @@ rarityClass:"rarity-mythic"
 
 
 const XP_PER_CASE=15;
-
 const XP_PER_LEVEL=1000;
 
 
@@ -1110,47 +1105,30 @@ const XP_PER_LEVEL=1000;
    LOCAL STATS
 ========================= */
 
-/*
-   ВАЖНО:
-   balance больше НЕ хранится
-   в localStorage.
-
-   Настоящий баланс находится
-   в MongoDB бота.
-*/
-
 let balance=0;
-
 
 let opened=
 Number(
 localStorage.getItem("opened")
 )||0;
 
-
 let totalEarned=
 Number(
 localStorage.getItem("totalEarned")
 )||0;
-
 
 let xp=
 Number(
 localStorage.getItem("xp")
 )||0;
 
-
 let luckyActive=
-localStorage.getItem(
-"luckyActive"
-)==="true";
-
+localStorage.getItem("luckyActive")
+==="true";
 
 let luckyProgress=
 Number(
-localStorage.getItem(
-"luckyProgress"
-)
+localStorage.getItem("luckyProgress")
 )||0;
 
 
@@ -1166,29 +1144,40 @@ amount=0
 if(!userId){
 
 throw new Error(
-"Игра должна быть открыта через Telegram"
+"Telegram ID не найден. Открой игру через кнопку «🎮 ИГРАТЬ» в Telegram-боте."
 );
 
 }
 
-
 const path =
-action.replaceAll(
-"_",
-"-"
+action.replaceAll("_","-");
+
+const url =
+API_BASE+"/"+path;
+
+console.log(
+"SERVER REQUEST:",
+action,
+url,
+{
+userId:userId,
+username:username,
+amount:Number(amount)||0
+}
 );
 
+let response;
 
-const response =
+try{
+
+response =
 await fetch(
-API_BASE+"/"+path,
+url,
 {
-
 method:"POST",
 
 headers:{
-"Content-Type":
-"application/json"
+"Content-Type":"application/json"
 },
 
 body:JSON.stringify({
@@ -1197,28 +1186,62 @@ userId:userId,
 
 username:username,
 
-amount:
-Number(amount)||0
+amount:Number(amount)||0
 
 })
 
 }
 );
 
+}catch(error){
+
+console.error(
+"FETCH ERROR:",
+error
+);
+
+throw new Error(
+"Не удалось подключиться к серверу NXCreate."
+);
+
+}
+
+
+const rawText =
+await response.text();
+
+console.log(
+"SERVER STATUS:",
+response.status
+);
+
+console.log(
+"SERVER RAW:",
+rawText
+);
 
 let data={};
 
+if(rawText){
 
 try{
 
-data=
-await response.json();
+data =
+JSON.parse(rawText);
 
 }catch(error){
 
-throw new Error(
-"Сервер вернул неправильный ответ"
+console.error(
+"JSON ERROR:",
+error
 );
+
+throw new Error(
+"Сервер вернул неправильный ответ: "+
+rawText.substring(0,200)
+);
+
+}
 
 }
 
@@ -1229,13 +1252,24 @@ throw new Error(
 data?.message ||
 data?.error ||
 data?.data?.message ||
-"Ошибка сервера"
+(
+"Ошибка сервера. HTTP "+
+response.status
+)
 );
 
 }
 
 
-return data?.data || data;
+const result =
+data?.data || data;
+
+console.log(
+"SERVER RESULT:",
+result
+);
+
+return result;
 
 }
 
@@ -1246,6 +1280,55 @@ return data?.data || data;
 
 async function loadBalance(){
 
+const balanceElement =
+document.getElementById(
+"balance"
+);
+
+balanceElement.textContent =
+"Загрузка...";
+
+console.log(
+"=============================="
+);
+
+console.log(
+"LOADING BALANCE"
+);
+
+console.log(
+"Telegram user:",
+telegramUser
+);
+
+console.log(
+"Telegram userId:",
+userId
+);
+
+console.log(
+"Telegram username:",
+username
+);
+
+console.log(
+"API:",
+API_BASE+"/get-balance"
+);
+
+if(!userId){
+
+balanceElement.textContent =
+"ОШИБКА";
+
+alert(
+"❌ Mini App не получил Telegram ID.\n\nОткрой игру именно через кнопку «🎮 ИГРАТЬ» в Telegram-боте."
+);
+
+return;
+
+}
+
 try{
 
 const data =
@@ -1253,12 +1336,15 @@ await serverRequest(
 "get_balance"
 );
 
+console.log(
+"GET BALANCE DATA:",
+data
+);
 
 const serverBalance =
 Number(
 data?.balance
 );
-
 
 if(
 !Number.isFinite(
@@ -1267,33 +1353,43 @@ serverBalance
 ){
 
 throw new Error(
-"Сервер не вернул баланс"
+"Сервер не вернул число баланса.\nОтвет: "+
+JSON.stringify(data)
 );
 
 }
 
-
 balance =
 serverBalance;
 
+balanceElement.textContent =
+balance.toLocaleString(
+"ru-RU"
+);
 
 updateUI();
 
-
 console.log(
-"Баланс MongoDB:",
+"✅ БАЛАНС ЗАГРУЖЕН:",
 balance
 );
-
 
 }catch(error){
 
 console.error(
-"LOAD BALANCE ERROR:",
+"❌ LOAD BALANCE ERROR:",
 error
 );
 
-updateUI();
+balanceElement.textContent =
+"Ошибка";
+
+alert(
+"❌ Не удалось загрузить баланс.\n\n"+
+error.message+
+"\n\nTelegram ID: "+
+userId
+);
 
 }
 
@@ -1322,18 +1418,14 @@ function getCurrentCase(){
 const level =
 getLevel();
 
-
 if(level>=20)
 return 4;
-
 
 if(level>=10)
 return 3;
 
-
 if(level>=5)
 return 2;
-
 
 return 1;
 
@@ -1351,7 +1443,6 @@ document
 .classList
 .toggle("open");
 
-
 document
 .getElementById("menuOverlay")
 .classList
@@ -1366,7 +1457,6 @@ document
 .getElementById("menu")
 .classList
 .remove("open");
-
 
 document
 .getElementById("menuOverlay")
@@ -1387,18 +1477,15 @@ document
 .classList
 .add("hidden");
 
-
 document
 .getElementById("battlePassScreen")
 .classList
 .add("hidden");
 
-
 document
 .getElementById("settingsScreen")
 .classList
 .add("hidden");
-
 
 document
 .getElementById("upgraderScreen")
@@ -1412,15 +1499,12 @@ function showHome(){
 
 hideAllScreens();
 
-
 document
 .getElementById("homeScreen")
 .classList
 .remove("hidden");
 
-
 closeMenu();
-
 
 updateUI();
 
@@ -1431,12 +1515,10 @@ function openSettings(){
 
 hideAllScreens();
 
-
 document
 .getElementById("settingsScreen")
 .classList
 .remove("hidden");
-
 
 closeMenu();
 
@@ -1447,15 +1529,12 @@ function openBattlePass(){
 
 hideAllScreens();
 
-
 document
 .getElementById("battlePassScreen")
 .classList
 .remove("hidden");
 
-
 closeMenu();
-
 
 renderBattlePass();
 
@@ -1466,12 +1545,10 @@ function openUpgrader(){
 
 hideAllScreens();
 
-
 document
 .getElementById("upgraderScreen")
 .classList
 .remove("hidden");
-
 
 closeMenu();
 
@@ -1484,34 +1561,25 @@ closeMenu();
 
 function save(){
 
-/*
-   Баланс здесь НЕ сохраняем.
-   Только статистика игры.
-*/
-
 localStorage.setItem(
 "opened",
 opened
 );
-
 
 localStorage.setItem(
 "totalEarned",
 totalEarned
 );
 
-
 localStorage.setItem(
 "xp",
 xp
 );
 
-
 localStorage.setItem(
 "luckyActive",
 luckyActive
 );
-
 
 localStorage.setItem(
 "luckyProgress",
@@ -1530,14 +1598,11 @@ function getReward(level){
 if(level===5)
 return "🪖 Военный кейс";
 
-
 if(level===10)
 return "💎 Алмазный кейс";
 
-
 if(level===20)
 return "👑 Легендарный кейс";
-
 
 return "💰 "+
 (
@@ -1556,20 +1621,16 @@ document.getElementById(
 "passProgress"
 );
 
-
 const level =
 getLevel();
 
-
 container.innerHTML="";
-
 
 const maxLevel =
 Math.max(
 20,
 level+5
 );
-
 
 for(
 let i=1;
@@ -1582,33 +1643,26 @@ document.createElement(
 "div"
 );
 
-
 card.className =
 "pass-card";
-
 
 if(i<level)
 card.classList.add(
 "done"
 );
 
-
 if(i===level)
 card.classList.add(
 "current"
 );
 
-
 let status="🔒";
-
 
 if(i<level)
 status="✅ Получено";
 
-
 if(i===level)
 status="⭐ Сейчас";
-
 
 card.innerHTML=`
 
@@ -1633,7 +1687,6 @@ ${status}
 </div>
 
 `;
-
 
 container.appendChild(
 card
@@ -1662,10 +1715,8 @@ return;
 
 }
 
-
 const reward =
 level*1000;
-
 
 try{
 
@@ -1674,7 +1725,6 @@ await serverRequest(
 "change_balance",
 reward
 );
-
 
 if(
 data &&
@@ -1692,10 +1742,8 @@ balance += reward;
 
 }
 
-
 totalEarned +=
 reward;
-
 
 }catch(error){
 
@@ -1718,46 +1766,38 @@ function updateUI(){
 const level =
 getLevel();
 
-
 const caseId =
 getCurrentCase();
-
 
 const currentCase =
 cases[caseId];
 
-
 document
 .getElementById("balance")
 .textContent =
-balance.toLocaleString(
+Number(balance).toLocaleString(
 "ru-RU"
 );
-
 
 document
 .getElementById("level")
 .textContent =
 level;
 
-
 document
 .getElementById("levelStat")
 .textContent =
 level;
-
 
 document
 .getElementById("xp")
 .textContent =
 xp%XP_PER_LEVEL;
 
-
 document
 .getElementById("xpNeed")
 .textContent =
 XP_PER_LEVEL;
-
 
 document
 .getElementById("xpFill")
@@ -1768,12 +1808,10 @@ XP_PER_LEVEL *
 100
 )+"%";
 
-
 document
 .getElementById("luckProgress")
 .textContent =
 luckyProgress;
-
 
 document
 .getElementById("luckFill")
@@ -1782,18 +1820,15 @@ document
 luckyProgress*10
 )+"%";
 
-
 const luckText =
 document.getElementById(
 "luckText"
 );
 
-
 if(luckyActive){
 
 luckText.textContent =
 "🔥 2× удача активна!";
-
 
 luckText.classList.add(
 "luck-active"
@@ -1804,19 +1839,16 @@ luckText.classList.add(
 luckText.textContent =
 "🍀 2× удача";
 
-
 luckText.classList.remove(
 "luck-active"
 );
 
 }
 
-
 document
 .getElementById("caseName")
 .textContent =
 currentCase.name;
-
 
 document
 .getElementById("casePrice")
@@ -1826,18 +1858,15 @@ currentCase.price
 "ru-RU"
 );
 
-
 document
 .getElementById("caseStat")
 .textContent =
 currentCase.shortName;
 
-
 document
 .getElementById("opened")
 .textContent =
 opened;
-
 
 document
 .getElementById("totalEarned")
@@ -1847,17 +1876,14 @@ totalEarned
 "ru-RU"
 );
 
-
 const chest =
 document.getElementById(
 "chest"
 );
 
-
 chest.className =
 "chest "+
 currentCase.className;
-
 
 document
 .getElementById("openButton")
@@ -1898,9 +1924,7 @@ currentCase
 const roll =
 Math.random();
 
-
 let multiplier;
-
 
 if(roll<0.45){
 
@@ -1942,13 +1966,11 @@ Math.random()*7;
 
 }
 
-
 let reward =
 Math.floor(
 currentCase.price*
 multiplier
 );
-
 
 reward =
 Math.max(
@@ -1956,13 +1978,11 @@ currentCase.min,
 reward
 );
 
-
 reward =
 Math.min(
 currentCase.max,
 reward
 );
-
 
 if(luckyActive){
 
@@ -1974,12 +1994,10 @@ currentCase.price*0.9
 currentCase.max
 );
 
-
 luckyActive =
 false;
 
 }
-
 
 return reward;
 
@@ -1994,44 +2012,35 @@ function getItems(){
 
 const result=[];
 
-
 const rarityRoll=()=>{
 
 const r =
 Math.random()*100;
 
-
 if(r<50)
 return 1;
-
 
 if(r<75)
 return 2;
 
-
 if(r<89)
 return 3;
-
 
 if(r<96)
 return 4;
 
-
 if(r<99)
 return 5;
-
 
 return 6;
 
 };
-
 
 const count =
 randomInt(
 2,
 5
 );
-
 
 while(
 result.length<count
@@ -2040,14 +2049,12 @@ result.length<count
 const rarity =
 rarityRoll();
 
-
 const possible =
 itemPool.filter(
 item =>
 item.rarityLevel ===
 rarity
 );
-
 
 const item =
 possible[
@@ -2057,13 +2064,11 @@ possible.length-1
 )
 ];
 
-
 result.push(
 item
 );
 
 }
-
 
 return result;
 
@@ -2081,18 +2086,14 @@ document.getElementById(
 "openButton"
 );
 
-
 if(button.disabled)
 return;
-
 
 const caseId =
 getCurrentCase();
 
-
 const currentCase =
 cases[caseId];
-
 
 if(
 balance <
@@ -2107,7 +2108,6 @@ return;
 
 }
 
-
 button.disabled =
 true;
 
@@ -2121,11 +2121,9 @@ document.getElementById(
 "sound-open"
 );
 
-
 if(sound){
 
 sound.currentTime=0;
-
 
 sound.play().catch(
 ()=>{}
@@ -2146,7 +2144,6 @@ await serverRequest(
 -currentCase.price
 );
 
-
 if(
 data &&
 Number.isFinite(
@@ -2164,23 +2161,20 @@ currentCase.price;
 
 }
 
-
 }catch(error){
 
 button.disabled =
 false;
 
-
 alert(
-"Ошибка соединения с сервером"
+"Ошибка списания серебра:\n\n"+
+error.message
 );
-
 
 console.error(
 "CHANGE BALANCE ERROR:",
 error
 );
-
 
 return;
 
@@ -2193,7 +2187,6 @@ return;
 
 const oldLevel =
 getLevel();
-
 
 const reward =
 calculateReward(
@@ -2213,7 +2206,6 @@ await serverRequest(
 reward
 );
 
-
 if(
 data &&
 Number.isFinite(
@@ -2231,13 +2223,7 @@ reward;
 
 }
 
-
 }catch(error){
-
-/*
-   Если награда не сохранилась,
-   возвращаем стоимость кейса.
-*/
 
 try{
 
@@ -2246,7 +2232,6 @@ await serverRequest(
 "change_balance",
 currentCase.price
 );
-
 
 if(
 refund &&
@@ -2274,21 +2259,18 @@ refundError
 
 }
 
-
 button.disabled =
 false;
 
-
 alert(
-"Ошибка при сохранении награды"
+"Ошибка при сохранении награды:\n\n"+
+error.message
 );
-
 
 console.error(
 "REWARD ERROR:",
 error
 );
-
 
 return;
 
@@ -2302,10 +2284,8 @@ return;
 totalEarned +=
 reward;
 
-
 const items =
 getItems();
-
 
 const highestItem =
 items.reduce(
@@ -2316,13 +2296,10 @@ best.rarityLevel
 : best
 );
 
-
 opened++;
-
 
 xp +=
 XP_PER_CASE;
-
 
 if(!luckyActive){
 
@@ -2330,22 +2307,18 @@ luckyProgress++;
 
 }
 
-
 if(luckyProgress>=10){
 
 luckyActive =
 true;
-
 
 luckyProgress =
 0;
 
 }
 
-
 const newLevel =
 getLevel();
-
 
 if(
 newLevel >
@@ -2366,9 +2339,7 @@ lvl
 
 }
 
-
 save();
-
 
 updateUI();
 
@@ -2382,54 +2353,43 @@ document.getElementById(
 "chest"
 );
 
-
 chest.classList.remove(
 "shake"
 );
-
 
 chest.classList.remove(
 "opened"
 );
 
-
 chest.classList.remove(
 "glow-common"
 );
-
 
 chest.classList.remove(
 "glow-uncommon"
 );
 
-
 chest.classList.remove(
 "glow-rare"
 );
-
 
 chest.classList.remove(
 "glow-epic"
 );
 
-
 chest.classList.remove(
 "glow-legendary"
 );
-
 
 chest.classList.remove(
 "glow-mythic"
 );
 
-
 void chest.offsetWidth;
-
 
 chest.classList.add(
 "shake"
 );
-
 
 setTimeout(()=>{
 
@@ -2442,7 +2402,6 @@ highestItem.rarityLevel
 
 },220);
 
-
 setTimeout(()=>{
 
 chest.classList.add(
@@ -2450,7 +2409,6 @@ chest.classList.add(
 );
 
 },450);
-
 
 setTimeout(()=>{
 
@@ -2460,7 +2418,6 @@ items,
 highestItem,
 newLevel>oldLevel
 );
-
 
 button.disabled =
 false;
@@ -2481,22 +2438,17 @@ level
 if(level===1)
 return "common";
 
-
 if(level===2)
 return "uncommon";
-
 
 if(level===3)
 return "rare";
 
-
 if(level===4)
 return "epic";
 
-
 if(level===5)
 return "legendary";
-
 
 return "mythic";
 
@@ -2521,19 +2473,16 @@ reward.toLocaleString(
 "ru-RU"
 );
 
-
 const levelMessage =
 document.getElementById(
 "newLevel"
 );
-
 
 if(leveledUp){
 
 levelMessage.textContent =
 "🎊 Новый уровень! Ур. "+
 getLevel();
-
 
 levelMessage.classList.remove(
 "hidden"
@@ -2547,31 +2496,25 @@ levelMessage.classList.add(
 
 }
 
-
 const rarityResult =
 document.getElementById(
 "rarityResult"
 );
 
-
 rarityResult.textContent =
 "✨ Лучшая редкость: "+
 highestItem.rarity;
 
-
 rarityResult.className =
 "rarity-result "+
 highestItem.rarityClass;
-
 
 const container =
 document.getElementById(
 "items"
 );
 
-
 container.innerHTML="";
-
 
 items.forEach(
 item=>{
@@ -2581,10 +2524,8 @@ document.createElement(
 "div"
 );
 
-
 div.className =
 "item";
-
 
 div.innerHTML = `
 
@@ -2602,13 +2543,11 @@ ${item.rarity}
 
 `;
 
-
 container.appendChild(
 div
 );
 
 });
-
 
 document
 .getElementById("rewardModal")
@@ -2629,17 +2568,14 @@ document
 .classList
 .add("hidden");
 
-
 const chest =
 document.getElementById(
 "chest"
 );
 
-
 chest.classList.remove(
 "opened"
 );
-
 
 chest.classList.remove(
 "shake"
