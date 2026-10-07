@@ -410,10 +410,6 @@ font-size:21px;
 z-index:10;
 }
 
-.back-button:active{
-transform:scale(.95);
-}
-
 .pass-progress{
 max-width:500px;
 margin:auto;
@@ -650,13 +646,12 @@ font-weight:bold;
 
 </div>
 
-
 <div class="screen" id="homeScreen">
 
 <div class="top">
 
 <div class="balance">
-💰 <span id="balance">...</span>
+💰 <span id="balance">0</span>
 </div>
 
 <div class="level-box">
@@ -674,14 +669,12 @@ font-weight:bold;
 <div class="xp-box">
 
 <div class="xp-text">
-
 <span>⭐ XP</span>
 
 <span>
 <span id="xp">0</span> /
 <span id="xpNeed">1000</span>
 </span>
-
 </div>
 
 <div class="xp-bar">
@@ -715,9 +708,7 @@ font-weight:bold;
 <div class="chest normal" id="chest">
 
 <div class="chest-lid"></div>
-
 <div class="chest-body"></div>
-
 <div class="lock"></div>
 
 </div>
@@ -744,145 +735,90 @@ onclick="openCase()">
 <div class="stats">
 
 <div class="stat">
-
-<div class="stat-title">
-Открыто кейсов
-</div>
-
-<div class="stat-value" id="opened">
-0
-</div>
-
+<div class="stat-title">Открыто кейсов</div>
+<div class="stat-value" id="opened">0</div>
 </div>
 
 <div class="stat">
-
-<div class="stat-title">
-Всего заработано
-</div>
-
+<div class="stat-title">Всего заработано</div>
 <div class="stat-value">
 💰 <span id="totalEarned">0</span>
 </div>
-
 </div>
 
 <div class="stat">
-
-<div class="stat-title">
-Уровень
-</div>
-
+<div class="stat-title">Уровень</div>
 <div class="stat-value">
 ⭐ <span id="levelStat">1</span>
 </div>
-
 </div>
 
 <div class="stat">
-
-<div class="stat-title">
-Текущий кейс
-</div>
-
-<div class="stat-value" id="caseStat">
-Обычный
+<div class="stat-title">Текущий кейс</div>
+<div class="stat-value" id="caseStat">Обычный</div>
 </div>
 
 </div>
 
 </div>
-
-</div>
-
 
 <div class="inner-screen hidden" id="battlePassScreen">
 
 <div class="inner-header">
-
-<div class="inner-title">
-🎫 Battle Pass
+<div class="inner-title">🎫 Battle Pass</div>
 </div>
 
-</div>
-
-<button class="back-button" onclick="showHome()">
-✕
-</button>
+<button class="back-button" onclick="showHome()">✕</button>
 
 <div class="pass-progress" id="passProgress"></div>
 
 </div>
 
-
 <div class="inner-screen hidden" id="settingsScreen">
 
 <div class="inner-header">
-
-<div class="inner-title">
-⚙️ Настройки
+<div class="inner-title">⚙️ Настройки</div>
 </div>
 
-</div>
-
-<button class="back-button" onclick="showHome()">
-✕
-</button>
+<button class="back-button" onclick="showHome()">✕</button>
 
 <div class="settings-box">
 
 <div class="setting">
 
 <div>
-
-<div class="setting-info">
-🔊 Звуки
-</div>
-
+<div class="setting-info">🔊 Звуки</div>
 <div class="setting-description">
 Настройки звуков игры
 </div>
-
 </div>
 
-<div>
-В разработке
-</div>
+<div>В разработке</div>
 
 </div>
 
 <div class="setting">
 
 <div>
-
-<div class="setting-info">
-📳 Вибрация
-</div>
-
+<div class="setting-info">📳 Вибрация</div>
 <div class="setting-description">
 Вибрация при открытии кейса
 </div>
-
 </div>
 
-<div>
-В разработке
-</div>
+<div>В разработке</div>
 
 </div>
 
 </div>
 
 </div>
-
 
 <div class="inner-screen hidden" id="upgraderScreen">
 
 <div class="inner-header">
 
-<button class="back-button" onclick="showHome()">
-←
-</button>
+<button class="back-button" onclick="showHome()">←</button>
 
 <div class="inner-title">
 ⬆️ Upgrader
@@ -892,13 +828,9 @@ onclick="openCase()">
 
 <div class="upgrader-box">
 
-<div style="font-size:55px;">
-📈
-</div>
+<div style="font-size:55px;">📈</div>
 
-<h2>
-Upgrader
-</h2>
+<h2>Upgrader</h2>
 
 <div class="upgrader-placeholder">
 
@@ -924,7 +856,6 @@ onclick="alert('Система Upgrader будет добавлена позже
 </div>
 
 </div>
-
 
 <div class="modal hidden" id="rewardModal">
 
@@ -958,12 +889,7 @@ onclick="alert('Система Upgrader будет добавлена позже
 
 </div>
 
-
 <script>
-
-/* =========================
-   NXCREATE
-========================= */
 
 const API_BASE =
 "https://api-prod2-next-bot.nx3r.com/custom/0d73f344";
@@ -973,14 +899,11 @@ const API_BASE =
    TELEGRAM
 ========================= */
 
-const tg =
-window.Telegram?.WebApp;
+const tg = window.Telegram?.WebApp;
 
 if(tg){
-
-tg.ready();
-tg.expand();
-
+    tg.ready();
+    tg.expand();
 }
 
 const telegramUser =
@@ -993,6 +916,20 @@ telegramUser?.id
 
 const username =
 telegramUser?.username || "";
+
+
+/* =========================
+   ДИАГНОСТИКА ID
+========================= */
+
+setTimeout(function(){
+
+alert(
+"TELEGRAM ID MINI APP:\n\n" +
+(userId || "НЕ НАЙДЕН")
+);
+
+},500);
 
 
 /* =========================
@@ -1096,180 +1033,81 @@ rarityClass:"rarity-mythic"
 
 ];
 
-
 const XP_PER_CASE=15;
 const XP_PER_LEVEL=1000;
 
 
 /* =========================
-   LOCAL STATS
+   DATA
 ========================= */
 
 let balance=0;
 
 let opened=
-Number(
-localStorage.getItem("opened")
-)||0;
+Number(localStorage.getItem("opened"))||0;
 
 let totalEarned=
-Number(
-localStorage.getItem("totalEarned")
-)||0;
+Number(localStorage.getItem("totalEarned"))||0;
 
 let xp=
-Number(
-localStorage.getItem("xp")
-)||0;
+Number(localStorage.getItem("xp"))||0;
 
 let luckyActive=
-localStorage.getItem("luckyActive")
-==="true";
+localStorage.getItem("luckyActive")==="true";
 
 let luckyProgress=
-Number(
-localStorage.getItem("luckyProgress")
-)||0;
+Number(localStorage.getItem("luckyProgress"))||0;
 
 
 /* =========================
-   SERVER REQUEST
+   SERVER
 ========================= */
 
-async function serverRequest(
-action,
-amount=0
-){
+async function serverRequest(action,amount=0){
 
 if(!userId){
-
 throw new Error(
-"Telegram ID не найден. Открой игру через кнопку «🎮 ИГРАТЬ» в Telegram-боте."
+"Игра должна быть открыта через Telegram"
 );
-
 }
 
-const path =
-action.replaceAll("_","-");
+const path=action.replaceAll("_","-");
 
-const url =
-API_BASE+"/"+path;
-
-console.log(
-"SERVER REQUEST:",
-action,
-url,
-{
-userId:userId,
-username:username,
-amount:Number(amount)||0
-}
-);
-
-let response;
-
-try{
-
-response =
-await fetch(
-url,
+const response=await fetch(
+API_BASE+"/"+path,
 {
 method:"POST",
-
 headers:{
 "Content-Type":"application/json"
 },
-
 body:JSON.stringify({
-
 userId:userId,
-
 username:username,
-
 amount:Number(amount)||0
-
 })
-
 }
-);
-
-}catch(error){
-
-console.error(
-"FETCH ERROR:",
-error
-);
-
-throw new Error(
-"Не удалось подключиться к серверу NXCreate."
-);
-
-}
-
-
-const rawText =
-await response.text();
-
-console.log(
-"SERVER STATUS:",
-response.status
-);
-
-console.log(
-"SERVER RAW:",
-rawText
 );
 
 let data={};
 
-if(rawText){
-
 try{
-
-data =
-JSON.parse(rawText);
-
+data=await response.json();
 }catch(error){
-
-console.error(
-"JSON ERROR:",
-error
-);
-
 throw new Error(
-"Сервер вернул неправильный ответ: "+
-rawText.substring(0,200)
+"Сервер вернул неправильный ответ"
 );
-
 }
-
-}
-
 
 if(!response.ok){
-
 throw new Error(
 data?.message ||
 data?.error ||
 data?.data?.message ||
-(
-"Ошибка сервера. HTTP "+
-response.status
-)
+"Ошибка сервера"
 );
-
 }
 
-
-const result =
-data?.data || data;
-
-console.log(
-"SERVER RESULT:",
-result
-);
-
-return result;
+return data?.data || data;
 
 }
 
@@ -1280,116 +1118,42 @@ return result;
 
 async function loadBalance(){
 
-const balanceElement =
-document.getElementById(
-"balance"
-);
-
-balanceElement.textContent =
-"Загрузка...";
-
-console.log(
-"=============================="
-);
-
-console.log(
-"LOADING BALANCE"
-);
-
-console.log(
-"Telegram user:",
-telegramUser
-);
-
-console.log(
-"Telegram userId:",
-userId
-);
-
-console.log(
-"Telegram username:",
-username
-);
-
-console.log(
-"API:",
-API_BASE+"/get-balance"
-);
-
-if(!userId){
-
-balanceElement.textContent =
-"ОШИБКА";
-
-alert(
-"❌ Mini App не получил Telegram ID.\n\nОткрой игру именно через кнопку «🎮 ИГРАТЬ» в Telegram-боте."
-);
-
-return;
-
-}
-
 try{
 
-const data =
-await serverRequest(
-"get_balance"
-);
+const data=
+await serverRequest("get_balance");
 
 console.log(
-"GET BALANCE DATA:",
+"GET BALANCE RESPONSE:",
 data
 );
 
-const serverBalance =
-Number(
-data?.balance
-);
+const serverBalance=
+Number(data?.balance);
 
-if(
-!Number.isFinite(
-serverBalance
-)
-){
-
+if(!Number.isFinite(serverBalance)){
 throw new Error(
-"Сервер не вернул число баланса.\nОтвет: "+
-JSON.stringify(data)
+"Сервер не вернул баланс"
 );
-
 }
 
-balance =
-serverBalance;
-
-balanceElement.textContent =
-balance.toLocaleString(
-"ru-RU"
-);
+balance=serverBalance;
 
 updateUI();
-
-console.log(
-"✅ БАЛАНС ЗАГРУЖЕН:",
-balance
-);
 
 }catch(error){
 
 console.error(
-"❌ LOAD BALANCE ERROR:",
+"LOAD BALANCE ERROR:",
 error
 );
 
-balanceElement.textContent =
-"Ошибка";
-
 alert(
-"❌ Не удалось загрузить баланс.\n\n"+
-error.message+
-"\n\nTelegram ID: "+
-userId
+"Ошибка загрузки баланса:\n\n"+
+error.message
 );
+
+updateUI();
 
 }
 
@@ -1401,11 +1165,7 @@ userId
 ========================= */
 
 function getLevel(){
-
-return Math.floor(
-xp/XP_PER_LEVEL
-)+1;
-
+return Math.floor(xp/XP_PER_LEVEL)+1;
 }
 
 
@@ -1415,17 +1175,11 @@ xp/XP_PER_LEVEL
 
 function getCurrentCase(){
 
-const level =
-getLevel();
+const level=getLevel();
 
-if(level>=20)
-return 4;
-
-if(level>=10)
-return 3;
-
-if(level>=5)
-return 2;
+if(level>=20)return 4;
+if(level>=10)return 3;
+if(level>=5)return 2;
 
 return 1;
 
@@ -1449,7 +1203,6 @@ document
 .toggle("hidden");
 
 }
-
 
 function closeMenu(){
 
@@ -1494,7 +1247,6 @@ document
 
 }
 
-
 function showHome(){
 
 hideAllScreens();
@@ -1510,7 +1262,6 @@ updateUI();
 
 }
 
-
 function openSettings(){
 
 hideAllScreens();
@@ -1523,7 +1274,6 @@ document
 closeMenu();
 
 }
-
 
 function openBattlePass(){
 
@@ -1540,7 +1290,6 @@ renderBattlePass();
 
 }
 
-
 function openUpgrader(){
 
 hideAllScreens();
@@ -1556,35 +1305,16 @@ closeMenu();
 
 
 /* =========================
-   SAVE LOCAL STATS
+   SAVE
 ========================= */
 
 function save(){
 
-localStorage.setItem(
-"opened",
-opened
-);
-
-localStorage.setItem(
-"totalEarned",
-totalEarned
-);
-
-localStorage.setItem(
-"xp",
-xp
-);
-
-localStorage.setItem(
-"luckyActive",
-luckyActive
-);
-
-localStorage.setItem(
-"luckyProgress",
-luckyProgress
-);
+localStorage.setItem("opened",opened);
+localStorage.setItem("totalEarned",totalEarned);
+localStorage.setItem("xp",xp);
+localStorage.setItem("luckyActive",luckyActive);
+localStorage.setItem("luckyProgress",luckyProgress);
 
 }
 
@@ -1595,66 +1325,38 @@ luckyProgress
 
 function getReward(level){
 
-if(level===5)
-return "🪖 Военный кейс";
-
-if(level===10)
-return "💎 Алмазный кейс";
-
-if(level===20)
-return "👑 Легендарный кейс";
+if(level===5)return "🪖 Военный кейс";
+if(level===10)return "💎 Алмазный кейс";
+if(level===20)return "👑 Легендарный кейс";
 
 return "💰 "+
-(
-level*1000
-).toLocaleString(
-"ru-RU"
-);
+(level*1000).toLocaleString("ru-RU");
 
 }
 
 
 function renderBattlePass(){
 
-const container =
-document.getElementById(
-"passProgress"
-);
+const container=
+document.getElementById("passProgress");
 
-const level =
-getLevel();
+const level=getLevel();
 
 container.innerHTML="";
 
-const maxLevel =
-Math.max(
-20,
-level+5
-);
+const maxLevel=Math.max(20,level+5);
 
-for(
-let i=1;
-i<=maxLevel;
-i++
-){
+for(let i=1;i<=maxLevel;i++){
 
-const card =
-document.createElement(
-"div"
-);
+const card=document.createElement("div");
 
-card.className =
-"pass-card";
+card.className="pass-card";
 
 if(i<level)
-card.classList.add(
-"done"
-);
+card.classList.add("done");
 
 if(i===level)
-card.classList.add(
-"current"
-);
+card.classList.add("current");
 
 let status="🔒";
 
@@ -1685,12 +1387,9 @@ ${getReward(i)}
 <div class="pass-status">
 ${status}
 </div>
-
 `;
 
-container.appendChild(
-card
-);
+container.appendChild(card);
 
 }
 
@@ -1701,26 +1400,21 @@ card
    LEVEL REWARD
 ========================= */
 
-async function giveLevelReward(
-level
-){
+async function giveLevelReward(level){
 
 if(
 level===5 ||
 level===10 ||
 level===20
 ){
-
 return;
-
 }
 
-const reward =
-level*1000;
+const reward=level*1000;
 
 try{
 
-const data =
+const data=
 await serverRequest(
 "change_balance",
 reward
@@ -1733,17 +1427,15 @@ Number(data.balance)
 )
 ){
 
-balance =
-Number(data.balance);
+balance=Number(data.balance);
 
 }else{
 
-balance += reward;
+balance+=reward;
 
 }
 
-totalEarned +=
-reward;
+totalEarned+=reward;
 
 }catch(error){
 
@@ -1758,138 +1450,106 @@ error
 
 
 /* =========================
-   UPDATE UI
+   UI
 ========================= */
 
 function updateUI(){
 
-const level =
-getLevel();
+const level=getLevel();
 
-const caseId =
-getCurrentCase();
+const caseId=getCurrentCase();
 
-const currentCase =
-cases[caseId];
+const currentCase=cases[caseId];
 
 document
 .getElementById("balance")
-.textContent =
-Number(balance).toLocaleString(
-"ru-RU"
-);
+.textContent=
+balance.toLocaleString("ru-RU");
 
 document
 .getElementById("level")
-.textContent =
-level;
+.textContent=level;
 
 document
 .getElementById("levelStat")
-.textContent =
-level;
+.textContent=level;
 
 document
 .getElementById("xp")
-.textContent =
-xp%XP_PER_LEVEL;
+.textContent=xp%XP_PER_LEVEL;
 
 document
 .getElementById("xpNeed")
-.textContent =
-XP_PER_LEVEL;
+.textContent=XP_PER_LEVEL;
 
 document
 .getElementById("xpFill")
-.style.width =
+.style.width=
 (
-(xp%XP_PER_LEVEL) /
-XP_PER_LEVEL *
-100
+(xp%XP_PER_LEVEL)/
+XP_PER_LEVEL*100
 )+"%";
 
 document
 .getElementById("luckProgress")
-.textContent =
-luckyProgress;
+.textContent=luckyProgress;
 
 document
 .getElementById("luckFill")
-.style.width =
-(
-luckyProgress*10
-)+"%";
+.style.width=
+(luckyProgress*10)+"%";
 
-const luckText =
-document.getElementById(
-"luckText"
-);
+const luckText=
+document.getElementById("luckText");
 
 if(luckyActive){
 
-luckText.textContent =
+luckText.textContent=
 "🔥 2× удача активна!";
 
-luckText.classList.add(
-"luck-active"
-);
+luckText.classList.add("luck-active");
 
 }else{
 
-luckText.textContent =
+luckText.textContent=
 "🍀 2× удача";
 
-luckText.classList.remove(
-"luck-active"
-);
+luckText.classList.remove("luck-active");
 
 }
 
 document
 .getElementById("caseName")
-.textContent =
-currentCase.name;
+.textContent=currentCase.name;
 
 document
 .getElementById("casePrice")
-.textContent =
-currentCase.price
-.toLocaleString(
-"ru-RU"
-);
+.textContent=
+currentCase.price.toLocaleString("ru-RU");
 
 document
 .getElementById("caseStat")
-.textContent =
-currentCase.shortName;
+.textContent=currentCase.shortName;
 
 document
 .getElementById("opened")
-.textContent =
-opened;
+.textContent=opened;
 
 document
 .getElementById("totalEarned")
-.textContent =
-totalEarned
-.toLocaleString(
-"ru-RU"
-);
+.textContent=
+totalEarned.toLocaleString("ru-RU");
 
-const chest =
-document.getElementById(
-"chest"
-);
+const chest=
+document.getElementById("chest");
 
-chest.className =
-"chest "+
-currentCase.className;
+chest.className=
+"chest "+currentCase.className;
 
 document
 .getElementById("openButton")
-.disabled =
-balance <
-currentCase.price;
+.disabled=
+balance<currentCase.price;
 
 }
 
@@ -1898,87 +1558,70 @@ currentCase.price;
    RANDOM
 ========================= */
 
-function randomInt(
-min,
-max
-){
+function randomInt(min,max){
 
 return Math.floor(
 Math.random()*
-(
-max-min+1
-)
+(max-min+1)
 )+min;
 
 }
 
 
 /* =========================
-   CALCULATE REWARD
+   REWARD
 ========================= */
 
-function calculateReward(
-currentCase
-){
+function calculateReward(currentCase){
 
-const roll =
-Math.random();
+const roll=Math.random();
 
 let multiplier;
 
 if(roll<0.45){
 
-multiplier =
+multiplier=
 0.35+
 Math.random()*0.25;
 
-}
+}else if(roll<0.75){
 
-else if(roll<0.75){
-
-multiplier =
+multiplier=
 0.60+
 Math.random()*0.30;
 
-}
+}else if(roll<0.92){
 
-else if(roll<0.92){
-
-multiplier =
+multiplier=
 0.90+
 Math.random()*0.50;
 
-}
+}else if(roll<0.99){
 
-else if(roll<0.99){
-
-multiplier =
+multiplier=
 1.40+
 Math.random()*1.60;
 
-}
+}else{
 
-else{
-
-multiplier =
+multiplier=
 3+
 Math.random()*7;
 
 }
 
-let reward =
+let reward=
 Math.floor(
-currentCase.price*
-multiplier
+currentCase.price*multiplier
 );
 
-reward =
+reward=
 Math.max(
 currentCase.min,
 reward
 );
 
-reward =
+reward=
 Math.min(
 currentCase.max,
 reward
@@ -1986,16 +1629,13 @@ reward
 
 if(luckyActive){
 
-reward =
+reward=
 randomInt(
-Math.ceil(
-currentCase.price*0.9
-),
+Math.ceil(currentCase.price*0.9),
 currentCase.max
 );
 
-luckyActive =
-false;
+luckyActive=false;
 
 }
 
@@ -2014,49 +1654,30 @@ const result=[];
 
 const rarityRoll=()=>{
 
-const r =
-Math.random()*100;
+const r=Math.random()*100;
 
-if(r<50)
-return 1;
-
-if(r<75)
-return 2;
-
-if(r<89)
-return 3;
-
-if(r<96)
-return 4;
-
-if(r<99)
-return 5;
+if(r<50)return 1;
+if(r<75)return 2;
+if(r<89)return 3;
+if(r<96)return 4;
+if(r<99)return 5;
 
 return 6;
 
 };
 
-const count =
-randomInt(
-2,
-5
-);
+const count=randomInt(2,5);
 
-while(
-result.length<count
-){
+while(result.length<count){
 
-const rarity =
-rarityRoll();
+const rarity=rarityRoll();
 
-const possible =
+const possible=
 itemPool.filter(
-item =>
-item.rarityLevel ===
-rarity
+item=>item.rarityLevel===rarity
 );
 
-const item =
+const item=
 possible[
 randomInt(
 0,
@@ -2064,9 +1685,7 @@ possible.length-1
 )
 ];
 
-result.push(
-item
-);
+result.push(item);
 
 }
 
@@ -2081,24 +1700,16 @@ return result;
 
 async function openCase(){
 
-const button =
-document.getElementById(
-"openButton"
-);
+const button=
+document.getElementById("openButton");
 
-if(button.disabled)
-return;
+if(button.disabled)return;
 
-const caseId =
-getCurrentCase();
+const caseId=getCurrentCase();
 
-const currentCase =
-cases[caseId];
+const currentCase=cases[caseId];
 
-if(
-balance <
-currentCase.price
-){
+if(balance<currentCase.price){
 
 alert(
 "Недостаточно серебра для открытия кейса!"
@@ -2108,37 +1719,25 @@ return;
 
 }
 
-button.disabled =
-true;
+button.disabled=true;
 
-
-/* =========================
-   SOUND
-========================= */
-
-const sound =
-document.getElementById(
-"sound-open"
-);
+const sound=
+document.getElementById("sound-open");
 
 if(sound){
 
 sound.currentTime=0;
 
-sound.play().catch(
-()=>{}
-);
+sound.play().catch(()=>{});
 
 }
 
 
-/* =========================
-   REMOVE MONEY
-========================= */
+/* REMOVE MONEY */
 
 try{
 
-const data =
+const data=
 await serverRequest(
 "change_balance",
 -currentCase.price
@@ -2151,23 +1750,20 @@ Number(data.balance)
 )
 ){
 
-balance =
-Number(data.balance);
+balance=Number(data.balance);
 
 }else{
 
-balance -=
-currentCase.price;
+balance-=currentCase.price;
 
 }
 
 }catch(error){
 
-button.disabled =
-false;
+button.disabled=false;
 
 alert(
-"Ошибка списания серебра:\n\n"+
+"Ошибка соединения с сервером:\n\n"+
 error.message
 );
 
@@ -2181,26 +1777,17 @@ return;
 }
 
 
-/* =========================
-   REWARD
-========================= */
+const oldLevel=getLevel();
 
-const oldLevel =
-getLevel();
-
-const reward =
-calculateReward(
-currentCase
-);
+const reward=
+calculateReward(currentCase);
 
 
-/* =========================
-   ADD REWARD
-========================= */
+/* ADD REWARD */
 
 try{
 
-const data =
+const data=
 await serverRequest(
 "change_balance",
 reward
@@ -2213,13 +1800,11 @@ Number(data.balance)
 )
 ){
 
-balance =
-Number(data.balance);
+balance=Number(data.balance);
 
 }else{
 
-balance +=
-reward;
+balance+=reward;
 
 }
 
@@ -2227,7 +1812,7 @@ reward;
 
 try{
 
-const refund =
+const refund=
 await serverRequest(
 "change_balance",
 currentCase.price
@@ -2240,13 +1825,11 @@ Number(refund.balance)
 )
 ){
 
-balance =
-Number(refund.balance);
+balance=Number(refund.balance);
 
 }else{
 
-balance +=
-currentCase.price;
+balance+=currentCase.price;
 
 }
 
@@ -2259,12 +1842,10 @@ refundError
 
 }
 
-button.disabled =
-false;
+button.disabled=false;
 
 alert(
-"Ошибка при сохранении награды:\n\n"+
-error.message
+"Ошибка при сохранении награды"
 );
 
 console.error(
@@ -2277,29 +1858,24 @@ return;
 }
 
 
-/* =========================
-   STATS
-========================= */
+/* STATS */
 
-totalEarned +=
-reward;
+totalEarned+=reward;
 
-const items =
-getItems();
+const items=getItems();
 
-const highestItem =
+const highestItem=
 items.reduce(
 (best,item)=>
-item.rarityLevel >
+item.rarityLevel>
 best.rarityLevel
-? item
-: best
+?item
+:best
 );
 
 opened++;
 
-xp +=
-XP_PER_CASE;
+xp+=XP_PER_CASE;
 
 if(!luckyActive){
 
@@ -2309,21 +1885,15 @@ luckyProgress++;
 
 if(luckyProgress>=10){
 
-luckyActive =
-true;
+luckyActive=true;
 
-luckyProgress =
-0;
+luckyProgress=0;
 
 }
 
-const newLevel =
-getLevel();
+const newLevel=getLevel();
 
-if(
-newLevel >
-oldLevel
-){
+if(newLevel>oldLevel){
 
 for(
 let lvl=oldLevel+1;
@@ -2331,9 +1901,7 @@ lvl<=newLevel;
 lvl++
 ){
 
-await giveLevelReward(
-lvl
-);
+await giveLevelReward(lvl);
 
 }
 
@@ -2344,52 +1912,23 @@ save();
 updateUI();
 
 
-/* =========================
-   CHEST ANIMATION
-========================= */
+/* CHEST */
 
-const chest =
-document.getElementById(
-"chest"
-);
+const chest=
+document.getElementById("chest");
 
-chest.classList.remove(
-"shake"
-);
-
-chest.classList.remove(
-"opened"
-);
-
-chest.classList.remove(
-"glow-common"
-);
-
-chest.classList.remove(
-"glow-uncommon"
-);
-
-chest.classList.remove(
-"glow-rare"
-);
-
-chest.classList.remove(
-"glow-epic"
-);
-
-chest.classList.remove(
-"glow-legendary"
-);
-
-chest.classList.remove(
-"glow-mythic"
-);
+chest.classList.remove("shake");
+chest.classList.remove("opened");
+chest.classList.remove("glow-common");
+chest.classList.remove("glow-uncommon");
+chest.classList.remove("glow-rare");
+chest.classList.remove("glow-epic");
+chest.classList.remove("glow-legendary");
+chest.classList.remove("glow-mythic");
 
 void chest.offsetWidth;
 
-chest.classList.add(
-"shake"
-);
+chest.classList.add("shake");
 
 setTimeout(()=>{
 
@@ -2404,9 +1943,7 @@ highestItem.rarityLevel
 
 setTimeout(()=>{
 
-chest.classList.add(
-"opened"
-);
+chest.classList.add("opened");
 
 },450);
 
@@ -2419,8 +1956,7 @@ highestItem,
 newLevel>oldLevel
 );
 
-button.disabled =
-false;
+button.disabled=false;
 
 },700);
 
@@ -2431,24 +1967,13 @@ false;
    RARITY
 ========================= */
 
-function getRarityClassName(
-level
-){
+function getRarityClassName(level){
 
-if(level===1)
-return "common";
-
-if(level===2)
-return "uncommon";
-
-if(level===3)
-return "rare";
-
-if(level===4)
-return "epic";
-
-if(level===5)
-return "legendary";
+if(level===1)return "common";
+if(level===2)return "uncommon";
+if(level===3)return "rare";
+if(level===4)return "epic";
+if(level===5)return "legendary";
 
 return "mythic";
 
@@ -2468,66 +1993,50 @@ leveledUp
 
 document
 .getElementById("rewardMoney")
-.textContent =
-reward.toLocaleString(
-"ru-RU"
-);
+.textContent=
+reward.toLocaleString("ru-RU");
 
-const levelMessage =
-document.getElementById(
-"newLevel"
-);
+const levelMessage=
+document.getElementById("newLevel");
 
 if(leveledUp){
 
-levelMessage.textContent =
+levelMessage.textContent=
 "🎊 Новый уровень! Ур. "+
 getLevel();
 
-levelMessage.classList.remove(
-"hidden"
-);
+levelMessage.classList.remove("hidden");
 
 }else{
 
-levelMessage.classList.add(
-"hidden"
-);
+levelMessage.classList.add("hidden");
 
 }
 
-const rarityResult =
-document.getElementById(
-"rarityResult"
-);
+const rarityResult=
+document.getElementById("rarityResult");
 
-rarityResult.textContent =
+rarityResult.textContent=
 "✨ Лучшая редкость: "+
 highestItem.rarity;
 
-rarityResult.className =
+rarityResult.className=
 "rarity-result "+
 highestItem.rarityClass;
 
-const container =
-document.getElementById(
-"items"
-);
+const container=
+document.getElementById("items");
 
 container.innerHTML="";
 
-items.forEach(
-item=>{
+items.forEach(item=>{
 
-const div =
-document.createElement(
-"div"
-);
+const div=
+document.createElement("div");
 
-div.className =
-"item";
+div.className="item";
 
-div.innerHTML = `
+div.innerHTML=`
 
 <div class="item-image">
 ${item.icon}
@@ -2540,12 +2049,9 @@ ${item.name}
 <div class="item-rarity ${item.rarityClass}">
 ${item.rarity}
 </div>
-
 `;
 
-container.appendChild(
-div
-);
+container.appendChild(div);
 
 });
 
@@ -2558,7 +2064,7 @@ document
 
 
 /* =========================
-   CLOSE REWARD
+   CLOSE
 ========================= */
 
 function closeReward(){
@@ -2568,18 +2074,11 @@ document
 .classList
 .add("hidden");
 
-const chest =
-document.getElementById(
-"chest"
-);
+const chest=
+document.getElementById("chest");
 
-chest.classList.remove(
-"opened"
-);
-
-chest.classList.remove(
-"shake"
-);
+chest.classList.remove("opened");
+chest.classList.remove("shake");
 
 }
 
@@ -2593,7 +2092,6 @@ updateUI();
 loadBalance();
 
 </script>
-
 
 <audio
 id="sound-open"
