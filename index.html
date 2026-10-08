@@ -1131,11 +1131,6 @@ JSON.parse(responseText);
 
 }catch(error){
 
-/*
-   Иногда API может вернуть JSON
-   внутри строки.
-*/
-
 try{
 
 data=
@@ -1252,29 +1247,9 @@ return null;
 
 function extractBalance(data){
 
-/*
-   Эта функция специально сделана
-   максимально универсальной.
-
-   NxCreate может вернуть:
-
-   {balance: 123}
-
-   {data:{balance:123}}
-
-   {result:{balance:123}}
-
-   {data:{data:{balance:123}}}
-
-   или даже JSON-строку внутри ответа.
-*/
-
 if(data===null || data===undefined){
 return null;
 }
-
-
-/* Прямое число */
 
 if(
 typeof data==="number" &&
@@ -1284,9 +1259,6 @@ Number.isFinite(data)
 return data;
 
 }
-
-
-/* Строка */
 
 if(
 typeof data==="string"
@@ -1313,11 +1285,6 @@ return result;
 
 }catch(e){}
 
-
-/*
-   Если строка сама является числом.
-*/
-
 const numeric=
 Number(
 text.replace(/[^\d.-]/g,"")
@@ -1336,16 +1303,9 @@ return null;
 
 }
 
-
-/* Объект */
-
 if(
 typeof data==="object"
 ){
-
-/*
-   Сначала ищем именно поле balance.
-*/
 
 if(
 Object.prototype.hasOwnProperty.call(
@@ -1382,12 +1342,6 @@ return numeric;
 }
 
 }
-
-
-/*
-   Потом рекурсивно проверяем
-   абсолютно все вложенные объекты.
-*/
 
 for(
 const key of Object.keys(data)
@@ -1487,12 +1441,14 @@ console.error(
 error
 );
 
-/*
-   ВАЖНО:
-   НЕ подставляем localStorage.
-   Если сервер не ответил,
-   оставляем текущее значение.
-*/
+/* ВОТ ЗДЕСЬ ДОБАВЛЕНА ДИАГНОСТИКА */
+
+alert(
+"ОШИБКА ПОЛУЧЕНИЯ БАЛАНСА:\n\n"+
+(error?.message || String(error))+
+"\n\nID: "+
+userId
+);
 
 updateUI();
 
@@ -2660,12 +2616,6 @@ chest.classList.remove(
 ===================================================== */
 
 updateUI();
-
-
-/*
-   Telegram должен успеть
-   передать данные пользователя.
-*/
 
 setTimeout(
 function(){
