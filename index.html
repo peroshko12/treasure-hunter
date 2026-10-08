@@ -726,7 +726,7 @@ font-weight:bold;
 <button
 class="open-button"
 id="openButton"
-onclick="openCase">
+onclick="openCase()">
 
 ОТКРЫТЬ КЕЙС
 
@@ -921,9 +921,6 @@ telegramUser?.id
 const username =
 telegramUser?.username || "";
 
-console.log("Telegram user:", telegramUser);
-console.log("Telegram ID:", userId);
-
 
 /* =====================================================
    CASES
@@ -1061,45 +1058,42 @@ async function serverRequest(action,amount=0){
 if(!userId){
 
 throw new Error(
-"Telegram ID не найден. Открой игру через Telegram."
+"Telegram ID не найден"
 );
 
 }
 
 const path =
-action.replaceAll("_","-");
+action.replace(/_/g,"-");
 
 const url =
 API_BASE+"/"+path;
 
+const body={
+userId:String(userId),
+username:String(username||""),
+amount:Number(amount)||0
+};
+
 console.log(
 "NXCREATE REQUEST:",
 url,
-{
-userId:userId,
-username:username,
-amount:Number(amount)||0
-}
+body
 );
 
 let response;
 
 try{
 
-response=await fetch(
+response=
+await fetch(
 url,
 {
 method:"POST",
-
 headers:{
 "Content-Type":"application/json"
 },
-
-body:JSON.stringify({
-userId:userId,
-username:username,
-amount:Number(amount)||0
-})
+body:JSON.stringify(body)
 }
 );
 
@@ -1111,25 +1105,19 @@ error
 );
 
 throw new Error(
-"Не удалось подключиться к серверу NxCreate"
+"Не удалось подключиться к серверу"
 );
 
 }
 
-
-/* RESPONSE TEXT */
-
-const responseText =
+const responseText=
 await response.text();
 
 console.log(
-"NXCREATE RAW RESPONSE:",
+"NXCREATE RESPONSE:",
 response.status,
 responseText
 );
-
-
-/* TRY JSON */
 
 let data={};
 
@@ -1143,18 +1131,17 @@ JSON.parse(responseText);
 }catch(error){
 
 console.error(
-"JSON PARSE ERROR:",
+"JSON ERROR:",
 error
 );
 
 throw new Error(
-"Сервер вернул не JSON"
+"Сервер вернул неправильный ответ"
 );
 
 }
 
 }
-
 
 if(!response.ok){
 
@@ -1162,25 +1149,11 @@ throw new Error(
 data?.message ||
 data?.error ||
 data?.data?.message ||
-"Ошибка сервера "+response.status
+data?.data?.data?.message ||
+("Ошибка сервера: "+response.status)
 );
 
 }
-
-
-/*
-   NxCreate может возвращать:
-
-   { balance: 20000000 }
-
-   { data: { balance: 20000000 } }
-
-   { result: { balance: 20000000 } }
-
-   { data: { data: { balance: 20000000 } } }
-
-   Поэтому возвращаем весь ответ.
-*/
 
 return data;
 
@@ -1193,128 +1166,105 @@ return data;
 
 function extractBalance(data){
 
-console.log(
-"EXTRACT BALANCE FROM:",
-data
-);
+let value=null;
 
 
-/* 1 */
+/* response.balance */
 
 if(
 data &&
-typeof data.balance!=="undefined"
+data.balance!==undefined
 ){
-
-const value=Number(data.balance);
-
-if(Number.isFinite(value)){
-return value;
-}
-
+value=data.balance;
 }
 
 
-/* 2 */
+/* response.data.balance */
 
 if(
+value===null &&
 data &&
 data.data &&
-typeof data.data.balance!=="undefined"
+data.data.balance!==undefined
 ){
-
-const value=Number(data.data.balance);
-
-if(Number.isFinite(value)){
-return value;
-}
-
+value=data.data.balance;
 }
 
 
-/* 3 */
+/* response.result.balance */
 
 if(
+value===null &&
 data &&
 data.result &&
-typeof data.result.balance!=="undefined"
+data.result.balance!==undefined
 ){
-
-const value=Number(data.result.balance);
-
-if(Number.isFinite(value)){
-return value;
-}
-
+value=data.result.balance;
 }
 
 
-/* 4 */
+/* response.data.data.balance */
 
 if(
+value===null &&
 data &&
 data.data &&
 data.data.data &&
-typeof data.data.data.balance!=="undefined"
+data.data.data.balance!==undefined
 ){
-
-const value=
-Number(data.data.data.balance);
-
-if(Number.isFinite(value)){
-return value;
-}
-
+value=data.data.data.balance;
 }
 
 
-/* 5 */
+/* response.result.data.balance */
 
 if(
+value===null &&
 data &&
-typeof data.balance==="string"
+data.result &&
+data.result.data &&
+data.result.data.balance!==undefined
 ){
+value=data.result.data.balance;
+}
 
-const value=
-Number(
-data.balance.replace(/[^\d.-]/g,"")
-);
 
-if(Number.isFinite(value)){
+/* number */
+
+if(
+typeof value==="number" &&
+Number.isFinite(value)
+){
 return value;
 }
 
+
+/* string */
+
+if(
+typeof value==="string"
+){
+
+const cleaned=
+value.replace(/[^\d.-]/g,"");
+
+const number=
+Number(cleaned);
+
+if(Number.isFinite(number)){
+return number;
+}
+
 }
 
 
-/* 6 */
+/* direct number */
 
 if(
-typeof data==="number"
+typeof data==="number" &&
+Number.isFinite(data)
 ){
-
-if(Number.isFinite(data)){
 return data;
-}
-
-}
-
-
-/* 7 */
-
-if(
-typeof data==="string"
-){
-
-const value=
-Number(
-data.replace(/[^\d.-]/g,"")
-);
-
-if(Number.isFinite(value)){
-return value;
-}
-
 }
 
 return null;
@@ -1328,19 +1278,16 @@ return null;
 
 async function loadBalance(){
 
-console.log(
-"Начинаю загрузку баланса..."
-);
-
 try{
 
 const data=
 await serverRequest(
-"get_balance"
+"get_balance",
+0
 );
 
 console.log(
-"GET BALANCE FULL RESPONSE:",
+"GET BALANCE:",
 data
 );
 
@@ -1348,7 +1295,7 @@ const serverBalance=
 extractBalance(data);
 
 console.log(
-"EXTRACTED SERVER BALANCE:",
+"SERVER BALANCE:",
 serverBalance
 );
 
@@ -1358,25 +1305,15 @@ serverBalance===null ||
 ){
 
 throw new Error(
-"В ответе NxCreate не найден balance"
+"Баланс не найден в ответе сервера"
 );
 
 }
 
-
-/*
-   ВАЖНО:
-   Баланс полностью берём с сервера.
-*/
-
-balance=serverBalance;
+balance=
+serverBalance;
 
 updateUI();
-
-console.log(
-"Баланс успешно загружен:",
-balance
-);
 
 }catch(error){
 
@@ -1385,11 +1322,10 @@ console.error(
 error
 );
 
-
 /*
-   Не показываем огромный alert.
-   Просто оставляем 0 и пишем ошибку
-   в консоль.
+   ВАЖНО:
+   Не заменяем серверный баланс
+   локальным значением.
 */
 
 updateUI();
@@ -1418,13 +1354,17 @@ xp/XP_PER_LEVEL
 
 function getCurrentCase(){
 
-const level=getLevel();
+const level=
+getLevel();
 
-if(level>=20)return 4;
+if(level>=20)
+return 4;
 
-if(level>=10)return 3;
+if(level>=10)
+return 3;
 
-if(level>=5)return 2;
+if(level>=5)
+return 2;
 
 return 1;
 
@@ -1448,6 +1388,7 @@ document
 .toggle("hidden");
 
 }
+
 
 function closeMenu(){
 
@@ -1554,7 +1495,7 @@ closeMenu();
 
 
 /* =====================================================
-   SAVE LOCAL DATA
+   SAVE
 ===================================================== */
 
 function save(){
@@ -1611,9 +1552,12 @@ return "💰 "+
 function renderBattlePass(){
 
 const container=
-document.getElementById("passProgress");
+document.getElementById(
+"passProgress"
+);
 
-const level=getLevel();
+const level=
+getLevel();
 
 container.innerHTML="";
 
@@ -1667,6 +1611,7 @@ ${getReward(i)}
 <div class="pass-status">
 ${status}
 </div>
+
 `;
 
 container.appendChild(card);
@@ -1711,7 +1656,8 @@ serverBalance!==null &&
 Number.isFinite(serverBalance)
 ){
 
-balance=serverBalance;
+balance=
+serverBalance;
 
 }else{
 
@@ -1752,7 +1698,8 @@ cases[caseId];
 document
 .getElementById("balance")
 .textContent=
-Number(balance).toLocaleString("ru-RU");
+Number(balance)
+.toLocaleString("ru-RU");
 
 
 document
@@ -1801,7 +1748,9 @@ document
 
 
 const luckText=
-document.getElementById("luckText");
+document.getElementById(
+"luckText"
+);
 
 
 if(luckyActive){
@@ -1858,7 +1807,9 @@ totalEarned
 
 
 const chest=
-document.getElementById("chest");
+document.getElementById(
+"chest"
+);
 
 chest.className=
 "chest "+
@@ -1948,7 +1899,6 @@ currentCase.max,
 reward
 );
 
-
 if(luckyActive){
 
 reward=
@@ -1981,15 +1931,20 @@ const rarityRoll=()=>{
 const r=
 Math.random()*100;
 
-if(r<50)return 1;
+if(r<50)
+return 1;
 
-if(r<75)return 2;
+if(r<75)
+return 2;
 
-if(r<89)return 3;
+if(r<89)
+return 3;
 
-if(r<96)return 4;
+if(r<96)
+return 4;
 
-if(r<99)return 5;
+if(r<99)
+return 5;
 
 return 6;
 
@@ -1998,7 +1953,6 @@ return 6;
 
 const count=
 randomInt(2,5);
-
 
 while(
 result.length<count
@@ -2037,7 +1991,9 @@ return result;
 async function openCase(){
 
 const button=
-document.getElementById("openButton");
+document.getElementById(
+"openButton"
+);
 
 if(button.disabled)
 return;
@@ -2136,7 +2092,6 @@ return;
 const oldLevel=
 getLevel();
 
-
 const reward=
 calculateReward(
 currentCase
@@ -2234,10 +2189,8 @@ return;
 totalEarned+=
 reward;
 
-
 const items=
 getItems();
-
 
 const highestItem=
 items.reduce(
@@ -2248,20 +2201,16 @@ best.rarityLevel
 :best
 );
 
-
 opened++;
-
 
 xp+=
 XP_PER_CASE;
-
 
 if(!luckyActive){
 
 luckyProgress++;
 
 }
-
 
 if(luckyProgress>=10){
 
@@ -2271,10 +2220,8 @@ luckyProgress=0;
 
 }
 
-
 const newLevel=
 getLevel();
-
 
 if(newLevel>oldLevel){
 
@@ -2292,14 +2239,13 @@ lvl
 
 }
 
-
 save();
 
 updateUI();
 
 
 /* =====================================================
-   CHEST ANIMATION
+   CHEST
 ===================================================== */
 
 const chest=
@@ -2433,7 +2379,6 @@ document.getElementById(
 "newLevel"
 );
 
-
 if(leveledUp){
 
 levelMessage.textContent=
@@ -2458,11 +2403,9 @@ document.getElementById(
 "rarityResult"
 );
 
-
 rarityResult.textContent=
 "✨ Лучшая редкость: "+
 highestItem.rarity;
-
 
 rarityResult.className=
 "rarity-result "+
@@ -2474,9 +2417,7 @@ document.getElementById(
 "items"
 );
 
-
 container.innerHTML="";
-
 
 items.forEach(item=>{
 
@@ -2487,7 +2428,6 @@ document.createElement(
 
 div.className=
 "item";
-
 
 div.innerHTML=`
 
@@ -2505,10 +2445,7 @@ ${item.rarity}
 
 `;
 
-
-container.appendChild(
-div
-);
+container.appendChild(div);
 
 });
 
@@ -2536,12 +2473,10 @@ document
 .classList
 .add("hidden");
 
-
 const chest=
 document.getElementById(
 "chest"
 );
-
 
 chest.classList.remove(
 "opened"
@@ -2561,17 +2496,20 @@ chest.classList.remove(
 updateUI();
 
 /*
-   Ждём, пока Telegram WebApp
-   окончательно передаст данные.
+   Небольшая задержка нужна,
+   чтобы Telegram успел передать user.
 */
 
 setTimeout(
-loadBalance,
-300
+function(){
+
+loadBalance();
+
+},
+500
 );
 
 </script>
-
 
 <audio
 id="sound-open"
