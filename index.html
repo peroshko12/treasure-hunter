@@ -726,7 +726,7 @@ font-weight:bold;
 <button
 class="open-button"
 id="openButton"
-onclick="openCase()">
+onclick="openCase">
 
 ОТКРЫТЬ КЕЙС
 
@@ -818,13 +818,13 @@ onclick="openCase()">
 
 <div class="inner-header">
 
-<button class="back-button" onclick="showHome()">←</button>
-
 <div class="inner-title">
 ⬆️ Upgrader
 </div>
 
 </div>
+
+<button class="back-button" onclick="showHome()">←</button>
 
 <div class="upgrader-box">
 
@@ -891,13 +891,17 @@ onclick="alert('Система Upgrader будет добавлена позже
 
 <script>
 
+/* =====================================================
+   API NXCREATE
+===================================================== */
+
 const API_BASE =
 "https://api-prod2-next-bot.nx3r.com/custom/0d73f344";
 
 
-/* =========================
+/* =====================================================
    TELEGRAM
-========================= */
+===================================================== */
 
 const tg = window.Telegram?.WebApp;
 
@@ -917,24 +921,13 @@ telegramUser?.id
 const username =
 telegramUser?.username || "";
 
-
-/* =========================
-   ДИАГНОСТИКА ID
-========================= */
-
-setTimeout(function(){
-
-alert(
-"TELEGRAM ID MINI APP:\n\n" +
-(userId || "НЕ НАЙДЕН")
-);
-
-},500);
+console.log("Telegram user:", telegramUser);
+console.log("Telegram ID:", userId);
 
 
-/* =========================
+/* =====================================================
    CASES
-========================= */
+===================================================== */
 
 const cases={
 
@@ -977,9 +970,9 @@ max:1000000
 };
 
 
-/* =========================
+/* =====================================================
    ITEMS
-========================= */
+===================================================== */
 
 const itemPool=[
 
@@ -1037,9 +1030,9 @@ const XP_PER_CASE=15;
 const XP_PER_LEVEL=1000;
 
 
-/* =========================
-   DATA
-========================= */
+/* =====================================================
+   LOCAL DATA
+===================================================== */
 
 let balance=0;
 
@@ -1059,27 +1052,49 @@ let luckyProgress=
 Number(localStorage.getItem("luckyProgress"))||0;
 
 
-/* =========================
-   SERVER
-========================= */
+/* =====================================================
+   SERVER REQUEST
+===================================================== */
 
 async function serverRequest(action,amount=0){
 
 if(!userId){
+
 throw new Error(
-"Игра должна быть открыта через Telegram"
+"Telegram ID не найден. Открой игру через Telegram."
 );
+
 }
 
-const path=action.replaceAll("_","-");
+const path =
+action.replaceAll("_","-");
 
-const response=await fetch(
-API_BASE+"/"+path,
+const url =
+API_BASE+"/"+path;
+
+console.log(
+"NXCREATE REQUEST:",
+url,
+{
+userId:userId,
+username:username,
+amount:Number(amount)||0
+}
+);
+
+let response;
+
+try{
+
+response=await fetch(
+url,
 {
 method:"POST",
+
 headers:{
 "Content-Type":"application/json"
 },
+
 body:JSON.stringify({
 userId:userId,
 username:username,
@@ -1088,58 +1103,280 @@ amount:Number(amount)||0
 }
 );
 
-let data={};
-
-try{
-data=await response.json();
 }catch(error){
-throw new Error(
-"Сервер вернул неправильный ответ"
+
+console.error(
+"FETCH ERROR:",
+error
 );
+
+throw new Error(
+"Не удалось подключиться к серверу NxCreate"
+);
+
 }
 
+
+/* RESPONSE TEXT */
+
+const responseText =
+await response.text();
+
+console.log(
+"NXCREATE RAW RESPONSE:",
+response.status,
+responseText
+);
+
+
+/* TRY JSON */
+
+let data={};
+
+if(responseText){
+
+try{
+
+data=
+JSON.parse(responseText);
+
+}catch(error){
+
+console.error(
+"JSON PARSE ERROR:",
+error
+);
+
+throw new Error(
+"Сервер вернул не JSON"
+);
+
+}
+
+}
+
+
 if(!response.ok){
+
 throw new Error(
 data?.message ||
 data?.error ||
 data?.data?.message ||
-"Ошибка сервера"
+"Ошибка сервера "+response.status
 );
-}
-
-return data?.data || data;
 
 }
 
 
-/* =========================
+/*
+   NxCreate может возвращать:
+
+   { balance: 20000000 }
+
+   { data: { balance: 20000000 } }
+
+   { result: { balance: 20000000 } }
+
+   { data: { data: { balance: 20000000 } } }
+
+   Поэтому возвращаем весь ответ.
+*/
+
+return data;
+
+}
+
+
+/* =====================================================
+   EXTRACT BALANCE
+===================================================== */
+
+function extractBalance(data){
+
+console.log(
+"EXTRACT BALANCE FROM:",
+data
+);
+
+
+/* 1 */
+
+if(
+data &&
+typeof data.balance!=="undefined"
+){
+
+const value=Number(data.balance);
+
+if(Number.isFinite(value)){
+return value;
+}
+
+}
+
+
+/* 2 */
+
+if(
+data &&
+data.data &&
+typeof data.data.balance!=="undefined"
+){
+
+const value=Number(data.data.balance);
+
+if(Number.isFinite(value)){
+return value;
+}
+
+}
+
+
+/* 3 */
+
+if(
+data &&
+data.result &&
+typeof data.result.balance!=="undefined"
+){
+
+const value=Number(data.result.balance);
+
+if(Number.isFinite(value)){
+return value;
+}
+
+}
+
+
+/* 4 */
+
+if(
+data &&
+data.data &&
+data.data.data &&
+typeof data.data.data.balance!=="undefined"
+){
+
+const value=
+Number(data.data.data.balance);
+
+if(Number.isFinite(value)){
+return value;
+}
+
+}
+
+
+/* 5 */
+
+if(
+data &&
+typeof data.balance==="string"
+){
+
+const value=
+Number(
+data.balance.replace(/[^\d.-]/g,"")
+);
+
+if(Number.isFinite(value)){
+return value;
+}
+
+}
+
+
+/* 6 */
+
+if(
+typeof data==="number"
+){
+
+if(Number.isFinite(data)){
+return data;
+}
+
+}
+
+
+/* 7 */
+
+if(
+typeof data==="string"
+){
+
+const value=
+Number(
+data.replace(/[^\d.-]/g,"")
+);
+
+if(Number.isFinite(value)){
+return value;
+}
+
+}
+
+return null;
+
+}
+
+
+/* =====================================================
    LOAD BALANCE
-========================= */
+===================================================== */
 
 async function loadBalance(){
+
+console.log(
+"Начинаю загрузку баланса..."
+);
 
 try{
 
 const data=
-await serverRequest("get_balance");
+await serverRequest(
+"get_balance"
+);
 
 console.log(
-"GET BALANCE RESPONSE:",
+"GET BALANCE FULL RESPONSE:",
 data
 );
 
 const serverBalance=
-Number(data?.balance);
+extractBalance(data);
 
-if(!Number.isFinite(serverBalance)){
-throw new Error(
-"Сервер не вернул баланс"
+console.log(
+"EXTRACTED SERVER BALANCE:",
+serverBalance
 );
+
+if(
+serverBalance===null ||
+!Number.isFinite(serverBalance)
+){
+
+throw new Error(
+"В ответе NxCreate не найден balance"
+);
+
 }
+
+
+/*
+   ВАЖНО:
+   Баланс полностью берём с сервера.
+*/
 
 balance=serverBalance;
 
 updateUI();
+
+console.log(
+"Баланс успешно загружен:",
+balance
+);
 
 }catch(error){
 
@@ -1148,10 +1385,12 @@ console.error(
 error
 );
 
-alert(
-"Ошибка загрузки баланса:\n\n"+
-error.message
-);
+
+/*
+   Не показываем огромный alert.
+   Просто оставляем 0 и пишем ошибку
+   в консоль.
+*/
 
 updateUI();
 
@@ -1160,25 +1399,31 @@ updateUI();
 }
 
 
-/* =========================
+/* =====================================================
    LEVEL
-========================= */
+===================================================== */
 
 function getLevel(){
-return Math.floor(xp/XP_PER_LEVEL)+1;
+
+return Math.floor(
+xp/XP_PER_LEVEL
+)+1;
+
 }
 
 
-/* =========================
+/* =====================================================
    CURRENT CASE
-========================= */
+===================================================== */
 
 function getCurrentCase(){
 
 const level=getLevel();
 
 if(level>=20)return 4;
+
 if(level>=10)return 3;
+
 if(level>=5)return 2;
 
 return 1;
@@ -1186,9 +1431,9 @@ return 1;
 }
 
 
-/* =========================
+/* =====================================================
    MENU
-========================= */
+===================================================== */
 
 function toggleMenu(){
 
@@ -1219,9 +1464,9 @@ document
 }
 
 
-/* =========================
+/* =====================================================
    SCREENS
-========================= */
+===================================================== */
 
 function hideAllScreens(){
 
@@ -1247,6 +1492,7 @@ document
 
 }
 
+
 function showHome(){
 
 hideAllScreens();
@@ -1262,6 +1508,7 @@ updateUI();
 
 }
 
+
 function openSettings(){
 
 hideAllScreens();
@@ -1274,6 +1521,7 @@ document
 closeMenu();
 
 }
+
 
 function openBattlePass(){
 
@@ -1290,6 +1538,7 @@ renderBattlePass();
 
 }
 
+
 function openUpgrader(){
 
 hideAllScreens();
@@ -1304,30 +1553,54 @@ closeMenu();
 }
 
 
-/* =========================
-   SAVE
-========================= */
+/* =====================================================
+   SAVE LOCAL DATA
+===================================================== */
 
 function save(){
 
-localStorage.setItem("opened",opened);
-localStorage.setItem("totalEarned",totalEarned);
-localStorage.setItem("xp",xp);
-localStorage.setItem("luckyActive",luckyActive);
-localStorage.setItem("luckyProgress",luckyProgress);
+localStorage.setItem(
+"opened",
+opened
+);
+
+localStorage.setItem(
+"totalEarned",
+totalEarned
+);
+
+localStorage.setItem(
+"xp",
+xp
+);
+
+localStorage.setItem(
+"luckyActive",
+luckyActive
+);
+
+localStorage.setItem(
+"luckyProgress",
+luckyProgress
+);
 
 }
 
 
-/* =========================
+/* =====================================================
    BATTLE PASS
-========================= */
+===================================================== */
 
 function getReward(level){
 
-if(level===5)return "🪖 Военный кейс";
-if(level===10)return "💎 Алмазный кейс";
-if(level===20)return "👑 Легендарный кейс";
+if(level===5)
+return "🪖 Военный кейс";
+
+if(level===10)
+return "💎 Алмазный кейс";
+
+if(level===20)
+return "👑 Легендарный кейс";
 
 return "💰 "+
 (level*1000).toLocaleString("ru-RU");
@@ -1344,13 +1617,20 @@ const level=getLevel();
 
 container.innerHTML="";
 
-const maxLevel=Math.max(20,level+5);
+const maxLevel=
+Math.max(20,level+5);
 
-for(let i=1;i<=maxLevel;i++){
+for(
+let i=1;
+i<=maxLevel;
+i++
+){
 
-const card=document.createElement("div");
+const card=
+document.createElement("div");
 
-card.className="pass-card";
+card.className=
+"pass-card";
 
 if(i<level)
 card.classList.add("done");
@@ -1396,9 +1676,9 @@ container.appendChild(card);
 }
 
 
-/* =========================
+/* =====================================================
    LEVEL REWARD
-========================= */
+===================================================== */
 
 async function giveLevelReward(level){
 
@@ -1407,10 +1687,13 @@ level===5 ||
 level===10 ||
 level===20
 ){
+
 return;
+
 }
 
-const reward=level*1000;
+const reward=
+level*1000;
 
 try{
 
@@ -1420,14 +1703,15 @@ await serverRequest(
 reward
 );
 
+const serverBalance=
+extractBalance(data);
+
 if(
-data &&
-Number.isFinite(
-Number(data.balance)
-)
+serverBalance!==null &&
+Number.isFinite(serverBalance)
 ){
 
-balance=Number(data.balance);
+balance=serverBalance;
 
 }else{
 
@@ -1449,38 +1733,51 @@ error
 }
 
 
-/* =========================
+/* =====================================================
    UI
-========================= */
+===================================================== */
 
 function updateUI(){
 
-const level=getLevel();
+const level=
+getLevel();
 
-const caseId=getCurrentCase();
+const caseId=
+getCurrentCase();
 
-const currentCase=cases[caseId];
+const currentCase=
+cases[caseId];
+
 
 document
 .getElementById("balance")
 .textContent=
-balance.toLocaleString("ru-RU");
+Number(balance).toLocaleString("ru-RU");
+
 
 document
 .getElementById("level")
-.textContent=level;
+.textContent=
+level;
+
 
 document
 .getElementById("levelStat")
-.textContent=level;
+.textContent=
+level;
+
 
 document
 .getElementById("xp")
-.textContent=xp%XP_PER_LEVEL;
+.textContent=
+xp%XP_PER_LEVEL;
+
 
 document
 .getElementById("xpNeed")
-.textContent=XP_PER_LEVEL;
+.textContent=
+XP_PER_LEVEL;
+
 
 document
 .getElementById("xpFill")
@@ -1490,61 +1787,83 @@ document
 XP_PER_LEVEL*100
 )+"%";
 
+
 document
 .getElementById("luckProgress")
-.textContent=luckyProgress;
+.textContent=
+luckyProgress;
+
 
 document
 .getElementById("luckFill")
 .style.width=
 (luckyProgress*10)+"%";
 
+
 const luckText=
 document.getElementById("luckText");
+
 
 if(luckyActive){
 
 luckText.textContent=
 "🔥 2× удача активна!";
 
-luckText.classList.add("luck-active");
+luckText.classList.add(
+"luck-active"
+);
 
 }else{
 
 luckText.textContent=
 "🍀 2× удача";
 
-luckText.classList.remove("luck-active");
+luckText.classList.remove(
+"luck-active"
+);
 
 }
 
+
 document
 .getElementById("caseName")
-.textContent=currentCase.name;
+.textContent=
+currentCase.name;
+
 
 document
 .getElementById("casePrice")
 .textContent=
-currentCase.price.toLocaleString("ru-RU");
+currentCase.price
+.toLocaleString("ru-RU");
+
 
 document
 .getElementById("caseStat")
-.textContent=currentCase.shortName;
+.textContent=
+currentCase.shortName;
+
 
 document
 .getElementById("opened")
-.textContent=opened;
+.textContent=
+opened;
+
 
 document
 .getElementById("totalEarned")
 .textContent=
-totalEarned.toLocaleString("ru-RU");
+totalEarned
+.toLocaleString("ru-RU");
+
 
 const chest=
 document.getElementById("chest");
 
 chest.className=
-"chest "+currentCase.className;
+"chest "+
+currentCase.className;
+
 
 document
 .getElementById("openButton")
@@ -1554,9 +1873,9 @@ balance<currentCase.price;
 }
 
 
-/* =========================
+/* =====================================================
    RANDOM
-========================= */
+===================================================== */
 
 function randomInt(min,max){
 
@@ -1568,13 +1887,14 @@ Math.random()*
 }
 
 
-/* =========================
+/* =====================================================
    REWARD
-========================= */
+===================================================== */
 
 function calculateReward(currentCase){
 
-const roll=Math.random();
+const roll=
+Math.random();
 
 let multiplier;
 
@@ -1612,7 +1932,8 @@ Math.random()*7;
 
 let reward=
 Math.floor(
-currentCase.price*multiplier
+currentCase.price*
+multiplier
 );
 
 reward=
@@ -1627,11 +1948,14 @@ currentCase.max,
 reward
 );
 
+
 if(luckyActive){
 
 reward=
 randomInt(
-Math.ceil(currentCase.price*0.9),
+Math.ceil(
+currentCase.price*0.9
+),
 currentCase.max
 );
 
@@ -1644,9 +1968,9 @@ return reward;
 }
 
 
-/* =========================
+/* =====================================================
    ITEMS
-========================= */
+===================================================== */
 
 function getItems(){
 
@@ -1654,27 +1978,39 @@ const result=[];
 
 const rarityRoll=()=>{
 
-const r=Math.random()*100;
+const r=
+Math.random()*100;
 
 if(r<50)return 1;
+
 if(r<75)return 2;
+
 if(r<89)return 3;
+
 if(r<96)return 4;
+
 if(r<99)return 5;
 
 return 6;
 
 };
 
-const count=randomInt(2,5);
 
-while(result.length<count){
+const count=
+randomInt(2,5);
 
-const rarity=rarityRoll();
+
+while(
+result.length<count
+){
+
+const rarity=
+rarityRoll();
 
 const possible=
 itemPool.filter(
-item=>item.rarityLevel===rarity
+item=>
+item.rarityLevel===rarity
 );
 
 const item=
@@ -1694,22 +2030,29 @@ return result;
 }
 
 
-/* =========================
+/* =====================================================
    OPEN CASE
-========================= */
+===================================================== */
 
 async function openCase(){
 
 const button=
 document.getElementById("openButton");
 
-if(button.disabled)return;
+if(button.disabled)
+return;
 
-const caseId=getCurrentCase();
 
-const currentCase=cases[caseId];
+const caseId=
+getCurrentCase();
 
-if(balance<currentCase.price){
+const currentCase=
+cases[caseId];
+
+
+if(
+balance<currentCase.price
+){
 
 alert(
 "Недостаточно серебра для открытия кейса!"
@@ -1719,21 +2062,31 @@ return;
 
 }
 
+
 button.disabled=true;
 
+
+/* SOUND */
+
 const sound=
-document.getElementById("sound-open");
+document.getElementById(
+"sound-open"
+);
 
 if(sound){
 
 sound.currentTime=0;
 
-sound.play().catch(()=>{});
+sound.play().catch(
+()=>{}
+);
 
 }
 
 
-/* REMOVE MONEY */
+/* =====================================================
+   REMOVE MONEY
+===================================================== */
 
 try{
 
@@ -1743,18 +2096,21 @@ await serverRequest(
 -currentCase.price
 );
 
+const serverBalance=
+extractBalance(data);
+
 if(
-data &&
-Number.isFinite(
-Number(data.balance)
-)
+serverBalance!==null &&
+Number.isFinite(serverBalance)
 ){
 
-balance=Number(data.balance);
+balance=
+serverBalance;
 
 }else{
 
-balance-=currentCase.price;
+balance-=
+currentCase.price;
 
 }
 
@@ -1777,13 +2133,19 @@ return;
 }
 
 
-const oldLevel=getLevel();
+const oldLevel=
+getLevel();
+
 
 const reward=
-calculateReward(currentCase);
+calculateReward(
+currentCase
+);
 
 
-/* ADD REWARD */
+/* =====================================================
+   ADD REWARD
+===================================================== */
 
 try{
 
@@ -1793,14 +2155,16 @@ await serverRequest(
 reward
 );
 
+const serverBalance=
+extractBalance(data);
+
 if(
-data &&
-Number.isFinite(
-Number(data.balance)
-)
+serverBalance!==null &&
+Number.isFinite(serverBalance)
 ){
 
-balance=Number(data.balance);
+balance=
+serverBalance;
 
 }else{
 
@@ -1810,6 +2174,8 @@ balance+=reward;
 
 }catch(error){
 
+/* REFUND */
+
 try{
 
 const refund=
@@ -1818,18 +2184,21 @@ await serverRequest(
 currentCase.price
 );
 
+const refundBalance=
+extractBalance(refund);
+
 if(
-refund &&
-Number.isFinite(
-Number(refund.balance)
-)
+refundBalance!==null &&
+Number.isFinite(refundBalance)
 ){
 
-balance=Number(refund.balance);
+balance=
+refundBalance;
 
 }else{
 
-balance+=currentCase.price;
+balance+=
+currentCase.price;
 
 }
 
@@ -1858,11 +2227,17 @@ return;
 }
 
 
-/* STATS */
+/* =====================================================
+   STATS
+===================================================== */
 
-totalEarned+=reward;
+totalEarned+=
+reward;
 
-const items=getItems();
+
+const items=
+getItems();
+
 
 const highestItem=
 items.reduce(
@@ -1873,15 +2248,20 @@ best.rarityLevel
 :best
 );
 
+
 opened++;
 
-xp+=XP_PER_CASE;
+
+xp+=
+XP_PER_CASE;
+
 
 if(!luckyActive){
 
 luckyProgress++;
 
 }
+
 
 if(luckyProgress>=10){
 
@@ -1891,7 +2271,10 @@ luckyProgress=0;
 
 }
 
-const newLevel=getLevel();
+
+const newLevel=
+getLevel();
+
 
 if(newLevel>oldLevel){
 
@@ -1901,34 +2284,67 @@ lvl<=newLevel;
 lvl++
 ){
 
-await giveLevelReward(lvl);
+await giveLevelReward(
+lvl
+);
 
 }
 
 }
+
 
 save();
 
 updateUI();
 
 
-/* CHEST */
+/* =====================================================
+   CHEST ANIMATION
+===================================================== */
 
 const chest=
-document.getElementById("chest");
+document.getElementById(
+"chest"
+);
 
-chest.classList.remove("shake");
-chest.classList.remove("opened");
-chest.classList.remove("glow-common");
-chest.classList.remove("glow-uncommon");
-chest.classList.remove("glow-rare");
-chest.classList.remove("glow-epic");
-chest.classList.remove("glow-legendary");
-chest.classList.remove("glow-mythic");
+chest.classList.remove(
+"shake"
+);
+
+chest.classList.remove(
+"opened"
+);
+
+chest.classList.remove(
+"glow-common"
+);
+
+chest.classList.remove(
+"glow-uncommon"
+);
+
+chest.classList.remove(
+"glow-rare"
+);
+
+chest.classList.remove(
+"glow-epic"
+);
+
+chest.classList.remove(
+"glow-legendary"
+);
+
+chest.classList.remove(
+"glow-mythic"
+);
 
 void chest.offsetWidth;
 
-chest.classList.add("shake");
+chest.classList.add(
+"shake"
+);
+
 
 setTimeout(()=>{
 
@@ -1941,11 +2357,15 @@ highestItem.rarityLevel
 
 },220);
 
+
 setTimeout(()=>{
 
-chest.classList.add("opened");
+chest.classList.add(
+"opened"
+);
 
 },450);
+
 
 setTimeout(()=>{
 
@@ -1963,26 +2383,35 @@ button.disabled=false;
 }
 
 
-/* =========================
+/* =====================================================
    RARITY
-========================= */
+===================================================== */
 
 function getRarityClassName(level){
 
-if(level===1)return "common";
-if(level===2)return "uncommon";
-if(level===3)return "rare";
-if(level===4)return "epic";
-if(level===5)return "legendary";
+if(level===1)
+return "common";
+
+if(level===2)
+return "uncommon";
+
+if(level===3)
+return "rare";
+
+if(level===4)
+return "epic";
+
+if(level===5)
+return "legendary";
 
 return "mythic";
 
 }
 
 
-/* =========================
+/* =====================================================
    REWARD MODAL
-========================= */
+===================================================== */
 
 function showReward(
 reward,
@@ -1994,10 +2423,16 @@ leveledUp
 document
 .getElementById("rewardMoney")
 .textContent=
-reward.toLocaleString("ru-RU");
+reward.toLocaleString(
+"ru-RU"
+);
+
 
 const levelMessage=
-document.getElementById("newLevel");
+document.getElementById(
+"newLevel"
+);
+
 
 if(leveledUp){
 
@@ -2005,36 +2440,54 @@ levelMessage.textContent=
 "🎊 Новый уровень! Ур. "+
 getLevel();
 
-levelMessage.classList.remove("hidden");
+levelMessage.classList.remove(
+"hidden"
+);
 
 }else{
 
-levelMessage.classList.add("hidden");
+levelMessage.classList.add(
+"hidden"
+);
 
 }
 
+
 const rarityResult=
-document.getElementById("rarityResult");
+document.getElementById(
+"rarityResult"
+);
+
 
 rarityResult.textContent=
 "✨ Лучшая редкость: "+
 highestItem.rarity;
 
+
 rarityResult.className=
 "rarity-result "+
 highestItem.rarityClass;
 
+
 const container=
-document.getElementById("items");
+document.getElementById(
+"items"
+);
+
 
 container.innerHTML="";
+
 
 items.forEach(item=>{
 
 const div=
-document.createElement("div");
+document.createElement(
+"div"
+);
 
-div.className="item";
+div.className=
+"item";
+
 
 div.innerHTML=`
 
@@ -2049,49 +2502,76 @@ ${item.name}
 <div class="item-rarity ${item.rarityClass}">
 ${item.rarity}
 </div>
+
 `;
 
-container.appendChild(div);
+
+container.appendChild(
+div
+);
 
 });
 
+
 document
-.getElementById("rewardModal")
+.getElementById(
+"rewardModal"
+)
 .classList
 .remove("hidden");
 
 }
 
 
-/* =========================
-   CLOSE
-========================= */
+/* =====================================================
+   CLOSE REWARD
+===================================================== */
 
 function closeReward(){
 
 document
-.getElementById("rewardModal")
+.getElementById(
+"rewardModal"
+)
 .classList
 .add("hidden");
 
-const chest=
-document.getElementById("chest");
 
-chest.classList.remove("opened");
-chest.classList.remove("shake");
+const chest=
+document.getElementById(
+"chest"
+);
+
+
+chest.classList.remove(
+"opened"
+);
+
+chest.classList.remove(
+"shake"
+);
 
 }
 
 
-/* =========================
+/* =====================================================
    START
-========================= */
+===================================================== */
 
 updateUI();
 
-loadBalance();
+/*
+   Ждём, пока Telegram WebApp
+   окончательно передаст данные.
+*/
+
+setTimeout(
+loadBalance,
+300
+);
 
 </script>
+
 
 <audio
 id="sound-open"
