@@ -1091,7 +1091,8 @@ url,
 {
 method:"POST",
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"application/json",
+"Accept":"application/json"
 },
 body:JSON.stringify(body)
 }
@@ -1114,7 +1115,7 @@ const responseText=
 await response.text();
 
 console.log(
-"NXCREATE RESPONSE:",
+"NXCREATE RAW RESPONSE:",
 response.status,
 responseText
 );
@@ -1130,6 +1131,21 @@ JSON.parse(responseText);
 
 }catch(error){
 
+/*
+   Иногда API может вернуть JSON
+   внутри строки.
+*/
+
+try{
+
+data=
+JSON.parse(
+responseText.trim()
+.replace(/^"|"$/g,"")
+);
+
+}catch(secondError){
+
 console.error(
 "JSON ERROR:",
 error
@@ -1143,13 +1159,17 @@ throw new Error(
 
 }
 
+}
+
+console.log(
+"NXCREATE PARSED RESPONSE:",
+data
+);
+
 if(!response.ok){
 
 throw new Error(
-data?.message ||
-data?.error ||
-data?.data?.message ||
-data?.data?.data?.message ||
+findMessage(data) ||
 ("Ошибка сервера: "+response.status)
 );
 
@@ -1161,110 +1181,232 @@ return data;
 
 
 /* =====================================================
+   FIND MESSAGE
+===================================================== */
+
+function findMessage(data){
+
+if(data===null || data===undefined){
+return null;
+}
+
+if(typeof data==="string"){
+
+try{
+
+const parsed=
+JSON.parse(data);
+
+return findMessage(parsed);
+
+}catch(e){
+
+return null;
+
+}
+
+}
+
+if(typeof data!=="object"){
+return null;
+}
+
+const keys=[
+"message",
+"error",
+"errorMessage"
+];
+
+for(const key of keys){
+
+if(
+data[key] &&
+typeof data[key]==="string"
+){
+
+return data[key];
+
+}
+
+}
+
+for(const key of Object.keys(data)){
+
+const result=
+findMessage(data[key]);
+
+if(result){
+return result;
+}
+
+}
+
+return null;
+
+}
+
+
+/* =====================================================
    EXTRACT BALANCE
 ===================================================== */
 
 function extractBalance(data){
 
-let value=null;
+/*
+   Эта функция специально сделана
+   максимально универсальной.
 
+   NxCreate может вернуть:
 
-/* response.balance */
+   {balance: 123}
 
-if(
-data &&
-data.balance!==undefined
-){
-value=data.balance;
+   {data:{balance:123}}
+
+   {result:{balance:123}}
+
+   {data:{data:{balance:123}}}
+
+   или даже JSON-строку внутри ответа.
+*/
+
+if(data===null || data===undefined){
+return null;
 }
 
 
-/* response.data.balance */
-
-if(
-value===null &&
-data &&
-data.data &&
-data.data.balance!==undefined
-){
-value=data.data.balance;
-}
-
-
-/* response.result.balance */
-
-if(
-value===null &&
-data &&
-data.result &&
-data.result.balance!==undefined
-){
-value=data.result.balance;
-}
-
-
-/* response.data.data.balance */
-
-if(
-value===null &&
-data &&
-data.data &&
-data.data.data &&
-data.data.data.balance!==undefined
-){
-value=data.data.data.balance;
-}
-
-
-/* response.result.data.balance */
-
-if(
-value===null &&
-data &&
-data.result &&
-data.result.data &&
-data.result.data.balance!==undefined
-){
-value=data.result.data.balance;
-}
-
-
-/* number */
-
-if(
-typeof value==="number" &&
-Number.isFinite(value)
-){
-return value;
-}
-
-
-/* string */
-
-if(
-typeof value==="string"
-){
-
-const cleaned=
-value.replace(/[^\d.-]/g,"");
-
-const number=
-Number(cleaned);
-
-if(Number.isFinite(number)){
-return number;
-}
-
-}
-
-
-/* direct number */
+/* Прямое число */
 
 if(
 typeof data==="number" &&
 Number.isFinite(data)
 ){
+
 return data;
+
+}
+
+
+/* Строка */
+
+if(
+typeof data==="string"
+){
+
+const text=
+data.trim();
+
+if(!text){
+return null;
+}
+
+try{
+
+const parsed=
+JSON.parse(text);
+
+const result=
+extractBalance(parsed);
+
+if(result!==null){
+return result;
+}
+
+}catch(e){}
+
+
+/*
+   Если строка сама является числом.
+*/
+
+const numeric=
+Number(
+text.replace(/[^\d.-]/g,"")
+);
+
+if(
+Number.isFinite(numeric) &&
+/\d/.test(text)
+){
+
+return numeric;
+
+}
+
+return null;
+
+}
+
+
+/* Объект */
+
+if(
+typeof data==="object"
+){
+
+/*
+   Сначала ищем именно поле balance.
+*/
+
+if(
+Object.prototype.hasOwnProperty.call(
+data,
+"balance"
+)
+){
+
+const value=
+data.balance;
+
+if(
+typeof value==="number" &&
+Number.isFinite(value)
+){
+
+return value;
+
+}
+
+if(
+typeof value==="string"
+){
+
+const numeric=
+Number(
+value.replace(/[^\d.-]/g,"")
+);
+
+if(Number.isFinite(numeric)){
+return numeric;
+}
+
+}
+
+}
+
+
+/*
+   Потом рекурсивно проверяем
+   абсолютно все вложенные объекты.
+*/
+
+for(
+const key of Object.keys(data)
+){
+
+const result=
+extractBalance(data[key]);
+
+if(
+result!==null &&
+Number.isFinite(result)
+){
+
+return result;
+
+}
+
+}
+
 }
 
 return null;
@@ -1278,6 +1420,24 @@ return null;
 
 async function loadBalance(){
 
+console.log(
+"================================"
+);
+
+console.log(
+"LOADING SERVER BALANCE"
+);
+
+console.log(
+"Telegram userId:",
+userId
+);
+
+console.log(
+"Username:",
+username
+);
+
 try{
 
 const data=
@@ -1287,7 +1447,7 @@ await serverRequest(
 );
 
 console.log(
-"GET BALANCE:",
+"GET BALANCE FULL DATA:",
 data
 );
 
@@ -1295,7 +1455,7 @@ const serverBalance=
 extractBalance(data);
 
 console.log(
-"SERVER BALANCE:",
+"EXTRACTED SERVER BALANCE:",
 serverBalance
 );
 
@@ -1315,6 +1475,11 @@ serverBalance;
 
 updateUI();
 
+console.log(
+"BALANCE SUCCESS:",
+balance
+);
+
 }catch(error){
 
 console.error(
@@ -1324,8 +1489,9 @@ error
 
 /*
    ВАЖНО:
-   Не заменяем серверный баланс
-   локальным значением.
+   НЕ подставляем localStorage.
+   Если сервер не ответил,
+   оставляем текущее значение.
 */
 
 updateUI();
@@ -2495,9 +2661,10 @@ chest.classList.remove(
 
 updateUI();
 
+
 /*
-   Небольшая задержка нужна,
-   чтобы Telegram успел передать user.
+   Telegram должен успеть
+   передать данные пользователя.
 */
 
 setTimeout(
